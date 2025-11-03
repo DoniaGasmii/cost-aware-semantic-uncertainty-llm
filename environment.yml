@@ -1,0 +1,22 @@
+name: llm-semantic-uncertainty
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.10
+  - pip
+  - numpy>=1.24
+  - pandas
+  - scikit-learn
+  - sentence-transformers
+  - tqdm
+  - llama-cpp-python>=0.3.11
+  - diskcache
+  - jinja2
+  - pip:
+      # optional pip-only deps
+      - matplotlib
+      - seaborn
+      - openai
+      - transformers
+      - torch
+      - accelerate

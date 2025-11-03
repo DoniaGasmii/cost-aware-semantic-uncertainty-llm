@@ -1,0 +1,11 @@
+numpy>=1.24
+pandas
+sentence-transformers
+diskcache
+jinja2
+matplotlib
+seaborn
+openai
+transformers
+torch
+accelerate
