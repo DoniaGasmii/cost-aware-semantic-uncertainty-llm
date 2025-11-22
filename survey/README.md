@@ -441,6 +441,7 @@ If you use this survey in your research, please cite:
   note         = {Version 1.0, accessed 22 November 2025}
 }
 
+```
 ---
 
 **Last Updated**: [22.11.2025]  
