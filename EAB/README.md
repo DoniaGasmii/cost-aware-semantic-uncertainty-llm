@@ -131,172 +131,39 @@ class GenerationPath:
 
 ---
 
-## Detailed Algorithm
-
-### Input Parameters
-
-```python
-prompt: str                 # Input text
-max_new_tokens: int        # Maximum tokens to generate
-entropy_threshold: float   # When to branch (0-1)
-branch_factor: int         # How many branches per split
-max_paths: int            # Maximum concurrent paths
-temperature: float        # Sampling temperature
-top_p: float             # Nucleus sampling parameter
-```
-
-### Algorithm Steps
-
-```python
-def adaptive_sample(prompt, **params):
-    # ======================================================
-    # PHASE 1: Prompt Encoding (once!)
-    # ======================================================
-    prompt_ids = tokenize(prompt)
-    outputs = model(prompt_ids, use_cache=True)
-    initial_cache = outputs.past_key_values
-    
-    # Initialize single path
-    paths = [GenerationPath(
-        tokens=[],
-        log_prob=0.0,
-        cache=initial_cache
-    )]
-    
-    # ======================================================
-    # PHASE 2: Token-by-Token Generation with Branching
-    # ======================================================
-    for step in range(max_new_tokens):
-        new_paths = []
-        
-        for path in paths:
-            # Skip if path is complete (EOS token)
-            if path.is_complete:
-                new_paths.append(path)
-                continue
-            
-            # --------------------------------------------------
-            # Step 2a: Get next-token distribution
-            # --------------------------------------------------
-            input_id = get_last_token(path)
-            outputs = model(
-                input_id,
-                past_key_values=path.cache,
-                use_cache=True
-            )
-            
-            logits = outputs.logits[0, -1, :]  # Next token logits
-            
-            # --------------------------------------------------
-            # Step 2b: Calculate normalized entropy
-            # --------------------------------------------------
-            entropy = calculate_entropy(logits)
-            norm_entropy = entropy / log(vocab_size)
-            
-            # --------------------------------------------------
-            # Step 2c: Decide whether to branch
-            # --------------------------------------------------
-            should_branch = (
-                norm_entropy > entropy_threshold and
-                len(paths) + len(new_paths) < max_paths
-            )
-            
-            # --------------------------------------------------
-            # Step 2d: Branch or continue
-            # --------------------------------------------------
-            if should_branch:
-                # BRANCH: Create multiple paths
-                for _ in range(branch_factor):
-                    token, log_p = sample_token(
-                        logits, temperature, top_p
-                    )
-                    
-                    # Deep copy cache for this branch
-                    new_cache = deep_copy(outputs.past_key_values)
-                    
-                    new_paths.append(GenerationPath(
-                        tokens=path.tokens + [token],
-                        log_prob=path.log_prob + log_p,
-                        cache=new_cache,
-                        is_complete=(token == EOS_TOKEN)
-                    ))
-            else:
-                # CONTINUE: Single path
-                token, log_p = sample_token(
-                    logits, temperature, top_p
-                )
-                
-                new_paths.append(GenerationPath(
-                    tokens=path.tokens + [token],
-                    log_prob=path.log_prob + log_p,
-                    cache=outputs.past_key_values,
-                    is_complete=(token == EOS_TOKEN)
-                ))
-        
-        paths = new_paths
-        
-        # Early stopping if all paths complete
-        if all(p.is_complete for p in paths):
-            break
-    
-    # ======================================================
-    # PHASE 3: Return results
-    # ======================================================
-    return [
-        {
-            'text': decode(path.tokens),
-            'tokens': path.tokens,
-            'log_probability': path.log_prob,
-            'probability': exp(path.log_prob)
-        }
-        for path in paths
-    ]
-```
-
----
-
 ## Computational Complexity
 
 ### FLOPs Analysis
 
 **Naive Sampling** (N samples):
 ```
-Total FLOPs = N × (L_prompt + L_gen) × n_layers × d²
+# TBD
 ```
 
 **Adaptive Branching**:
 ```
-Prompt FLOPs = L_prompt × n_layers × d²  (once!)
-Generation FLOPs = Σ(paths) × L_gen × n_layers × d²
-
-Total FLOPs = (L_prompt + avg_paths × L_gen) × n_layers × d²
+# TBD
 ```
 
 **Speedup Factor**:
 ```
-S = N × (L_prompt + L_gen) / (L_prompt + avg_paths × L_gen)
-
-For L_prompt = 100, L_gen = 50, N = 10, avg_paths = 5:
-S = 10 × 150 / (100 + 5 × 50) = 1500 / 350 ≈ 4.3x
+# TBD
 ```
 
 ### Memory Analysis
 
 **Naive Sampling**:
 ```
-Peak Memory = Model parameters + KV-cache × 1
-(Each sample is generated sequentially)
+# TBD
 ```
 
 **Adaptive Branching**:
 ```
-Peak Memory = Model parameters + KV-cache × max_paths
+# TBD
 ```
 
 **Trade-off**:
-- More memory during generation (max_paths caches)
-- But much faster wall-clock time
-- Typical: 2-3x more memory, 5-10x faster time
+# TBD
 
 ---
 
@@ -315,10 +182,10 @@ Controls branching aggressiveness:
 **Tuning tip**: 
 ```python
 # For factual QA (less diversity needed)
-threshold = 0.6
+threshold = 0.6 # TBD
 
 # For creative generation (more diversity wanted)
-threshold = 0.3
+threshold = 0.3 # TBD
 ```
 
 ### `branch_factor` (2-5)
@@ -344,12 +211,6 @@ Branch 3 ways × 5 times = 3^5 = 243 paths! 💥
 With max_paths=20:
 Prune low-probability paths, keep top-20
 ```
-
-**Setting**: 
-- 10-15: Tight memory budget
-- 20-30: Standard
-- 40-50: Maximum diversity
-
 ---
 
 ## Expected Behavior
@@ -382,49 +243,7 @@ Expected branching:
 
 ## Downstream Usage
 
-The generated samples can be used directly for:
-
-### 1. Semantic Uncertainty (Paper's Method)
-
-```python
-samples = adaptive_sample(prompt, ...)
-
-# Use their clustering
-semantic_ids = get_semantic_ids(
-    [s['text'] for s in samples],
-    model=entailment_model
-)
-
-# Calculate entropy
-entropy = semantic_entropy(semantic_ids, [s['log_probability'] for s in samples])
-```
-
-### 2. Self-Consistency
-
-```python
-# Most common answer weighted by probability
-from collections import Counter
-
-votes = Counter()
-for sample in samples:
-    votes[sample['text']] += sample['probability']
-
-best_answer = votes.most_common(1)[0][0]
-```
-
-### 3. Probability-Weighted Aggregation
-
-```python
-# Normalize probabilities
-total_prob = sum(s['probability'] for s in samples)
-weights = [s['probability'] / total_prob for s in samples]
-
-# Weighted consensus
-weighted_average = np.average(
-    [metric(s['text']) for s in samples],
-    weights=weights
-)
-```
+The generated samples can be used directly for different applications. Our motivation is to use them for **semantic uncertainty** analysis.
 
 ---
 
@@ -436,11 +255,6 @@ Adaptive branching helps most when:
 - ✅ **Long prompts** (100+ tokens)
 - ✅ **High branching** (model uncertain)
 - ✅ **Many samples needed** (N ≥ 10)
-
-Less effective when:
-- ❌ Very short prompts (10-20 tokens)
-- ❌ Model very confident (few branches)
-- ❌ Need only 2-3 samples
 
 ### 2. Memory Trade-off
 
@@ -460,29 +274,3 @@ Path 3: P = 0.001 (unlikely!)
 ```
 
 **Solution**: Prune paths below probability threshold.
-
----
-
-## Summary
-
-**What we gain**:
-- ✅ 5-10x speedup on long prompts
-- ✅ Same semantic diversity coverage
-- ✅ Natural probability tracking
-- ✅ Adaptive to prompt difficulty
-
-**What we pay**:
-- ❌ 2-3x more memory during generation
-- ❌ More complex implementation
-- ❌ Slight overhead for very short prompts
-
-**When to use**:
-- Production uncertainty estimation
-- Large-scale evaluation (1000s of prompts)
-- Long prompts (100+ tokens)
-- Need ≥10 diverse samples
-
-**When not to use**:
-- Quick prototyping (use naive)
-- Very tight memory budget
-- Need exact N samples (adaptive gives variable)
