@@ -3,47 +3,44 @@
 ## Executive Summary
 
 We implement an efficient alternative to naive multi-sample generation by:
-1. **Encoding the prompt once** and reusing via KV-cache
-2. **Branching dynamically** only when the model is uncertain (high entropy)
-3. **Tracking path probabilities** for downstream uncertainty quantification
 
-**Result**: 5-10x speedup with same semantic diversity coverage.
+- Encode the **prompt once** and cache its KV states.  
+- Generate tokens **autoregressively**, sharing all computation **until a branching decision**.  
+- **Only when entropy is high**, fork into multiple paths—each copying the cache up to that point.  
+- All shared tokens (prompt + generated prefix) are computed **exactly once**, no matter how many samples diverge later.
 
----
+### Visual Example
 
-## The Problem: Naive Sampling is Wasteful
+**Prompt** (12 tokens):  
+`"Question: What is the capital of France? Answer:"`
 
-### Standard Multi-Sample Generation
+Generation proceeds confidently for 2 tokens:
+- Token 13: `"The"`  
+- Token 14: `"capital"`
 
-To estimate uncertainty, we need N diverse completions:
-
-```python
-# Naive approach
-samples = []
-for i in range(N):
-    sample = model.generate(prompt, temperature=1.0)
-    samples.append(sample)
-```
-
-**Cost per sample**:
-- Prompt encoding: `O(L_prompt × d²)` 
-- Generation: `O(L_gen × d²)`
-- **Total for N samples**: `O(N × (L_prompt + L_gen) × d²)`
-
-**Problem**: We re-encode the same prompt N times!
-
-### Example Waste
+At token 15, entropy is high → **branch into 3 paths**:
 
 ```
-Prompt: "Question: What is the capital of France? Answer:" (12 tokens)
-Generation: 20 tokens per sample
-N = 10 samples
-
-Naive FLOPs: 10 × (12 + 20) × d² = 320 × d²
-Wasted on prompt: 10 × 12 × d² = 120 × d² (37.5% waste!)
+Prompt: "Question: What is the capital of France? Answer:"
+        └─► "The" ──► "capital" ──► (high entropy → BRANCH)
+                                      │
+                                      ├─► "is Paris."                (6 more tokens)
+                                      │
+                                      ├─► "of France is Paris."      (6 more tokens)
+                                      │
+                                      └─► "city is Paris."           (6 more tokens)
 ```
 
-For longer prompts (100+ tokens), waste can exceed 80%.
+- **Shared tokens**: 12 (prompt) + 2 (generated) = **14 tokens → computed once**  
+- **Divergent tokens**: 3 branches × 6 tokens = **18 tokens → computed separately**
+
+### Cost Comparison
+
+- **Adaptive**: 14 + 18 = **32 token-steps**  
+- **Naive** (3 samples): 3 × (12 + 2 + 6) = **60 token-steps**  
+
+→ **47% fewer token-steps**, same 3 diverse completions.  
+Savings grow with longer prompts or later branching.
 
 ---
 
