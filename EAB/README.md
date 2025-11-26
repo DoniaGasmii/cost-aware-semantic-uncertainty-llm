@@ -9,6 +9,21 @@ We implement an efficient alternative to naive multi-sample generation by:
 - **Only when entropy is high**, fork into multiple paths; each copying the cache up to that point.  
 - All shared tokens (prompt + generated prefix) are computed **exactly once**, no matter how many samples diverge later.
 
+### Core Idea: Entropy-Adaptive Branching with KV-Cache Reuse
+
+```
+Step 1: Encode prompt ONCE
+    Prompt → [Transformer] → KV-cache (store this!)
+
+Step 2: Generate token-by-token, branching when uncertain
+    Position 0: Check entropy → Low → Continue with 1 path
+    Position 1: Check entropy → High → Branch into 3 paths
+    Position 2: Check entropy → Low → Continue each path separately
+    ...
+    
+Step 3: All paths reuse the same prompt cache
+```
+
 ### Visual Example
 
 **Prompt** (12 tokens):  
@@ -41,21 +56,6 @@ Prompt: "Question: What is the capital of France? Answer:"
 
 → **47% fewer token-steps**, same 3 diverse completions.  
 Savings grow with longer prompts or later branching.
-
-### Core Idea: Entropy-Adaptive Branching with KV-Cache Reuse
-
-```
-Step 1: Encode prompt ONCE
-    Prompt → [Transformer] → KV-cache (store this!)
-
-Step 2: Generate token-by-token, branching when uncertain
-    Position 0: Check entropy → Low → Continue with 1 path
-    Position 1: Check entropy → High → Branch into 3 paths
-    Position 2: Check entropy → Low → Continue each path separately
-    ...
-    
-Step 3: All paths reuse the same prompt cache
-```
 
 ---
 
