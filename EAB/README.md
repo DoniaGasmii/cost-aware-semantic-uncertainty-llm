@@ -71,8 +71,7 @@ Entropy measures uncertainty in the next-token distribution:
 H(p) = - \sum_{i=1}^{V} p(x_i) \log p(x_i)
 ```
 
-where:
-- V = vocabulary size
+where: V = vocabulary size
 
 #### Interpretation:
 - **High entropy**: Probability mass spread across many tokens  
@@ -103,29 +102,13 @@ In transformer generation:
 **How we use it**:
 
 ```python
-# Step 1: Initial forward pass (prompt)
-outputs = model(prompt_ids, use_cache=True)
-kv_cache = outputs.past_key_values
-# Shape: (n_layers, 2, batch, n_heads, seq_len, head_dim)
-
-# Step 2: Continuation (new token)
-outputs = model(
-    new_token_ids,
-    past_key_values=kv_cache,  # Reuse!
-    use_cache=True
-)
-# Only computes attention for new token
+# TBD
 ```
 
 **Branching with cache**:
 
-When we branch, we **deep copy** the cache:
-
 ```python
-for branch in range(branch_factor):
-    # Create independent copy for this branch
-    branch_cache = deep_copy(parent_cache)
-    # This branch can now diverge independently
+# TBD
 ```
 
 ### 3. Probability Tracking
@@ -143,6 +126,8 @@ class GenerationPath:
 - Numerical stability (avoids underflow)
 - Easy accumulation: `log P(A,B) = log P(A) + log P(B)`
 - Convert back: `P(path) = exp(log_prob)`
+
+(Required for our downstream uncertainty quantification pipeline; optional for basic sampling.)
 
 ---
 
