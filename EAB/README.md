@@ -72,9 +72,7 @@ H(p) = - \sum_{i=1}^{V} p(x_i) \log p(x_i)
 ```
 
 where:
-- $ V $ = vocabulary size
-- $ x_i $ = the $ i $-th token in the vocabulary
-- $ p(x_i) $ = probability assigned by the model to token $ x_i $
+- V = vocabulary size
 
 #### Interpretation:
 - **High entropy**: Probability mass spread across many tokens  
