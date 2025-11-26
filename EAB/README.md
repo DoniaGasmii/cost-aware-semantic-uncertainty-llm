@@ -42,11 +42,7 @@ Prompt: "Question: What is the capital of France? Answer:"
 → **47% fewer token-steps**, same 3 diverse completions.  
 Savings grow with longer prompts or later branching.
 
----
-
-## Our Solution: Entropy-Adaptive Branching with KV-Cache Reuse
-
-### Core Idea
+### Core Idea: Entropy-Adaptive Branching with KV-Cache Reuse
 
 ```
 Step 1: Encode prompt ONCE
