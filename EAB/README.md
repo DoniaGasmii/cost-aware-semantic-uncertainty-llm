@@ -1,12 +1,12 @@
-# Entropy-Adaptive Branching for Efficient Multi-Sample Generation
+# Entropy-Adaptive Branching (EAB) for Efficient Multi-Sample Generation
 
-## Executive Summary
+## Idea Overview
 
 We implement an efficient alternative to naive multi-sample generation by:
 
 - Encode the **prompt once** and cache its KV states.  
 - Generate tokens **autoregressively**, sharing all computation **until a branching decision**.  
-- **Only when entropy is high**, fork into multiple paths—each copying the cache up to that point.  
+- **Only when entropy is high**, fork into multiple paths; each copying the cache up to that point.  
 - All shared tokens (prompt + generated prefix) are computed **exactly once**, no matter how many samples diverge later.
 
 ### Visual Example
@@ -44,7 +44,7 @@ Savings grow with longer prompts or later branching.
 
 ---
 
-## Our Solution: Adaptive Branching with KV-Cache Reuse
+## Our Solution: Entropy-Adaptive Branching with KV-Cache Reuse
 
 ### Core Idea
 
@@ -61,19 +61,6 @@ Step 2: Generate token-by-token, branching when uncertain
 Step 3: All paths reuse the same prompt cache
 ```
 
-### Visual Example
-
-```
-                                    ┌─→ "Paris" → "is" → "the" → ...
-                                    │
-Prompt [cached once]──Token 0 (low entropy)──Token 1 (high entropy)─┼─→ "The" → "capital" → ...
-                                    │
-                                    └─→ "France" → "has" → ...
-
-Cost: 1 × prompt + 3 × continuation
-Naive would be: 3 × (prompt + continuation)
-```
-
 ---
 
 ## Algorithm Details
@@ -84,19 +71,22 @@ Naive would be: 3 × (prompt + continuation)
 
 Entropy measures uncertainty in the next-token distribution:
 
+```math
+H(p) = - \sum_{i=1}^{V} p(x_i) \log p(x_i)
 ```
-H(p) = -Σᵢ p(xᵢ) log p(xᵢ)
-```
 
-- **High entropy**: Probability mass spread across many tokens
-  - Model is uncertain about what comes next
-  - **Action**: Branch to explore multiple options
+where:
+- $ V $ = vocabulary size
+- $ x_i $ = the $ i $-th token in the vocabulary
+- $ p(x_i) $ = probability assigned by the model to token $ x_i $
 
-- **Low entropy**: Probability mass concentrated on few tokens
-  - Model is confident
-  - **Action**: Continue with single path (saves compute)
+#### Interpretation:
+- **High entropy**: Probability mass spread across many tokens  
+  → Model is uncertain → **Action: Branch** to explore multiple options  
+- **Low entropy**: Probability mass concentrated on few tokens  
+  → Model is confident → **Action: Continue with single path** (saves compute)
 
-**Normalization**:
+### Normalization
 
 Raw entropy depends on vocabulary size. We normalize:
 
@@ -104,6 +94,8 @@ Raw entropy depends on vocabulary size. We normalize:
 normalized_entropy = H(p) / log(vocab_size)
 # Now in range [0, 1]
 ```
+
+This allows us to set a universal threshold (e.g., 0.4) regardless of model vocab size.
 
 ### 2. KV-Cache Mechanics
 
