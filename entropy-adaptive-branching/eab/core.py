@@ -5,8 +5,24 @@ This module provides the main EntropyAdaptiveBranching class that implements
 efficient multi-sample generation through entropy-based branching.
 """
 
-import torch
-import torch.nn.functional as F
+import os
+import sys
+
+# Handle CUDA library issues gracefully
+try:
+    import torch
+    import torch.nn.functional as F
+except ImportError as e:
+    if "libcudnn" in str(e) or "CUDA" in str(e):
+        print("Warning: CUDA libraries not found. Falling back to CPU-only mode.")
+        print("If you need GPU support, please install the correct CUDA libraries.")
+        # Force CPU-only mode
+        os.environ['CUDA_VISIBLE_DEVICES'] = ''
+        import torch
+        import torch.nn.functional as F
+    else:
+        raise
+
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from typing import List, Dict, Any, Optional, Tuple
 import warnings
@@ -65,7 +81,16 @@ class EntropyAdaptiveBranching:
         """
         # Device setup
         if device is None:
-            self.device = "cuda" if torch.cuda.is_available() else "cpu"
+            # Try to use CUDA if available, but fall back to CPU on any issues
+            try:
+                if torch.cuda.is_available():
+                    self.device = "cuda"
+                else:
+                    self.device = "cpu"
+            except Exception as e:
+                print(f"Warning: Error checking CUDA availability: {e}")
+                print("Falling back to CPU.")
+                self.device = "cpu"
         else:
             self.device = device
         
