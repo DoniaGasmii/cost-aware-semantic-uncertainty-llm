@@ -1,46 +1,29 @@
 #!/usr/bin/env python3
 """
-Quick start script for Entropy-Adaptive Branching.
+Quick start script for Entropy-Adaptive Branching (CPU-only version).
 
-Run this to verify your installation and see a simple example.
+This version explicitly uses CPU to avoid CUDA issues.
+Run this if you encounter CUDA library errors.
 """
 
 import os
-import sys
+# Force CPU-only mode before importing torch
+os.environ['CUDA_VISIBLE_DEVICES'] = ''
 
-# Try to import, handle CUDA errors gracefully
-try:
-    from eab import EntropyAdaptiveBranching
-except ImportError as e:
-    if "libcudnn" in str(e) or "CUDA" in str(e):
-        print("=" * 70)
-        print("CUDA Library Error Detected")
-        print("=" * 70)
-        print("\nError: Missing CUDA libraries (libcudnn.so.8)")
-        print("\nSolutions:")
-        print("  1. Run the CPU-only version:")
-        print("     python quickstart_cpu.py")
-        print("\n  2. Or set environment variable and retry:")
-        print("     export CUDA_VISIBLE_DEVICES=''")
-        print("     python quickstart.py")
-        print("\n  3. Install CUDA libraries (if you need GPU):")
-        print("     Follow: https://pytorch.org/get-started/locally/")
-        print("=" * 70)
-        sys.exit(1)
-    else:
-        raise
+from eab import EntropyAdaptiveBranching
 
 
 def main():
     print("=" * 70)
-    print("Entropy-Adaptive Branching - Quick Start")
+    print("Entropy-Adaptive Branching - Quick Start (CPU Mode)")
     print("=" * 70)
-    print("\nThis script demonstrates basic EAB functionality.")
+    print("\nThis script demonstrates basic EAB functionality using CPU.")
     print("Loading model (this may take a moment)...\n")
     
-    # Initialize
+    # Initialize with explicit CPU device
     eab = EntropyAdaptiveBranching(
         model_name="gpt2",
+        device="cpu",  # Explicitly use CPU
         entropy_threshold=0.4,
         branch_factor=3,
         max_paths=10
@@ -75,7 +58,7 @@ def main():
     print(f"Total branches: {stats['num_branches']}")
     
     print("\n" + "=" * 70)
-    print("Success! EAB is working correctly.")
+    print("Success! EAB is working correctly on CPU.")
     print("=" * 70)
     print("\nNext steps:")
     print("  • Run examples: python examples/basic_usage.py")

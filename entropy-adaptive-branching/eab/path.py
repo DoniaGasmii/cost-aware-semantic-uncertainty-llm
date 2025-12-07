@@ -158,21 +158,24 @@ class PathManager:
     def prune_paths(self, min_prob_threshold: float = 1e-6):
         """
         Remove low-probability paths to manage memory.
-        
+
         Args:
             min_prob_threshold: Minimum probability to keep a path
         """
         if len(self.paths) <= self.max_paths:
             return
-        
+
         # Sort by probability (descending)
         self.paths.sort(key=lambda p: p.log_prob, reverse=True)
-        
-        # Keep top max_paths, ensure they meet minimum threshold
-        self.paths = [
-            p for p in self.paths[:self.max_paths]
-            if p.probability >= min_prob_threshold
-        ]
+
+        # Keep top max_paths
+        self.paths = self.paths[:self.max_paths]
+
+        # Optionally filter out paths below minimum threshold
+        # But only if we have enough paths remaining
+        filtered_paths = [p for p in self.paths if p.probability >= min_prob_threshold]
+        if len(filtered_paths) > 0:
+            self.paths = filtered_paths
     
     def mark_completed(self, path: GenerationPath):
         """

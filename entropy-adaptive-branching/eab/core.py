@@ -201,10 +201,10 @@ class EntropyAdaptiveBranching:
         # Generation loop
         for position in range(max_new_tokens):
             active_paths = path_manager.get_active_paths()
-            
+
             if not active_paths:
                 break
-            
+
             # Process each active path
             new_paths = []
             
@@ -292,17 +292,20 @@ class EntropyAdaptiveBranching:
                     path.add_token(token_id, token_log_prob)
                     path.cache = path_cache
                     new_paths.append(path)
-                
-                # Check for EOS token
-                for new_path in new_paths:
-                    if new_path.tokens and new_path.tokens[-1] == self.tokenizer.eos_token_id:
-                        path_manager.mark_completed(new_path)
-                        if new_path in new_paths:
-                            new_paths.remove(new_path)
-            
+
+            # Check for EOS token in newly generated paths and mark as completed
+            paths_to_complete = []
+            for new_path in new_paths:
+                if new_path.tokens and new_path.tokens[-1] == self.tokenizer.eos_token_id:
+                    paths_to_complete.append(new_path)
+
+            for path_to_complete in paths_to_complete:
+                path_manager.mark_completed(path_to_complete)
+                new_paths.remove(path_to_complete)
+
             # Update active paths
             path_manager.paths = new_paths
-            
+
             # Prune low-probability paths
             path_manager.prune_paths(min_prob_threshold)
             
@@ -310,20 +313,26 @@ class EntropyAdaptiveBranching:
             progress.update(1)
         
         progress.close()
-        
+
+        # Mark any remaining active paths as completed
+        active_before = list(path_manager.get_active_paths())  # Make a copy to avoid modification during iteration
+        for path in active_before:
+            path_manager.mark_completed(path)
+
         # Get all paths (active + completed)
         all_paths = path_manager.get_all_paths()
-        
+
         print(f"\nGeneration complete!")
         print(f"Total paths generated: {len(all_paths)}")
-        
+
         # Compute and print statistics
         stats = compute_statistics(all_paths)
         entropy_stats = self.entropy_tracker.get_statistics()
-        
+
         print(f"\nStatistics:")
-        print(f"  Average length: {stats['avg_length']:.1f} tokens")
-        print(f"  Total branches: {stats['total_branches']}")
+        if stats:  # Only print if we have paths
+            print(f"  Average length: {stats['avg_length']:.1f} tokens")
+            print(f"  Total branches: {stats['total_branches']}")
         print(f"  Average entropy: {entropy_stats['mean_entropy']:.3f}")
         print(f"  Branch rate: {entropy_stats['branch_rate']:.1%}")
         
