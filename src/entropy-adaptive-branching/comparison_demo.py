@@ -24,7 +24,7 @@ from eab import EntropyAdaptiveBranching
 # ==============================================================================
 # CONFIGURATION: Change this to use a different model
 # ==============================================================================
-MODEL_NAME = "gpt2-xl"  # Options: gpt2, gpt2-medium, gpt2-large, gpt2-xl
+MODEL_NAME = "EleutherAI/pythia-2.8b"  # Options: gpt2, gpt2-medium, gpt2-large, gpt2-xl
 # ==============================================================================
 
 
@@ -89,8 +89,8 @@ def run_comparison(prompt, max_paths=10, max_new_tokens=20, model_name=MODEL_NAM
 
     eab = EntropyAdaptiveBranching(
         model_name=model_name,
-        device="cpu",
-        entropy_threshold=0.4,
+        device="gpu" if torch.cuda.is_available() else "cpu",
+        entropy_threshold=0.5,
         branch_factor=3,
         max_paths=max_paths
     )
@@ -235,37 +235,38 @@ def main():
     print("\nThis demo runs EAB first, then runs naive generation with the same")
     print("number of samples for a fair comparison.")
     print("\nNote: Running on CPU mode (use GPU for even better EAB performance)")
-    print("\nTo use a different model, edit MODEL_NAME at the top of this file.")
-    print("Options: gpt2, gpt2-medium, gpt2-large, gpt2-xl")
     print("\n")
 
-    # Example 1: Factual prompt (low uncertainty)
-    print("\n" + "█" * 80)
-    print("EXAMPLE 1: Factual Prompt (Expected: Low branching, high speedup)")
-    print("█" * 80)
-    run_comparison(
-        prompt="The capital of France is",
-        max_paths=10,
-        max_new_tokens=15,
-        model_name=MODEL_NAME
-    )
+    # ==============================================================================
+    # EXPERIMENT CONFIGURATION - Modify these parameters for your test
+    # ==============================================================================
+    PROMPT = "Overfitting in Machine Learning is "
+    MAX_PATHS = 5
+    MAX_NEW_TOKENS = 15
+    # ==============================================================================
 
-    # Example 2: Open-ended prompt (high uncertainty)
-    print("\n\n" + "█" * 80)
-    print("EXAMPLE 2: Creative Prompt (Expected: More branching, diverse outputs)")
-    print("█" * 80)
+    print(f"Configuration:")
+    print(f"  Model: {MODEL_NAME}")
+    print(f"  Prompt: '{PROMPT}'")
+    print(f"  Max paths: {MAX_PATHS}")
+    print(f"  Max new tokens: {MAX_NEW_TOKENS}")
+    print("\n" + "=" * 80)
+
     run_comparison(
-        prompt="Once upon a time in a",
-        max_paths=10,
-        max_new_tokens=15,
+        prompt=PROMPT,
+        max_paths=MAX_PATHS,
+        max_new_tokens=MAX_NEW_TOKENS,
         model_name=MODEL_NAME
     )
 
     print("\n" + "=" * 80)
     print("Demo complete!")
     print("=" * 80)
-    print("\nTry modifying the prompts above to see how different inputs affect")
-    print("the branching behavior and performance gains of EAB.")
+    print("\nTo run another experiment, modify the parameters in the main() function:")
+    print("  - PROMPT: The input text")
+    print("  - MAX_PATHS: Maximum number of generation paths")
+    print("  - MAX_NEW_TOKENS: Number of tokens to generate")
+    print("  - MODEL_NAME: Model to use (at top of file)")
     print()
 
 

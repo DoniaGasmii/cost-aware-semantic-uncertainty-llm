@@ -23,7 +23,7 @@ except ImportError as e:
     else:
         raise
 
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, DynamicCache
 from typing import List, Dict, Any, Optional, Tuple
 import warnings
 
@@ -190,7 +190,11 @@ class EntropyAdaptiveBranching:
             outputs = self.model(input_ids, use_cache=True)
             past_key_values = outputs.past_key_values
             logits = outputs.logits[:, -1, :]  # Last token logits
-        
+
+            # Convert to DynamicCache if needed (for compatibility with newer models like Pythia)
+            if past_key_values is not None and isinstance(past_key_values, tuple):
+                past_key_values = DynamicCache.from_legacy_cache(past_key_values)
+
         # Initialize path manager
         path_manager = PathManager(max_paths=self.max_paths)
         initial_path = path_manager.create_initial_path(cache=past_key_values)
@@ -217,10 +221,16 @@ class EntropyAdaptiveBranching:
                 else:
                     # Subsequent tokens: use path's cache
                     last_token = torch.tensor([[path.tokens[-1]]]).to(self.device)
+
+                    # Convert cache to DynamicCache if needed
+                    cache_to_use = path.cache
+                    if cache_to_use is not None and isinstance(cache_to_use, tuple):
+                        cache_to_use = DynamicCache.from_legacy_cache(cache_to_use)
+
                     with torch.no_grad():
                         path_outputs = self.model(
                             last_token,
-                            past_key_values=path.cache,
+                            past_key_values=cache_to_use,
                             use_cache=True
                         )
                     path_logits = path_outputs.logits[0, -1, :]
