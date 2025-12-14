@@ -114,3 +114,38 @@ def format_uncertainty_report(result: Dict[str, Any]) -> str:
     report.append("=" * 60)
     
     return "\n".join(report)
+
+
+def compute_uncertainty_score(entropy: float, n_clusters: int, n_samples: int) -> float:
+    """
+    Compute a combined uncertainty score that accounts for both entropy
+    and number of clusters.
+
+    This addresses the limitation of normalized entropy where 2 uniform clusters
+    and 6 uniform clusters both get a score of 1.0.
+
+    Args:
+        entropy: Raw entropy value
+        n_clusters: Number of clusters found
+        n_samples: Total number of samples
+        
+    Returns:
+        Combined uncertainty score in approximately [0, 1] range
+        Higher = more uncertainty
+    """
+    if n_clusters <= 1:
+        return 0.0
+
+    # Component 1: Normalized entropy (how uniform is the distribution)
+    normalized_ent = normalize_entropy(entropy, n_clusters)
+
+    # Component 2: Cluster diversity (how many distinct meanings)
+    # Normalize by theoretical maximum clusters (all samples different)
+    cluster_diversity = (n_clusters - 1) / (n_samples - 1) if n_samples > 1 else 0.0
+
+    # Combined score: weighted average
+    # Entropy weight = 0.6, Diversity weight = 0.4
+    # This gives more weight to distribution uniformity but also considers cluster count
+    combined_score = 0.6 * normalized_ent + 0.4 * cluster_diversity
+
+    return float(combined_score)
