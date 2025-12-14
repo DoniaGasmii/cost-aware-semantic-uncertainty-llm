@@ -1,6 +1,13 @@
 """Example: Semantic uncertainty for factual question answering."""
 
+import sys
+from pathlib import Path
+
+# Add parent directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from semantic_entropy import SemanticUncertaintyEstimator
+import argparse
 
 
 def analyze_qa_pair(question: str, generations: list, estimator):
@@ -13,21 +20,74 @@ def analyze_qa_pair(question: str, generations: list, estimator):
     print(f"Number of generations: {len(generations)}")
     print(f"Semantic clusters found: {result['n_clusters']}")
     print(f"Normalized uncertainty: {result['normalized_entropy']:.4f}")
-    print(f"Interpretation: {estimator.interpret_uncertainty(result['normalized_entropy'])}")
+    print(f"Uncertainty score: {result['uncertainty_score']:.4f}")
+    print(f"Interpretation: {estimator.interpret_uncertainty(result['uncertainty_score'])}")
     
-    # Show cluster representatives
-    print("\nCluster Representatives:")
-    for cluster_id, info in result['cluster_analysis']['representatives'].items():
-        prob = result['cluster_probs'][cluster_id]
-        print(f"  [{prob:.2%}] {info['text']}")
+    # Show all generations per cluster
+    print("\nClusters (grouped by meaning):")
+    
+    # Group generations by cluster
+    cluster_labels = result['cluster_labels']
+    cluster_probs = result['cluster_probs']
+    
+    clusters = {}
+    for i, label in enumerate(cluster_labels):
+        if label not in clusters:
+            clusters[label] = []
+        clusters[label].append(generations[i])
+    
+    # Sort clusters by probability (most common first)
+    sorted_clusters = sorted(clusters.items(), 
+                            key=lambda x: cluster_probs[x[0]], 
+                            reverse=True)
+    
+    for cluster_id, texts in sorted_clusters:
+        prob = cluster_probs[cluster_id]
+        print(f"\n  Cluster {cluster_id} [{prob:.1%}] - {len(texts)} generation(s):")
+        for text in texts:
+            print(f"    • {text}")
     
     print()
 
 
 def main():
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description='Analyze semantic uncertainty in factual QA',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python factual_qa.py                    # Use default threshold (0.15)
+  python factual_qa.py --threshold 0.25   # Use threshold 0.25 (more lenient)
+  python factual_qa.py -t 0.30            # Short form
+        """
+    )
+    parser.add_argument(
+        '--threshold', '-t',
+        type=float,
+        default=0.15,
+        help='Distance threshold for clustering (default: 0.15). '
+             'Lower = stricter (more clusters), Higher = more lenient (fewer clusters). '
+             'Recommended range: 0.10-0.35'
+    )
+    
+    args = parser.parse_args()
+    
+    # Validate threshold
+    if args.threshold < 0.0 or args.threshold > 1.0:
+        print("Error: Threshold must be between 0.0 and 1.0")
+        sys.exit(1)
+    
+    print("=" * 60)
+    print(f"SEMANTIC UNCERTAINTY ANALYSIS")
+    print("=" * 60)
+    print(f"Distance Threshold: {args.threshold}")
+    print(f"Cosine Similarity Threshold: {1 - args.threshold:.2f}")
+    print("=" * 60)
+    
     estimator = SemanticUncertaintyEstimator(
         encoder_model="all-mpnet-base-v2",
-        distance_threshold=0.15
+        distance_threshold=args.threshold
     )
     
     # Test 1: Unambiguous factual question

@@ -66,9 +66,10 @@ Examples:
     print(f"Generations: {len(generations_low)}")
     print(f"Semantic Entropy: {result['entropy']:.4f}")
     print(f"Normalized Entropy: {result['normalized_entropy']:.4f}")
+    print(f"Uncertainty Score: {result['uncertainty_score']:.4f}")
     print(f"Number of Clusters: {result['n_clusters']}")
     print(f"Cluster Distribution: {result['cluster_probs']}")
-    print(f"Interpretation: {estimator.interpret_uncertainty(result['normalized_entropy'])}")
+    print(f"Interpretation: {estimator.interpret_uncertainty(result['uncertainty_score'])}")
     
     # Show all generations per cluster
     print("\nClusters (grouped by meaning):")
@@ -107,15 +108,15 @@ Examples:
         "There's no single best language.",
     ]
     
-    
     result = estimator.compute(generations_high, return_details=True)
     
     print(f"Generations: {len(generations_high)}")
     print(f"Semantic Entropy: {result['entropy']:.4f}")
     print(f"Normalized Entropy: {result['normalized_entropy']:.4f}")
+    print(f"Uncertainty Score: {result['uncertainty_score']:.4f}")
     print(f"Number of Clusters: {result['n_clusters']}")
     print(f"Cluster Distribution: {result['cluster_probs']}")
-    print(f"Interpretation: {estimator.interpret_uncertainty(result['normalized_entropy'])}")
+    print(f"Interpretation: {estimator.interpret_uncertainty(result['uncertainty_score'])}")
     
     # Show all generations per cluster
     print("\nClusters (grouped by meaning):")

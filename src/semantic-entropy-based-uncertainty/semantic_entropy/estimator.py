@@ -8,6 +8,7 @@ from .clustering import SemanticClusterer
 from .utils import (
     compute_entropy,
     normalize_entropy,
+    compute_uncertainty_score,
     cluster_probabilities_uniform,
     cluster_probabilities_weighted,
     format_uncertainty_report
@@ -95,6 +96,7 @@ class SemanticUncertaintyEstimator:
             Dictionary containing:
                 - entropy: Raw semantic entropy
                 - normalized_entropy: Entropy normalized to [0, 1]
+                - uncertainty_score: Combined score considering both entropy and cluster count
                 - n_clusters: Number of semantic clusters found
                 - cluster_labels: Cluster assignment for each sample
                 - cluster_probs: Probability distribution over clusters
@@ -125,11 +127,13 @@ class SemanticUncertaintyEstimator:
         # Step 4: Compute semantic entropy
         entropy = compute_entropy(cluster_probs)
         normalized_entropy = normalize_entropy(entropy, n_clusters)
+        uncertainty_score = compute_uncertainty_score(entropy, n_clusters, len(texts))
         
         # Prepare result
         result = {
             'entropy': entropy,
             'normalized_entropy': normalized_entropy,
+            'uncertainty_score': uncertainty_score,
             'n_clusters': n_clusters,
             'cluster_labels': labels.tolist(),
             'cluster_probs': cluster_probs.tolist()
@@ -198,19 +202,19 @@ class SemanticUncertaintyEstimator:
         
         return representatives
     
-    def interpret_uncertainty(self, normalized_entropy: float) -> str:
+    def interpret_uncertainty(self, uncertainty_score: float) -> str:
         """
-        Interpret normalized entropy value.
+        Interpret uncertainty score value.
         
         Args:
-            normalized_entropy: Entropy value in [0, 1]
+            uncertainty_score: Combined uncertainty score in [0, 1]
             
         Returns:
             Human-readable interpretation
         """
-        if normalized_entropy < 0.3:
+        if uncertainty_score < 0.3:
             return "HIGH CONFIDENCE - Responses are very consistent"
-        elif normalized_entropy < 0.7:
+        elif uncertainty_score < 0.7:
             return "MODERATE UNCERTAINTY - Some variation in meanings"
         else:
             return "HIGH UNCERTAINTY - Many different interpretations"

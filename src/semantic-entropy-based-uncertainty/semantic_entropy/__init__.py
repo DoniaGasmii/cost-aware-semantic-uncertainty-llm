@@ -5,6 +5,7 @@ from .clustering import SemanticClusterer
 from .utils import (
     compute_entropy,
     normalize_entropy,
+    compute_uncertainty_score,
     cluster_probabilities_uniform,
     cluster_probabilities_weighted,
     format_uncertainty_report
@@ -17,6 +18,7 @@ __all__ = [
     "SemanticClusterer",
     "compute_entropy",
     "normalize_entropy",
+    "compute_uncertainty_score",
     "cluster_probabilities_uniform",
     "cluster_probabilities_weighted",
     "format_uncertainty_report",
