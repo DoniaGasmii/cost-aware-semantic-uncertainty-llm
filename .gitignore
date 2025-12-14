@@ -1,3 +1,10 @@
 models/
 
 llama-cpp-python/
+
+semantic_entropy.egg-info/
+semantic_entropy/__pycache__/
+
+.vscode/
+
+__pycache__/
