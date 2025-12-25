@@ -1,0 +1,282 @@
+{
+  "name": "Subjective Questions (High Uncertainty)",
+  "metadata": {
+    "difficulty": "hard",
+    "type": "subjective",
+    "description": "Open-ended, opinion-based questions with no single correct answer. Model scores should be more varied and lower (μ ≈ 0.4-0.6)",
+    "expected_mean": 0.5,
+    "expected_std": 0.18
+  },
+  "prompts": [
+    {
+      "id": "subj_1",
+      "prompt": "What is the best programming language?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "programming",
+        "note": "Highly subjective, depends on use case, personal preference, and context"
+      }
+    },
+    {
+      "id": "subj_2",
+      "prompt": "What is the meaning of life?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "philosophy",
+        "note": "Classic philosophical question with no definitive answer"
+      }
+    },
+    {
+      "id": "subj_3",
+      "prompt": "Is artificial intelligence beneficial or harmful to society?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "ai_ethics",
+        "note": "Complex question with valid arguments on both sides"
+      }
+    },
+    {
+      "id": "subj_4",
+      "prompt": "What makes a piece of art truly great?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "art_philosophy",
+        "note": "Entirely subjective and culturally dependent"
+      }
+    },
+    {
+      "id": "subj_5",
+      "prompt": "Should we prioritize economic growth or environmental protection?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "policy",
+        "note": "Political and ethical question with no clear right answer"
+      }
+    },
+    {
+      "id": "subj_6",
+      "prompt": "What is the most important quality in a leader?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "leadership",
+        "note": "Context-dependent and culturally variable"
+      }
+    },
+    {
+      "id": "subj_7",
+      "prompt": "Is free will real or is everything predetermined?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "philosophy",
+        "note": "Ancient philosophical debate with no consensus"
+      }
+    },
+    {
+      "id": "subj_8",
+      "prompt": "What is the best way to raise children?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "parenting",
+        "note": "Highly subjective and culturally dependent"
+      }
+    },
+    {
+      "id": "subj_9",
+      "prompt": "Should we explore space or focus on solving Earth's problems first?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "policy",
+        "note": "Resource allocation dilemma with valid perspectives"
+      }
+    },
+    {
+      "id": "subj_10",
+      "prompt": "What is more important: individual freedom or collective security?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "political_philosophy",
+        "note": "Fundamental tension in political theory"
+      }
+    },
+    {
+      "id": "subj_11",
+      "prompt": "Is capitalism or socialism a better economic system?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "economics",
+        "note": "Ideologically charged with no objective answer"
+      }
+    },
+    {
+      "id": "subj_12",
+      "prompt": "What is the ideal work-life balance?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "lifestyle",
+        "note": "Personal and context-dependent"
+      }
+    },
+    {
+      "id": "subj_13",
+      "prompt": "Should animals have the same rights as humans?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "ethics",
+        "note": "Ethical question with competing frameworks"
+      }
+    },
+    {
+      "id": "subj_14",
+      "prompt": "What is the best form of government?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "political_science",
+        "note": "Context-dependent with historical debates"
+      }
+    },
+    {
+      "id": "subj_15",
+      "prompt": "Is it ethical to eat meat?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "ethics",
+        "note": "Moral question with strong opinions on both sides"
+      }
+    },
+    {
+      "id": "subj_16",
+      "prompt": "What is the most beautiful place in the world?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "aesthetics",
+        "note": "Purely subjective aesthetic judgment"
+      }
+    },
+    {
+      "id": "subj_17",
+      "prompt": "Should genetic engineering of humans be allowed?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "bioethics",
+        "note": "Complex ethical question with future implications"
+      }
+    },
+    {
+      "id": "subj_18",
+      "prompt": "What is consciousness and how does it arise?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "philosophy_neuroscience",
+        "note": "Unsolved problem in philosophy and science"
+      }
+    },
+    {
+      "id": "subj_19",
+      "prompt": "Is it better to be loved or feared as a leader?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "leadership",
+        "note": "Classical Machiavellian question"
+      }
+    },
+    {
+      "id": "subj_20",
+      "prompt": "Should we colonize other planets?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "space_policy",
+        "note": "Speculative with ethical and practical considerations"
+      }
+    },
+    {
+      "id": "subj_21",
+      "prompt": "What is the best way to measure success in life?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "philosophy",
+        "note": "Personal values-based question"
+      }
+    },
+    {
+      "id": "subj_22",
+      "prompt": "Should education be standardized or personalized?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "education_policy",
+        "note": "Trade-offs between approaches"
+      }
+    },
+    {
+      "id": "subj_23",
+      "prompt": "Is technology making us more or less human?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "technology_philosophy",
+        "note": "Philosophical question about human nature"
+      }
+    },
+    {
+      "id": "subj_24",
+      "prompt": "What is the right balance between tradition and innovation?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "cultural_philosophy",
+        "note": "Context and culture dependent"
+      }
+    },
+    {
+      "id": "subj_25",
+      "prompt": "Should we trust our emotions or our logic more?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "psychology_philosophy",
+        "note": "False dichotomy with situational answers"
+      }
+    },
+    {
+      "id": "subj_26",
+      "prompt": "What is the optimal population size for Earth?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "demographics",
+        "note": "Depends on technology, resources, and values"
+      }
+    },
+    {
+      "id": "subj_27",
+      "prompt": "Is privacy or transparency more important in society?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "political_philosophy",
+        "note": "Competing values with trade-offs"
+      }
+    },
+    {
+      "id": "subj_28",
+      "prompt": "What should be the primary goal of education?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "education_philosophy",
+        "note": "Values-based with multiple valid perspectives"
+      }
+    },
+    {
+      "id": "subj_29",
+      "prompt": "Is it better to specialize deeply or know a little about many things?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "career_philosophy",
+        "note": "T-shaped vs specialist debate"
+      }
+    },
+    {
+      "id": "subj_30",
+      "prompt": "Should we pursue immortality through technology?",
+      "metadata": {
+        "difficulty": "hard",
+        "topic": "bioethics",
+        "note": "Ethical and existential implications"
+      }
+    }
+  ]
+}

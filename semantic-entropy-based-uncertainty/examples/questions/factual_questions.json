@@ -1,0 +1,282 @@
+{
+  "name": "Factual Questions (High Certainty)",
+  "metadata": {
+    "difficulty": "easy",
+    "type": "factual",
+    "description": "Clear factual questions with definitive answers. Model should score very high (μ ≈ 0.85-0.95)",
+    "expected_mean": 0.9,
+    "expected_std": 0.08
+  },
+  "prompts": [
+    {
+      "id": "fact_1",
+      "prompt": "What is the capital of France?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "geography",
+        "correct_answer": "Paris"
+      }
+    },
+    {
+      "id": "fact_2",
+      "prompt": "How many days are in a week?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "general_knowledge",
+        "correct_answer": "7"
+      }
+    },
+    {
+      "id": "fact_3",
+      "prompt": "What is the chemical symbol for water?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "chemistry",
+        "correct_answer": "H2O"
+      }
+    },
+    {
+      "id": "fact_4",
+      "prompt": "What is 10 multiplied by 10?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "mathematics",
+        "correct_answer": "100"
+      }
+    },
+    {
+      "id": "fact_5",
+      "prompt": "Who wrote 'Romeo and Juliet'?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "literature",
+        "correct_answer": "William Shakespeare"
+      }
+    },
+    {
+      "id": "fact_6",
+      "prompt": "What planet is known as the Red Planet?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "astronomy",
+        "correct_answer": "Mars"
+      }
+    },
+    {
+      "id": "fact_7",
+      "prompt": "What is the boiling point of water at sea level in Celsius?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "physics",
+        "correct_answer": "100°C"
+      }
+    },
+    {
+      "id": "fact_8",
+      "prompt": "How many continents are there on Earth?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "geography",
+        "correct_answer": "7"
+      }
+    },
+    {
+      "id": "fact_9",
+      "prompt": "What is the largest ocean on Earth?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "geography",
+        "correct_answer": "Pacific Ocean"
+      }
+    },
+    {
+      "id": "fact_10",
+      "prompt": "What year did World War II end?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "history",
+        "correct_answer": "1945"
+      }
+    },
+    {
+      "id": "fact_11",
+      "prompt": "What is the speed of light in vacuum (approximate)?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "physics",
+        "correct_answer": "300,000 km/s or 3×10^8 m/s"
+      }
+    },
+    {
+      "id": "fact_12",
+      "prompt": "What is the capital of Japan?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "geography",
+        "correct_answer": "Tokyo"
+      }
+    },
+    {
+      "id": "fact_13",
+      "prompt": "How many sides does a hexagon have?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "mathematics",
+        "correct_answer": "6"
+      }
+    },
+    {
+      "id": "fact_14",
+      "prompt": "What is the smallest prime number?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "mathematics",
+        "correct_answer": "2"
+      }
+    },
+    {
+      "id": "fact_15",
+      "prompt": "What gas do plants absorb from the atmosphere?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "biology",
+        "correct_answer": "Carbon dioxide (CO2)"
+      }
+    },
+    {
+      "id": "fact_16",
+      "prompt": "What is the freezing point of water in Fahrenheit?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "physics",
+        "correct_answer": "32°F"
+      }
+    },
+    {
+      "id": "fact_17",
+      "prompt": "Who painted the Mona Lisa?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "art",
+        "correct_answer": "Leonardo da Vinci"
+      }
+    },
+    {
+      "id": "fact_18",
+      "prompt": "What is the largest mammal on Earth?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "biology",
+        "correct_answer": "Blue whale"
+      }
+    },
+    {
+      "id": "fact_19",
+      "prompt": "How many hours are in a day?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "general_knowledge",
+        "correct_answer": "24"
+      }
+    },
+    {
+      "id": "fact_20",
+      "prompt": "What is the capital of the United States?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "geography",
+        "correct_answer": "Washington, D.C."
+      }
+    },
+    {
+      "id": "fact_21",
+      "prompt": "What is the atomic number of hydrogen?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "chemistry",
+        "correct_answer": "1"
+      }
+    },
+    {
+      "id": "fact_22",
+      "prompt": "How many strings does a standard guitar have?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "music",
+        "correct_answer": "6"
+      }
+    },
+    {
+      "id": "fact_23",
+      "prompt": "What is the square root of 144?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "mathematics",
+        "correct_answer": "12"
+      }
+    },
+    {
+      "id": "fact_24",
+      "prompt": "What is the currency of the United Kingdom?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "economics",
+        "correct_answer": "Pound Sterling (GBP)"
+      }
+    },
+    {
+      "id": "fact_25",
+      "prompt": "What organ pumps blood through the human body?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "biology",
+        "correct_answer": "Heart"
+      }
+    },
+    {
+      "id": "fact_26",
+      "prompt": "How many degrees are in a right angle?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "mathematics",
+        "correct_answer": "90"
+      }
+    },
+    {
+      "id": "fact_27",
+      "prompt": "What is the tallest mountain on Earth?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "geography",
+        "correct_answer": "Mount Everest"
+      }
+    },
+    {
+      "id": "fact_28",
+      "prompt": "What year did the Titanic sink?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "history",
+        "correct_answer": "1912"
+      }
+    },
+    {
+      "id": "fact_29",
+      "prompt": "What is the main language spoken in Brazil?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "language",
+        "correct_answer": "Portuguese"
+      }
+    },
+    {
+      "id": "fact_30",
+      "prompt": "How many legs does a spider have?",
+      "metadata": {
+        "difficulty": "easy",
+        "topic": "biology",
+        "correct_answer": "8"
+      }
+    }
+  ]
+}

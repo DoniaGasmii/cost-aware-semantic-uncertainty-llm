@@ -57,7 +57,7 @@ class EntropyAdaptiveBranching:
     
     def __init__(
         self,
-        model_name: str = "gpt2",
+        model_name: str = "gpt2-xl",
         device: Optional[str] = None,
         entropy_threshold: float = 0.4,
         branch_factor: int = 3,
