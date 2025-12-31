@@ -333,7 +333,7 @@ def main():
 
             try:
                 result = run_single_experiment(
-                    prompt, eab, model, tokenizer, config
+                    prompt, eab, model, tokenizer, config, target_samples
                 )
                 all_results.append(result)
 
