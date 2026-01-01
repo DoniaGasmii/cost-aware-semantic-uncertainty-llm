@@ -11,7 +11,7 @@ experiment:
 
 # Model configuration (FIXED)
 model:
-  name: "gpt2"  # Start with GPT-2 (124M) for fast debugging
+  name: "Qwen/Qwen2.5-7B-Instruct"  # Start with GPT-2 (124M) for fast debugging
   device: "cpu"  # Use "cuda" if GPU available
   dtype: "float32"
 
@@ -24,7 +24,7 @@ generation:
 
 # EAB parameters (FIXED)
 eab:
-  entropy_threshold: 0.4
+  entropy_threshold: 0.2
   branch_factor: 3
   max_paths: 20
 
