@@ -675,7 +675,107 @@ Metrics:
 
 ---
 
-## 5. Comprehensive Report Structure
+## 5. Revised Research Framework (2026-01-01)
+
+### Key Insight: Hierarchical Uncertainty Quantification
+
+After initial experimentation, we discovered that our framework provides **two-layer uncertainty quantification**:
+
+#### Layer 1: Token-Level Uncertainty (EAB Adaptive Sampling)
+- **Signal**: Number of samples produced by EAB
+- **Interpretation**:
+  - **1 sample** → Model is confident throughout generation (equivalent to Kuhn getting 30 identical samples)
+  - **5-10 samples** → Some uncertainty, moderate branching
+  - **20+ samples** → High uncertainty, extensive branching needed
+
+**Advantage over Kuhn et al.**: We don't waste computation generating duplicate samples when model is confident!
+
+#### Layer 2: Semantic-Level Uncertainty (Clustering)
+- **Input**: Whatever samples EAB produced (adaptive count)
+- **Process**: Cluster by semantic similarity
+- **Output**: Semantic entropy based on cluster distribution
+
+### Combined Uncertainty Signal
+
+```python
+# Hierarchical combination strategies
+
+# Strategy 1: Sample count as pre-filter
+if num_eab_samples == 1:
+    final_uncertainty = 0.0  # Very confident
+else:
+    final_uncertainty = semantic_entropy(samples)
+
+# Strategy 2: Weighted combination
+final_uncertainty = α * normalize(num_samples) + β * semantic_entropy
+
+# Strategy 3: Cascade decision
+if num_samples < 5:
+    uncertainty_level = "low"
+elif semantic_entropy < 0.3:
+    uncertainty_level = "medium"
+else:
+    uncertainty_level = "high"
+```
+
+### Modified Experiment Goals
+
+#### Experiment 1.A: Computational Efficiency (Modified)
+**New approach**: Use **adaptive sampling** - match Naive to EAB's actual output count
+
+**Rationale**:
+- Fair comparison: Both produce same diversity per prompt
+- Reflects EAB's design: Adapt samples to uncertainty
+- More interesting metrics:
+  - Average samples needed per condition
+  - Cost savings from adaptive sampling
+  - Sample count as uncertainty signal
+
+**Example**:
+```python
+# Run EAB first (produces adaptive count)
+eab_samples = eab.generate(prompt)  # Might produce 1, 5, or 20 samples
+n = len(eab_samples)
+
+# Match Naive to same count for fair comparison
+naive_samples = naive_generate(prompt, num_samples=n)
+
+# Compare costs
+speedup = naive_cost / eab_cost  # Both produced same diversity
+```
+
+#### Experiment 1.B: Validation of Adaptive Sampling (New Priority)
+
+**Goal**: Validate that EAB's sample count is meaningful
+
+**Sub-experiments**:
+
+1. **High Confidence Validation**:
+   - Prompts: "2+2=", "Capital of France is"
+   - **Hypothesis**: EAB produces 1 sample ≈ Naive 30 samples all identical
+   - **Validates**: Low sample count = high confidence
+
+2. **Low Confidence Validation**:
+   - Prompts: "The best language is", "In my opinion"
+   - **Hypothesis**: EAB produces many samples ≈ Naive samples cluster into many groups
+   - **Validates**: High sample count = high uncertainty
+
+3. **Calibration Comparison**:
+   - Method 1: Naive-30 + SE (Kuhn baseline)
+   - Method 2: EAB-adaptive + SE (our method)
+   - Method 3: EAB + SE + sample_count (hierarchical)
+   - **Metrics**: ECE, AUROC, average samples used
+
+### Research Contributions
+
+1. **Computational**: EAB saves cost via shared computation
+2. **Methodological**: Adaptive sampling based on uncertainty
+3. **Theoretical**: Sample count as first-layer uncertainty signal
+4. **Practical**: Hierarchical uncertainty for better calibration
+
+---
+
+## 6. Comprehensive Report Structure
 
 ### Proposed Organization
 

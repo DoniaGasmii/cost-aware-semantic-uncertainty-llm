@@ -17,7 +17,7 @@ model:
 
 # Generation parameters (FIXED)
 generation:
-  max_new_tokens: 50
+  max_new_tokens: 30  # Reduced for easier debugging and visualization
   temperature: 0.8
   top_p: 1.0
   do_sample: true
@@ -70,8 +70,10 @@ metrics:
 output:
   save_raw_results: true
   save_intermediate: true  # Save results after each prompt
+  save_generated_texts: true  # Save actual generated responses for inspection
   results_dir: "results"
   figures_dir: "results/figures"
+  texts_dir: "results/generated_texts"  # Human-readable outputs
 
 # Reproducibility
 seed: 42

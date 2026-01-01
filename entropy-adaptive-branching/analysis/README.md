@@ -23,17 +23,67 @@ analysis/
 
 ## Experiments
 
-### Experiment 1.A: Speedup vs Prompt Length
+### Experiment 1.A: Efficiency Analysis
 
-**Research Question**: Does EAB's efficiency increase with prompt length?
+**Goal**: Comprehensive evaluation of EAB's computational efficiency across different conditions
 
-**Hypothesis**: Linear or super-linear speedup growth (longer prompts = more shared computation)
+**Status**: 1/4 implemented
+
+This experiment consists of 4 sub-experiments:
+
+#### 1.A.1: Speedup vs Prompt Length ✅
+
+**Research Question**: Does EAB efficiency increase with prompt length?
+
+**Independent Variable**: Prompt length [50, 100, 200, 500 tokens]
+
+**Fixed**: Model (GPT-2), Sample count (20), Domain (Factual QA)
 
 **Status**: ✅ Implemented
 
-**Location**: `experiments/exp_1a_speedup_vs_prompt_length/`
+**Location**: [`experiments/exp_1a_1_speedup_vs_prompt_length/`](experiments/exp_1a_1_speedup_vs_prompt_length/)
 
-**See**: [exp_1a_speedup_vs_prompt_length/README.md](experiments/exp_1a_speedup_vs_prompt_length/README.md)
+---
+
+#### 1.A.2: Speedup vs Sample Count 📋
+
+**Research Question**: How does EAB efficiency scale with number of samples?
+
+**Independent Variable**: Sample count [5, 10, 20, 50]
+
+**Fixed**: Model (GPT-2), Prompt length (200), Domain (Factual QA)
+
+**Status**: 📋 Planned
+
+**Location**: [`experiments/exp_1a_2_speedup_vs_sample_count/`](experiments/exp_1a_2_speedup_vs_sample_count/)
+
+---
+
+#### 1.A.3: Speedup vs Model Size 📋
+
+**Research Question**: Does EAB provide greater speedup with larger models?
+
+**Independent Variable**: Model size [GPT-2, GPT-2-Medium, GPT-2-Large, GPT-2-XL]
+
+**Fixed**: Prompt length (200), Sample count (20), Domain (Factual QA)
+
+**Status**: 📋 Planned
+
+**Location**: [`experiments/exp_1a_3_speedup_vs_model_size/`](experiments/exp_1a_3_speedup_vs_model_size/)
+
+---
+
+#### 1.A.4: Speedup vs Domain 📋
+
+**Research Question**: Does EAB efficiency vary across different domains?
+
+**Independent Variable**: Domain [Factual QA, Creative Writing, Code Generation]
+
+**Fixed**: Model (GPT-2), Prompt length (200), Sample count (20)
+
+**Status**: 📋 Planned
+
+**Location**: [`experiments/exp_1a_4_speedup_vs_domain/`](experiments/exp_1a_4_speedup_vs_domain/)
 
 ---
 

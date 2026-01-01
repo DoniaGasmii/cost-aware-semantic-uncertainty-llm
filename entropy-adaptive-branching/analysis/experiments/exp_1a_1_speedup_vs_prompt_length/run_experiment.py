@@ -72,21 +72,25 @@ def run_eab_generation(
         temperature=config['generation']['temperature']
     )
 
-    # Record metrics
-    # Note: Actual token_steps tracking needs to be integrated into EAB core
-    # For now, we'll estimate based on the branching behavior
+    # Record metrics from EAB samples
     num_samples = len(samples)
     tracker.record_samples(num_samples)
 
-    # Estimate token steps (this should be tracked internally by EAB in production)
-    # For now, we sum up the lengths
-    total_tokens = sum(len(s['tokens']) for s in samples)
+    # Calculate total token steps from EAB samples
+    # Each sample has 'length' which is prompt + generated
+    total_tokens = sum(s.get('length', len(s['tokens'])) for s in samples)
     tracker.record_token_steps(total_tokens)
 
-    # Record branching info if available
-    if hasattr(eab, 'branch_history'):
-        for branch_pos in eab.branch_history:
-            tracker.record_branch(branch_pos)
+    # Extract branching info from samples (EAB stores it in each sample)
+    all_branch_points = set()  # Use set to avoid duplicates
+    for sample in samples:
+        branch_points = sample.get('branch_points', [])
+        all_branch_points.update(branch_points)
+
+    # Record unique branch points
+    for bp in sorted(all_branch_points):
+        tracker.record_branch(bp)
+
     tracker.record_final_paths(num_samples)
 
     # Update memory
@@ -137,20 +141,24 @@ def run_naive_generation(
                 max_new_tokens=config['generation']['max_new_tokens'],
                 temperature=config['generation']['temperature'],
                 do_sample=True,
-                top_p=config['generation']['top_p']
+                top_p=config['generation']['top_p'],
+                pad_token_id=tokenizer.eos_token_id  # Prevent warnings
             )
 
-        # Decode
-        generated_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-        generated_tokens = output_ids[0].tolist()
+        # Decode ONLY the generated part (exclude prompt)
+        generated_ids = output_ids[0][prompt_ids.shape[1]:]  # Remove prompt tokens
+        generated_text = tokenizer.decode(generated_ids, skip_special_tokens=True)
+        full_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
 
         samples.append({
-            'text': generated_text,
-            'tokens': generated_tokens
+            'text': full_text,  # Full response (prompt + generation)
+            'generated_only': generated_text,  # Only the generated part
+            'tokens': output_ids[0].tolist(),
+            'num_generated_tokens': len(generated_ids)
         })
 
-        # Track token steps: each sample processes entire sequence
-        total_length = len(generated_tokens)
+        # Track token steps: each sample processes entire sequence (prompt + generated)
+        total_length = len(output_ids[0])
         tracker.record_token_steps(total_length)
 
         # Update memory
@@ -160,6 +168,51 @@ def run_naive_generation(
     metrics = tracker.stop()
 
     return samples, metrics
+
+
+def save_generated_texts(
+    prompt_id: str,
+    prompt_text: str,
+    eab_samples: List[Dict],
+    naive_samples: List[Dict],
+    output_dir: Path
+):
+    """Save generated texts in human-readable format for inspection."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f"{prompt_id}_generations.txt"
+
+    with open(output_file, 'w') as f:
+        f.write("=" * 80 + "\n")
+        f.write(f"GENERATED RESPONSES FOR: {prompt_id}\n")
+        f.write("=" * 80 + "\n\n")
+
+        f.write("PROMPT:\n")
+        f.write("-" * 80 + "\n")
+        f.write(prompt_text + "\n")
+        f.write("-" * 80 + "\n\n")
+
+        f.write("EAB GENERATIONS:\n")
+        f.write("=" * 80 + "\n")
+        for i, sample in enumerate(eab_samples, 1):
+            f.write(f"\n[EAB Sample {i}]")
+            if 'path_id' in sample:
+                f.write(f" (path {sample['path_id']}, {sample.get('num_branches', 0)} branches)")
+            f.write("\n")
+            # EAB stores full text in 'text' field
+            text = sample.get('text', '')
+            # Remove prompt if present (EAB might include it)
+            if text.startswith(prompt_text):
+                text = text[len(prompt_text):].strip()
+            f.write(text + "\n")
+            f.write("-" * 40 + "\n")
+
+        f.write("\n" + "=" * 80 + "\n")
+        f.write("NAIVE GENERATIONS:\n")
+        f.write("=" * 80 + "\n")
+        for i, sample in enumerate(naive_samples, 1):
+            f.write(f"\n[Naive Sample {i}]\n")
+            f.write(sample.get('generated_only', sample.get('text', '')) + "\n")
+            f.write("-" * 40 + "\n")
 
 
 def run_single_experiment(
@@ -197,6 +250,7 @@ def run_single_experiment(
         prompt_text, target_samples, model, tokenizer, config, naive_tracker
     )
     print(f"      ✓ Generated {len(naive_samples)} samples")
+    print(f"      ✓ Avg generated tokens: {sum(s['num_generated_tokens'] for s in naive_samples) / len(naive_samples):.1f}")
 
     # Run EAB with same target (it will generate approximately this many)
     print(f"    Running EAB (target: {target_samples} samples)...")
@@ -210,6 +264,11 @@ def run_single_experiment(
     # Warn if EAB didn't generate exact target count
     if num_eab_samples != target_samples:
         print(f"      ⚠ EAB generated {num_eab_samples} instead of {target_samples} (±{abs(num_eab_samples - target_samples)})")
+
+    # Save generated texts if configured
+    if config['output'].get('save_generated_texts', False):
+        texts_dir = experiment_dir / config['output'].get('texts_dir', 'results/generated_texts')
+        save_generated_texts(prompt['id'], prompt_text, eab_samples, naive_samples, texts_dir)
 
     # Compute efficiency metrics
     efficiency = compute_efficiency_metrics(naive_metrics, eab_metrics)
