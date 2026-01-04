@@ -138,16 +138,16 @@ def main():
 
     print("\nInitializing EAB...")
     print("  Model: Qwen/Qwen2.5-3B-Instruct")
-    print("  Threshold: 0.4")
+    print("  Threshold: 0.2")
     print("  Branch factor: 3")
 
     try:
         eab = EntropyAdaptiveBranching(
-            model_name='Qwen/Qwen2.5-3B-Instruct',
-            entropy_threshold=0.4,
+            model_name='Qwen/Qwen2.5-7B-Instruct',
+            entropy_threshold=0.2,
             branch_factor=3,
             max_paths=20,
-            device='cpu'
+            device='cuda'
         )
         print("  ✓ EAB initialized successfully")
     except Exception as e:
@@ -182,7 +182,7 @@ def main():
     else:
         print(f"  ⚠ {total - passed} test(s) failed. Review results above.")
         print("\nPossible issues:")
-        print("  - Threshold too high (try 0.2 or 0.3)")
+        print("  - Threshold too high (try 0.1 or 0.15)")
         print("  - Temperature too low (should be >= 0.7)")
         print("  - Model is too confident (try larger model)")
 
