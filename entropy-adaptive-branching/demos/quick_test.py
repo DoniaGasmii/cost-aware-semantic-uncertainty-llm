@@ -142,12 +142,14 @@ def main():
     print("  Branch factor: 2")
 
     try:
+        import torch
         eab = EntropyAdaptiveBranching(
-            model_name='Qwen/Qwen3-4B-Instruct-2507',
+            model_name='Qwen/Qwen3-14B',
             entropy_threshold=0.2,
             branch_factor=2,
             max_paths=15,
-            device='cuda'
+            device='cuda',
+            dtype=torch.float16  # Use FP16 to reduce memory by ~50%
         )
         print("  ✓ EAB initialized successfully")
     except Exception as e:
