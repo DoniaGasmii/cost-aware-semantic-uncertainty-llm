@@ -73,7 +73,7 @@ def run_test_case(eab, test_case):
         # Generate samples
         samples = eab.generate(
             prompt=test_case['prompt'],
-            max_new_tokens=10,
+            max_new_tokens=50,  # Increased for more branching opportunities
             temperature=0.9
         )
 
@@ -137,19 +137,20 @@ def main():
     print("="*70)
 
     print("\nInitializing EAB...")
-    print("  Model: Qwen/Qwen2.5-7B-Instruct")
-    print("  Threshold: 0.2")
-    print("  Branch factor: 2")
+    print("  Model: Qwen/Qwen2.5-3B-Instruct")
+    print("  Threshold: 0.1 (lower for more branching)")
+    print("  Branch factor: 3")
+    print("  Max tokens: 50")
 
     try:
         import torch
         eab = EntropyAdaptiveBranching(
-            model_name='Qwen/Qwen3-14B',
-            entropy_threshold=0.2,
-            branch_factor=2,
-            max_paths=15,
+            model_name='Qwen/Qwen2.5-3B-Instruct',
+            entropy_threshold=0.1,  # Lower threshold for more branching
+            branch_factor=3,        # Increased from 2
+            max_paths=20,           # Increased from 15
             device='cuda',
-            dtype=torch.float16  # Use FP16 to reduce memory by ~50%
+            torch_dtype=torch.float16  # Use FP16 to reduce memory by ~50%
         )
         print("  ✓ EAB initialized successfully")
     except Exception as e:
