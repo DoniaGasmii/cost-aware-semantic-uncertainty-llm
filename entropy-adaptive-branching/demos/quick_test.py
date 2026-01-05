@@ -73,8 +73,8 @@ def run_test_case(eab, test_case):
         # Generate samples
         samples = eab.generate(
             prompt=test_case['prompt'],
-            max_new_tokens=20,
-            temperature=0.8
+            max_new_tokens=10,
+            temperature=0.9
         )
 
         # Extract metrics
@@ -137,16 +137,16 @@ def main():
     print("="*70)
 
     print("\nInitializing EAB...")
-    print("  Model: Qwen/Qwen2.5-3B-Instruct")
+    print("  Model: Qwen/Qwen2.5-7B-Instruct")
     print("  Threshold: 0.2")
-    print("  Branch factor: 3")
+    print("  Branch factor: 2")
 
     try:
         eab = EntropyAdaptiveBranching(
-            model_name='Qwen/Qwen2.5-7B-Instruct',
+            model_name='Qwen/Qwen3-4B-Instruct-2507',
             entropy_threshold=0.2,
-            branch_factor=3,
-            max_paths=20,
+            branch_factor=2,
+            max_paths=15,
             device='cuda'
         )
         print("  ✓ EAB initialized successfully")

@@ -41,8 +41,8 @@ def main():
     # Initialize
     eab = EntropyAdaptiveBranching(
         model_name="gpt2",
-        entropy_threshold=0.4,
-        branch_factor=3,
+        entropy_threshold=0.2,
+        branch_factor=2,
         max_paths=10
     )
     
