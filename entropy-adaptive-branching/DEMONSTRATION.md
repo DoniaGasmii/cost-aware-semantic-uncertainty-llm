@@ -4,7 +4,7 @@
 
 ### 1. Entropy Timeline Plot
 
-![Adaptive Budgeting Analysis](adaptive_budgeting_comparison.png)
+<img width="4764" height="3536" alt="image" src="https://github.com/user-attachments/assets/5807beb6-a369-4a1f-abe3-e42a927e1e03" />
 
 **Key Observations:**
 
