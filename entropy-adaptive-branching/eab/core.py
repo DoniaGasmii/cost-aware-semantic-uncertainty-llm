@@ -274,48 +274,61 @@ class EntropyAdaptiveBranching:
                 
                 # Compute entropy
                 normalized_entropy = compute_normalized_entropy(
-                    path_logits, 
-                    self.vocab_size, 
+                    path_logits,
+                    self.vocab_size,
                     temperature=1.0  # Already applied temperature above
                 )
-                
-                # Decide whether to branch
-                should_branch_now = (
-                    normalized_entropy >= self.entropy_threshold and
-                    len(path_manager) < self.max_paths
-                )
-                
+
+                # Decide whether to branch based on entropy only (no hard path limit)
+                should_branch_now = normalized_entropy >= self.entropy_threshold
+
+                # Adaptive branch factor: reduce branching as we approach max_paths
+                remaining_budget = self.max_paths - len(path_manager)
+                if should_branch_now:
+                    if remaining_budget >= self.branch_factor:
+                        # Plenty of budget: full branching
+                        actual_branch_factor = self.branch_factor
+                    elif remaining_budget > 0:
+                        # Limited budget: partial branching
+                        actual_branch_factor = remaining_budget
+                    else:
+                        # Over budget: minimal branching (2 paths)
+                        # Allow exploration of high-entropy positions, rely on pruning
+                        actual_branch_factor = 2
+                else:
+                    actual_branch_factor = 0  # No branching
+
                 # Track entropy
                 self.entropy_tracker.record(position, normalized_entropy, should_branch_now)
-                
-                if should_branch_now:
-                    # Branch into multiple paths
+
+                if should_branch_now and actual_branch_factor > 0:
+                    # Branch into multiple paths with adaptive factor
                     branched_paths = path_manager.branch_path(
-                        path, 
-                        self.branch_factor, 
+                        path,
+                        actual_branch_factor,
                         prompt_length + position
                     )
-                    
+
                     # Sample different tokens for each branch
                     probs = F.softmax(path_logits, dim=-1)
-                    
+
                     # Sample multiple tokens at once
-                    sampled_tokens = torch.multinomial(probs, self.branch_factor, replacement=True)
-                    
+                    sampled_tokens = torch.multinomial(probs, actual_branch_factor, replacement=True)
+
                     for branch_path, token_id in zip(branched_paths, sampled_tokens):
                         token_id = token_id.item()
                         token_log_prob = F.log_softmax(path_logits, dim=-1)[token_id].item()
-                        
+
                         branch_path.add_token(token_id, token_log_prob)
                         branch_path.cache = deep_copy_cache(path_cache)
                         new_paths.append(branch_path)
-                    
+
                 else:
                     # Continue with single path (no branching)
                     probs = F.softmax(path_logits, dim=-1)
                     token_id = torch.multinomial(probs, 1).item()
                     token_log_prob = F.log_softmax(path_logits, dim=-1)[token_id].item()
-                    
+
                     path.add_token(token_id, token_log_prob)
                     path.cache = path_cache
                     new_paths.append(path)
@@ -333,7 +346,14 @@ class EntropyAdaptiveBranching:
             # Update active paths
             path_manager.paths = new_paths
 
-            # Prune low-probability paths
+            # Adaptive pruning: if over budget, keep top-k by probability
+            if len(path_manager.paths) > self.max_paths:
+                # Sort by log probability (descending = highest probability first)
+                path_manager.paths.sort(key=lambda p: p.log_prob, reverse=True)
+                # Keep only top max_paths
+                path_manager.paths = path_manager.paths[:self.max_paths]
+
+            # Additional pruning: remove very low probability paths
             path_manager.prune_paths(min_prob_threshold)
             
             # Update progress
