@@ -144,13 +144,14 @@ class EntropyAdaptiveBranching:
         min_prob_threshold: float = 1e-6,
         return_metadata: bool = True,
         show_progress: bool = True,
-        seed: Optional[int] = None
+        seed: Optional[int] = None,
+        use_chat_template: bool = True
     ) -> List[Dict[str, Any]]:
         """
         Generate multiple samples using entropy-adaptive branching.
-        
+
         Args:
-            prompt: Input text prompt
+            prompt: Input text prompt (will be formatted as a user message if use_chat_template=True)
             max_new_tokens: Maximum number of tokens to generate
             temperature: Sampling temperature (higher = more random)
             top_k: Keep only top k tokens for sampling (None = no filtering)
@@ -159,15 +160,17 @@ class EntropyAdaptiveBranching:
             return_metadata: Whether to include path metadata in results
             show_progress: Whether to show progress bar
             seed: Random seed for reproducibility
-        
+            use_chat_template: Whether to format prompt using chat template (recommended for instruct models)
+
         Returns:
             List of dictionaries containing generated text and metadata
-        
+
         Examples:
             >>> results = eab.generate(
-            ...     "Once upon a time",
+            ...     "What is the capital of France?",
             ...     max_new_tokens=30,
-            ...     temperature=0.8
+            ...     temperature=0.8,
+            ...     use_chat_template=True  # For instruct models
             ... )
         """
         if seed is not None:
@@ -176,12 +179,26 @@ class EntropyAdaptiveBranching:
         # Reset trackers
         self.entropy_tracker.reset()
         self.cache_manager.reset_statistics()
-        
-        # Encode prompt
-        input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.device)
+
+        # Encode prompt - use chat template for instruct models
+        if use_chat_template:
+            # Format as a chat message for instruct models
+            messages = [{"role": "user", "content": prompt}]
+            formatted_prompt = self.tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True
+            )
+            input_ids = self.tokenizer.encode(formatted_prompt, return_tensors="pt").to(self.device)
+        else:
+            # Raw text encoding
+            input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.device)
+
         prompt_length = input_ids.shape[1]
-        
+
         print(f"\nPrompt: '{prompt}'")
+        if use_chat_template:
+            print(f"  (formatted with chat template)")
         print(f"Prompt length: {prompt_length} tokens")
         print(f"Generating up to {max_new_tokens} new tokens...")
         

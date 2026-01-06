@@ -146,7 +146,7 @@ def main():
         import torch
         eab = EntropyAdaptiveBranching(
             model_name='Qwen/Qwen2.5-3B-Instruct',
-            entropy_threshold=0.1,  # Lower threshold for more branching
+            entropy_threshold=0.04,  # Lower threshold for more branching
             branch_factor=3,        # Increased from 2
             max_paths=20,           # Increased from 15
             device='cuda',

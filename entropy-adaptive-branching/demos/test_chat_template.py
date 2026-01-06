@@ -20,7 +20,7 @@ def main():
     import torch
     eab = EntropyAdaptiveBranching(
         model_name='Qwen/Qwen2.5-3B-Instruct',
-        entropy_threshold=0.2,
+        entropy_threshold=0.1,
         branch_factor=2,
         max_paths=10,
         device='cuda',
@@ -28,7 +28,7 @@ def main():
     )
 
     # Test prompt
-    test_prompt = "what is the non-operative management of appendicides in children?"
+    test_prompt = "What is the best programming language?"
 
     print("\n" + "="*80)
     print("TEST 1: WITHOUT Chat Template (raw text continuation)")
@@ -36,7 +36,7 @@ def main():
 
     samples_raw = eab.generate(
         prompt=test_prompt,
-        max_new_tokens=100,
+        max_new_tokens=20,
         temperature=0.7,
         use_chat_template=False  # Disable chat template
     )
@@ -52,7 +52,7 @@ def main():
 
     samples_chat = eab.generate(
         prompt=test_prompt,
-        max_new_tokens=100,
+        max_new_tokens=20,
         temperature=0.7,
         use_chat_template=True  # Enable chat template (default)
     )
