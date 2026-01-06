@@ -370,7 +370,8 @@ def save_samples_to_file(eab_samples, file_path, prompt, naive_samples=None):
             f.write("="*70 + "\n\n")
 
             for i, sample in enumerate(naive_samples, 1):
-                text = sample.get('text', sample.get('generated_only', 'N/A'))
+                # Prioritize 'generated_only' to avoid showing full chat template
+                text = sample.get('generated_only', sample.get('text', 'N/A'))
                 num_tokens = sample.get('num_tokens', 'N/A')
 
                 f.write(f"[Naive Sample {i}] ({num_tokens} tokens)\n")

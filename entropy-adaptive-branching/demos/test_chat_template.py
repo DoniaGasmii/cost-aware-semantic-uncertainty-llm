@@ -20,7 +20,7 @@ def main():
     import torch
     eab = EntropyAdaptiveBranching(
         model_name='Qwen/Qwen2.5-3B-Instruct',
-        entropy_threshold=0.1,
+        entropy_threshold=0.02,
         branch_factor=2,
         max_paths=10,
         device='cuda',
@@ -28,7 +28,7 @@ def main():
     )
 
     # Test prompt
-    test_prompt = "What is the best programming language?"
+    test_prompt = "Could you write me a poem about forbidden love?"
 
     print("\n" + "="*80)
     print("TEST 1: WITHOUT Chat Template (raw text continuation)")

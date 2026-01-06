@@ -89,6 +89,20 @@ def get_user_input():
         model_name = 'Qwen/Qwen2.5-3B-Instruct'
         print(f"Invalid choice, using default: {model_name}")
 
+    # Check if model requires HuggingFace token (e.g., Llama models)
+    hf_token = None
+    if 'llama' in model_name.lower() or 'meta-llama' in model_name.lower():
+        print("\n⚠ This model requires a HuggingFace token (gated model).")
+        print("You need to:")
+        print("  1. Accept the license at https://huggingface.co/" + model_name)
+        print("  2. Get your token from https://huggingface.co/settings/tokens")
+        print("\nEnter your HuggingFace token (or press Enter to skip):")
+        hf_token = input("> ").strip()
+        if not hf_token:
+            print("⚠ Warning: No token provided. Model loading may fail for gated models.")
+        else:
+            print("✓ Token provided")
+
     # Get prompt
     print("\nEnter your prompt (or press Enter for default):")
     prompt = input("> ").strip()
@@ -122,11 +136,11 @@ def get_user_input():
     temperature = float(temp_str) if temp_str else 0.8
 
     # Device selection
-    print("\nDevice (cpu/cuda, default: cpu):")
+    print("\nDevice (cpu/cuda, default: cuda):")
     device_str = input("> ").strip().lower()
-    device = device_str if device_str in ['cpu', 'cuda'] else 'cpu'
+    device = device_str if device_str in ['cpu', 'cuda'] else 'cuda'
     if device == 'cuda':
-        print(f"Selected: CUDA (GPU)")
+        print(f"Selected: CUDA (GPU) with FP16 precision")
     else:
         print(f"Selected: CPU")
 
@@ -146,7 +160,8 @@ def get_user_input():
         'max_tokens': max_tokens,
         'max_paths': max_paths,
         'temperature': temperature,
-        'save_plots': save_plots
+        'save_plots': save_plots,
+        'hf_token': hf_token
     }
 
 
@@ -160,7 +175,15 @@ def run_naive_sampling(model, tokenizer, prompt, num_samples, max_tokens, temper
     total_tokens = 0
 
     samples = []
-    prompt_ids = tokenizer.encode(prompt, return_tensors='pt').to(device)
+
+    # Use chat template for fair comparison
+    messages = [{"role": "user", "content": prompt}]
+    formatted_prompt = tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True
+    )
+    prompt_ids = tokenizer.encode(formatted_prompt, return_tensors='pt').to(device)
 
     for i in range(num_samples):
         output_ids = model.generate(
@@ -289,7 +312,8 @@ def main():
     parser.add_argument('--temperature', type=float, default=0.8, help='Temperature')
     parser.add_argument('--save-plots', action='store_true', help='Save plots to disk')
     parser.add_argument('--model', type=str, default='Qwen/Qwen2.5-3B-Instruct', help='Model name (default: Qwen/Qwen2.5-3B-Instruct)')
-    parser.add_argument('--device', type=str, default='cpu', help='Device (cpu/cuda)')
+    parser.add_argument('--device', type=str, default='cuda', help='Device (cpu/cuda, default: cuda)')
+    parser.add_argument('--hf-token', type=str, default=None, help='HuggingFace token for gated models')
 
     args = parser.parse_args()
 
@@ -308,30 +332,59 @@ def main():
             'temperature': args.temperature,
             'save_plots': args.save_plots,
             'model': args.model,
-            'device': args.device
+            'device': args.device,
+            'hf_token': args.hf_token
         }
 
     print("\n[Setup] Loading model and tokenizer...")
 
     # Initialize EAB
     try:
-        eab = EntropyAdaptiveBranching(
-            model_name=params['model'],
-            entropy_threshold=params['threshold'],
-            branch_factor=params['branch_factor'],
-            max_paths=params['max_paths'],
-            device=params['device']
-        )
+        # Prepare model loading kwargs
+        model_kwargs = {
+            'model_name': params['model'],
+            'entropy_threshold': params['threshold'],
+            'branch_factor': params['branch_factor'],
+            'max_paths': params['max_paths'],
+            'device': params['device']
+        }
+
+        # Add FP16 for CUDA
+        if params['device'] == 'cuda':
+            model_kwargs['torch_dtype'] = torch.float16
+            print(f"  Using FP16 precision to reduce memory usage")
+
+        # Add HF token if provided (for gated models like Llama)
+        if params.get('hf_token'):
+            # Token will be used via huggingface_hub login
+            from huggingface_hub import login
+            login(token=params['hf_token'])
+            print(f"  ✓ Logged in to HuggingFace")
+
+        eab = EntropyAdaptiveBranching(**model_kwargs)
         print(f"  ✓ Loaded {params['model']} on {params['device']}")
     except Exception as e:
         print(f"  ✗ Error loading EAB: {e}")
+        traceback.print_exc()
         return
 
     # Also load model/tokenizer for naive comparison
     print("\n[Setup] Loading model for naive comparison...")
-    model = AutoModelForCausalLM.from_pretrained(params['model']).to(params['device'])
-    tokenizer = AutoTokenizer.from_pretrained(params['model'])
-    print(f"  ✓ Loaded model for naive sampling")
+    try:
+        load_kwargs = {}
+        if params['device'] == 'cuda':
+            load_kwargs['torch_dtype'] = torch.float16
+
+        model = AutoModelForCausalLM.from_pretrained(params['model'], **load_kwargs).to(params['device'])
+        tokenizer = AutoTokenizer.from_pretrained(params['model'])
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token
+        print(f"  ✓ Loaded model for naive sampling")
+    except Exception as e:
+        print(f"  ✗ Error loading naive model: {e}")
+        print(f"  Continuing without naive comparison...")
+        model = None
+        tokenizer = None
 
     # Run EAB generation
     print(f"\n[EAB] Generating with threshold={params['threshold']}...")
@@ -343,7 +396,8 @@ def main():
         eab_samples = eab.generate(
             prompt=params['prompt'],
             max_new_tokens=params['max_tokens'],
-            temperature=params['temperature']
+            temperature=params['temperature'],
+            use_chat_template=True  # Use chat template for coherent results
         )
     except Exception as e:
         print(f"  ✗ Error during EAB generation: {e}")
@@ -381,13 +435,18 @@ def main():
     print(f"  ✓ Time: {eab_metrics['wall_time']:.2f}s")
 
     # Run naive sampling with SAME sample count for fair comparison
-    naive_samples, naive_metrics = run_naive_sampling(
-        model, tokenizer, params['prompt'],
-        num_samples=len(eab_samples),
-        max_tokens=params['max_tokens'],
-        temperature=params['temperature'],
-        device=params['device']
-    )
+    if model is not None and tokenizer is not None:
+        naive_samples, naive_metrics = run_naive_sampling(
+            model, tokenizer, params['prompt'],
+            num_samples=len(eab_samples),
+            max_tokens=params['max_tokens'],
+            temperature=params['temperature'],
+            device=params['device']
+        )
+    else:
+        print("\n[Naive] Skipping naive comparison (model not loaded)")
+        naive_samples = []
+        naive_metrics = {'peak_memory_mb': 0, 'wall_time': 0, 'tokens_per_sec': 0}
 
     # Display results
     display_summary(eab_samples, eab_metrics, naive_samples, naive_metrics, params)
