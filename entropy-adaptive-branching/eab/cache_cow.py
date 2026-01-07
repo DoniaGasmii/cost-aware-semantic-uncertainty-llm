@@ -108,9 +108,14 @@ class CopyOnWriteCache:
         Returns:
             (key_states, value_states) combining parent and own caches
         """
-        # Get our own cache for this layer
-        own_key = self.own_cache.key_cache[layer_idx] if layer_idx < len(self.own_cache.key_cache) else None
-        own_value = self.own_cache.value_cache[layer_idx] if layer_idx < len(self.own_cache.value_cache) else None
+        # Get our own cache for this layer - check if cache has data first
+        own_key = None
+        own_value = None
+        if hasattr(self.own_cache, 'key_cache') and hasattr(self.own_cache, 'value_cache'):
+            if layer_idx < len(self.own_cache.key_cache):
+                own_key = self.own_cache.key_cache[layer_idx]
+            if layer_idx < len(self.own_cache.value_cache):
+                own_value = self.own_cache.value_cache[layer_idx]
 
         # If no parent, return just our own
         if self.parent is None:
@@ -160,10 +165,19 @@ class CopyOnWriteCache:
         Returns:
             Tuple of (key_states, value_states) per layer
         """
-        # Get number of layers
-        num_layers = len(self.own_cache.key_cache)
+        # Get number of layers - check if cache has the attributes first
+        num_layers = 0
+        if hasattr(self.own_cache, 'key_cache') and self.own_cache.key_cache:
+            num_layers = len(self.own_cache.key_cache)
+
         if self.parent is not None:
-            num_layers = max(num_layers, len(self.parent.own_cache.key_cache))
+            parent_layers = 0
+            if hasattr(self.parent.own_cache, 'key_cache') and self.parent.own_cache.key_cache:
+                parent_layers = len(self.parent.own_cache.key_cache)
+            num_layers = max(num_layers, parent_layers)
+
+        if num_layers == 0:
+            return None
 
         legacy_cache = []
         for layer_idx in range(num_layers):
@@ -194,10 +208,12 @@ class CopyOnWriteCache:
             Dictionary with memory usage info
         """
         own_memory = 0
-        for key_cache in self.own_cache.key_cache:
-            own_memory += key_cache.element_size() * key_cache.nelement()
-        for value_cache in self.own_cache.value_cache:
-            own_memory += value_cache.element_size() * value_cache.nelement()
+        if hasattr(self.own_cache, 'key_cache') and self.own_cache.key_cache:
+            for key_cache in self.own_cache.key_cache:
+                own_memory += key_cache.element_size() * key_cache.nelement()
+        if hasattr(self.own_cache, 'value_cache') and self.own_cache.value_cache:
+            for value_cache in self.own_cache.value_cache:
+                own_memory += value_cache.element_size() * value_cache.nelement()
 
         parent_memory = 0
         if self.parent is not None:

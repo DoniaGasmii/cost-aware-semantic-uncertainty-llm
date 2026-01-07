@@ -271,14 +271,25 @@ class EntropyAdaptiveBranching:
                         )
                     path_logits = path_outputs.logits[0, -1, :]
 
-                    # Update the COW cache with new KV states
+                    # Update the COW cache with new KV states from returned cache
                     new_kv = path_outputs.past_key_values
-                    if isinstance(new_kv, DynamicCache):
-                        # Extract only the new token's KV (last position)
-                        for layer_idx in range(len(new_kv.key_cache)):
-                            key = new_kv.key_cache[layer_idx][:, :, -1:, :]
-                            value = new_kv.value_cache[layer_idx][:, :, -1:, :]
-                            path.cache.update(key, value, layer_idx)
+                    if new_kv is not None:
+                        # Convert returned cache to legacy format to extract the last token
+                        if isinstance(new_kv, DynamicCache):
+                            new_kv_legacy = new_kv.to_legacy_cache()
+                        elif isinstance(new_kv, tuple):
+                            new_kv_legacy = new_kv
+                        else:
+                            new_kv_legacy = None
+
+                        if new_kv_legacy is not None:
+                            # Extract only the last position (new token's KV) from each layer
+                            for layer_idx, (key_full, value_full) in enumerate(new_kv_legacy):
+                                # Get only the new token (last position)
+                                key_new = key_full[:, :, -1:, :]
+                                value_new = value_full[:, :, -1:, :]
+                                path.cache.update(key_new, value_new, layer_idx)
+
                     path_cache = path.cache
                 
                 # Apply temperature
@@ -348,7 +359,8 @@ class EntropyAdaptiveBranching:
                         token_log_prob = F.log_softmax(path_logits, dim=-1)[token_id].item()
 
                         branch_path.add_token(token_id, token_log_prob)
-                        branch_path.cache = deep_copy_cache(path_cache)
+                        # Use COW cache branching - creates a new branch that shares parent cache
+                        branch_path.cache = path_cache.branch()
                         new_paths.append(branch_path)
 
                 else:

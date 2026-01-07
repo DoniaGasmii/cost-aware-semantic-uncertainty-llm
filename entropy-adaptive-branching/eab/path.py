@@ -40,16 +40,27 @@ class GenerationPath:
         
         Args:
             new_path_id: ID to assign to the new path
-            
+
         Returns:
             New GenerationPath instance with copied state
         """
         from .cache import deep_copy_cache
-        
+        from .cache_cow import CopyOnWriteCache
+
+        # Handle different cache types
+        copied_cache = None
+        if self.cache is not None:
+            if isinstance(self.cache, CopyOnWriteCache):
+                # Use COW branching for COW caches
+                copied_cache = self.cache.branch()
+            else:
+                # Use deep copy for regular caches
+                copied_cache = deep_copy_cache(self.cache)
+
         return GenerationPath(
             tokens=self.tokens.copy(),
             log_prob=self.log_prob,
-            cache=deep_copy_cache(self.cache) if self.cache is not None else None,
+            cache=copied_cache,
             branch_points=self.branch_points.copy(),
             parent_id=self.path_id,
             path_id=new_path_id
