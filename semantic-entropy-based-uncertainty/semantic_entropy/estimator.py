@@ -20,22 +20,34 @@ class SemanticUncertaintyEstimator:
     Estimates semantic uncertainty in text generations by clustering
     semantically similar outputs and computing entropy over clusters.
     """
-    
+
+    # Supported embedder shortcuts
+    SUPPORTED_MODELS = {
+        'mpnet': 'all-mpnet-base-v2',
+        'sentence-t5': 'sentence-transformers/sentence-t5-xxl',
+        'minilm': 'all-MiniLM-L6-v2',
+    }
+
     def __init__(
         self,
-        encoder_model: str = "all-mpnet-base-v2",
+        encoder_model: str = "sentence-t5",
         distance_threshold: float = 0.15,
         linkage: str = "average",
         use_weighted_probs: bool = False,
-        device: Optional[str] = None
+        device: Optional[str] = None,
+        cache_dir: Optional[str] = None,
+        batch_size: int = 32
     ):
         """
         Initialize the semantic uncertainty estimator.
-        
+
         Args:
-            encoder_model: Sentence transformer model name
-                          - 'all-mpnet-base-v2': Best quality (768-dim)
-                          - 'all-MiniLM-L6-v2': Faster, smaller (384-dim)
+            encoder_model: Sentence transformer model name or shorthand
+                          Shortcuts:
+                          - 'sentence-t5': sentence-t5-xxl (768-dim, best quality, slower)
+                          - 'mpnet': all-mpnet-base-v2 (768-dim, good quality, faster)
+                          - 'minilm': all-MiniLM-L6-v2 (384-dim, fastest, lower quality)
+                          Or provide full model name from sentence-transformers
             distance_threshold: Clustering distance threshold
                                (1 - cosine_similarity threshold)
                                e.g., 0.15 means merge if similarity > 0.85
@@ -44,12 +56,26 @@ class SemanticUncertaintyEstimator:
             use_weighted_probs: If True and log_probs provided, weight clusters
                                by sample probabilities instead of counts
             device: Device for encoder ('cpu', 'cuda', or None for auto)
+            cache_dir: Directory to cache downloaded models (default: './models/cache')
+            batch_size: Batch size for encoding (default: 32)
         """
-        self.encoder_model_name = encoder_model
+        # Resolve model name from shortcuts
+        if encoder_model in self.SUPPORTED_MODELS:
+            model_name = self.SUPPORTED_MODELS[encoder_model]
+        else:
+            model_name = encoder_model
+
+        self.encoder_model_name = model_name
         self.use_weighted_probs = use_weighted_probs
-        
-        # Initialize encoder
-        self.encoder = SentenceTransformer(encoder_model, device=device)
+        self.batch_size = batch_size
+
+        # Initialize encoder with caching
+        cache_folder = cache_dir or "./models/cache"
+        self.encoder = SentenceTransformer(
+            model_name,
+            device=device,
+            cache_folder=cache_folder
+        )
         
         # Initialize clusterer
         self.clusterer = SemanticClusterer(
@@ -58,22 +84,27 @@ class SemanticUncertaintyEstimator:
             metric="cosine"
         )
     
-    def encode(self, texts: List[str], batch_size: int = 32) -> np.ndarray:
+    def encode(self, texts: List[str], batch_size: Optional[int] = None, show_progress: bool = False) -> np.ndarray:
         """
         Encode texts into semantic embeddings.
-        
+
         Args:
             texts: List of text strings to encode
-            batch_size: Batch size for encoding
-            
+            batch_size: Batch size for encoding (uses constructor default if None)
+            show_progress: Whether to show progress bar during encoding
+
         Returns:
             Array of embeddings, shape (len(texts), embedding_dim)
         """
+        if batch_size is None:
+            batch_size = self.batch_size
+
         embeddings = self.encoder.encode(
             texts,
             batch_size=batch_size,
             convert_to_numpy=True,
-            show_progress_bar=False
+            show_progress_bar=show_progress,
+            normalize_embeddings=True  # Important for cosine similarity
         )
         return embeddings
     

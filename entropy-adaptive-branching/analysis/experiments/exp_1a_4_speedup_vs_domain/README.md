@@ -1,6 +1,6 @@
 # Experiment 1.A.4: Speedup vs Domain
 
-**Status**: 📋 Planned (not yet implemented)
+**Status**: ✅ Ready to Run (scripts created)
 
 **Parent**: Experiment 1.A - Efficiency Analysis (4 of 4)
 
@@ -20,13 +20,13 @@
 
 | Parameter | Value | Reason |
 |-----------|-------|--------|
-| Model | GPT-2 (124M) | Consistent with other exp_1a |
-| Prompt length | 200 tokens | Fixed, mid-range |
-| Sample count | 20 | Fixed for fair comparison |
+| Model | Qwen2.5-3B-Instruct | Consistent with other exp_1a |
+| Prompt length | ~200 tokens | Fixed, mid-range (approximately) |
 | Temperature | 0.8 | Standard for diverse sampling |
-| Max new tokens | 50 | Keeps experiments fast |
-| EAB threshold | 0.4 | Balanced branching |
+| Max new tokens | 30 | Keeps experiments fast |
+| EAB threshold | 0.055 | Tuned for Qwen models |
 | EAB branch factor | 3 | Standard branching |
+| EAB max paths | 20 | Control branching explosion |
 
 ### Independent Variable
 
@@ -67,28 +67,48 @@ Same as exp_1a_1, with special emphasis on:
 
 ---
 
+## Fair Comparison Protocol
+
+Following the same protocol as exp_1a_1:
+
+1. **Run EAB first** with its natural behavior → generates N samples (varies by prompt)
+2. **Run Naive N times** → match EAB's sample count
+3. **Compare costs** fairly (same number of samples)
+
 ## Implementation Notes
 
 - **Domain-specific prompts**:
-  - Factual QA: Use TriviaQA or similar
-  - Creative: Writing prompts from Reddit WritingPrompts
-  - Code: Use HumanEval or LeetCode problem statements
+  - Factual QA: TriviaQA-style questions or knowledge queries
+  - Creative: Story writing prompts or creative scenarios
+  - Code: Programming tasks or algorithm challenges
 - **Prompt length control**: All prompts ~200 tokens (may need padding/truncation)
-- **Fair comparison**: Same sample count (N=20) across all domains
+- **Fair comparison**: EAB determines sample count, Naive matches it
 - **Branching analysis**: Track where and how often EAB branches in each domain
+- **Entropy tracking**: Measure average entropy per domain to validate hypothesis
 
 ---
 
-## Files (To Be Created)
+## Files
 
-- `config.yaml`: Configuration with domain specifications
-- `prompts/generate_prompts.py`: Generate domain-specific prompts
-  - `prompts/factual_qa/`: 10 factual QA prompts
-  - `prompts/creative/`: 10 creative writing prompts
-  - `prompts/code/`: 10 code generation prompts
-- `run_experiment.py`: Main runner
-- `analyze_results.py`: Statistical analysis + domain comparison
-- `plot_results.py`: Generate figures (grouped by domain)
+- ✅ `config.yaml`: Configuration with domain specifications
+- ✅ `run_experiment.py`: Main runner with domain-specific logic
+- ⏳ `prompts/generate_prompts.py`: Generate domain-specific prompts
+  - `prompts/factual_qa_prompts.json`: 10 factual QA prompts
+  - `prompts/creative_prompts.json`: 10 creative writing prompts
+  - `prompts/code_prompts.json`: 10 code generation prompts
+- ⏳ `analyze_results.py`: Statistical analysis + domain comparison (adapt from exp_1a_1)
+- ⏳ `plot_results.py`: Generate figures grouped by domain (adapt from exp_1a_1)
+
+## Running the Experiment
+
+```bash
+# Debug mode (2 domains × 2 prompts = 4 runs)
+python run_experiment.py
+
+# Full experiment (3 domains × 10 prompts = 30 runs)
+# Edit config.yaml: set debug.enabled = false
+python run_experiment.py
+```
 
 ---
 
@@ -98,9 +118,5 @@ Same as exp_1a_1, with special emphasis on:
 1. **Correlation analysis**: Entropy vs speedup (should be positive)
 2. **Branching position analysis**: Where does branching occur in each domain?
 3. **Quality check**: Do samples maintain domain-appropriate quality?
-
----
-
-*To implement: Adapt code from exp_1a_1, changing independent variable from prompt_length to domain*
 
 **Note**: This experiment provides practical insights into when EAB is most beneficial in real-world applications.

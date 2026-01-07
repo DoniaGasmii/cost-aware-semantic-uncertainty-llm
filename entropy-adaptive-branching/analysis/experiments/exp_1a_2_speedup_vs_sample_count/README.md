@@ -1,6 +1,6 @@
 # Experiment 1.A.2: Speedup vs Sample Count
 
-**Status**: 📋 Planned (not yet implemented)
+**Status**: ✅ Ready to Run (scripts created)
 
 **Parent**: Experiment 1.A - Efficiency Analysis (2 of 4)
 
@@ -20,13 +20,13 @@
 
 | Parameter | Value | Reason |
 |-----------|-------|--------|
-| Model | GPT-2 (124M) | Consistent with exp_1a_1 |
+| Model | Qwen2.5-3B-Instruct | Consistent with exp_1a_1 |
 | Prompt length | 200 tokens | Fixed, mid-range length |
 | Temperature | 0.8 | Standard for diverse sampling |
-| Max new tokens | 50 | Keeps experiments fast |
-| EAB threshold | 0.4 | Balanced branching |
+| Max new tokens | 30 | Keeps experiments fast |
+| EAB threshold | 0.055 | Tuned for Qwen models |
 | EAB branch factor | 3 | Standard branching |
-| Domain | Factual QA | Consistent behavior |
+| Domain | General prompts | Consistent behavior |
 
 ### Independent Variable
 
@@ -60,22 +60,38 @@ Same as exp_1a_1:
 
 ---
 
+## Fair Comparison Protocol
+
+Following the same protocol as exp_1a_1:
+
+1. **Run EAB first** with its natural behavior → generates N samples (varies by prompt)
+2. **Run Naive N times** → match EAB's sample count
+3. **Compare costs** fairly (same number of samples)
+
 ## Implementation Notes
 
-- **Fair comparison**: Both EAB and Naive generate exactly N samples
-- **Same prompts**: Use same 10 prompts (200 tokens) for all sample counts
+- **Sample count control**: Varies `max_paths` [5, 10, 20, 50] to encourage different sample counts
+- **Same prompts**: Use same 10 prompts (200 tokens) for all max_paths settings
 - **Reuse utilities**: Use same metrics, plotting, and analysis code from exp_1a_1
+- **Natural behavior**: EAB determines actual sample count based on entropy and branching
 
 ---
 
-## Files (To Be Created)
+## Files
 
-- `config.yaml`: Configuration with sample counts
-- `prompts/generate_prompts.py`: Generate 200-token prompts
-- `run_experiment.py`: Main runner
-- `analyze_results.py`: Statistical analysis
-- `plot_results.py`: Generate figures
+- ✅ `config.yaml`: Configuration with sample count targets (via max_paths)
+- ✅ `run_experiment.py`: Main runner with max_paths variation
+- ⏳ `prompts/generate_prompts.py`: Generate 200-token prompts
+- ⏳ `analyze_results.py`: Statistical analysis (adapt from exp_1a_1)
+- ⏳ `plot_results.py`: Generate figures (adapt from exp_1a_1)
 
----
+## Running the Experiment
 
-*To implement: Adapt code from exp_1a_1, changing the independent variable from prompt_length to sample_count*
+```bash
+# Debug mode (2 sample counts × 2 prompts = 4 runs)
+python run_experiment.py
+
+# Full experiment (4 sample counts × 10 prompts = 40 runs)
+# Edit config.yaml: set debug.enabled = false
+python run_experiment.py
+```
