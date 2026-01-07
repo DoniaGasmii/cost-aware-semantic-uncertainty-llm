@@ -1,0 +1,35 @@
+{
+  "prompt": "Explain quantum computing",
+  "timestamp": "2026-01-07T23:39:44.874142",
+  "embedder": "sentence-transformers/sentence-t5-xxl",
+  "threshold": 0.15,
+  "entropy": -0.0,
+  "normalized_entropy": 0.0,
+  "uncertainty_score": 0.0,
+  "n_clusters": 1,
+  "cluster_probs": [
+    1.0
+  ],
+  "samples": [
+    "Quantum computing is a revolutionary approach to computing that leverages the principles of quantum mechanics to process information in fundamentally different ways than classical computers. Here\u2019s an overview of the key concepts and components of quantum computing:\n\n### 1. Quantum Bits (Q",
+    "Quantum computing is an advanced form of computing that leverages the principles of quantum mechanics to process information in fundamentally new ways compared to classical computing. Here\u2019s a breakdown of key concepts and ideas:\n\n### 1. **Classical Bits vs. Quantum",
+    "Quantum computing is an advanced field of computing that leverages the principles of quantum mechanics to process information in fundamentally different ways from classical computing. Here\u2019s a detailed explanation:\n\n### 1. **Classical Bits vs. Quantum Bits (Qubits)",
+    "Quantum computing is an emerging technology that leverages the principles of quantum mechanics to process information in fundamentally new ways compared to classical computers. Here are some key concepts and aspects of quantum computing:\n\n### 1. Quantum Bits (Qubits)\nUnlike classical",
+    "Quantum computing is a type of computing that uses the principles of quantum mechanics to process information and perform operations. Unlike classical computers that use bits (which are represented as either 0 or 1), quantum computers use quantum bits, or qubits.",
+    "Quantum computing is a type of computing that uses the principles of quantum mechanics to perform operations on data. Unlike classical computers that use bits (which can be in one of two states: 0 or 1), quantum computers use quantum bits, or",
+    "Quantum computing is a type of computing that utilizes the principles of quantum mechanics to process and store information. Unlike classical computers that use bits (0s and 1s) as the smallest units of data, quantum computers use quantum bits, or q",
+    "Quantum computing is an advanced form of computing that leverages the principles of quantum mechanics to process and store data in fundamentally different ways than classical computers. Here\u2019s an overview of quantum computing:\n\n### Basics of Quantum Mechanics\nQuantum mechanics describes how atoms",
+    "Quantum computing is an advanced computing concept that leverages the principles of quantum mechanics to process information in fundamentally different ways compared to classical computers. Here's a breakdown of key concepts:\n\n### 1. Quantum Bits (Qubits)\nUnlike classical bits,",
+    "Quantum computing is an advanced form of computing that leverages the principles of quantum mechanics to process information in fundamentally different ways compared to classical computers. Here\u2019s an overview of the key concepts and aspects of quantum computing:\n\n### 1. **Classical",
+    "Quantum computing is an advanced form of computing that leverages the principles of quantum mechanics to process information. Traditional computers use bits as the smallest unit of data, which can be either 0 or 1. Quantum computers, on the other hand,",
+    "Quantum computing is a rapidly advancing field that leverages the principles of quantum mechanics to process information in fundamentally different ways from classical computers. At its core, quantum computing utilizes quantum bits, or qubits, which can exist in multiple states simultaneously due to",
+    "Quantum computing is an advanced computing paradigm that leverages the principles of quantum mechanics to process information in fundamentally different ways than classical computing. Here\u2019s an explanation of quantum computing:\n\n### Basic Principles\n\n1. **Quantum Bits (Qubits)**:",
+    "Quantum computing is an emerging technology that leverages the principles of quantum mechanics to process information in fundamentally different ways than classical computers. At its core, it uses quantum bits, or qubits, which can exist in multiple states simultaneously due to superposition",
+    "Quantum computing is an advanced computing concept that leverages the principles of quantum mechanics to process information in fundamentally different ways compared to classical computing. Here\u2019s a detailed explanation:\n\n### 1. **Classical Bits vs Quantum Bits (Qubits)**",
+    "Quantum computing is an emerging technology that leverages the principles of quantum mechanics to process information in fundamentally different ways from classical computers. Here's a comprehensive overview:\n\n### Fundamentals of Quantum Mechanics\n\nQuantum mechanics is a branch of physics that describes the",
+    "Quantum computing is an advanced form of computing that leverages the principles of quantum mechanics to process information in fundamentally different ways compared to classical computers. Here's an overview of key concepts and how it works:\n\n### 1. **Classical Bits vs",
+    "Quantum computing is a rapidly evolving field that leverages the principles of quantum mechanics to process information fundamentally differently from classical computing. Here's an explanation of the key concepts and principles behind quantum computing:\n\n### 1. **Classical Bits vs. Quantum",
+    "Quantum computing is an emerging technology that leverages the principles of quantum mechanics to process information in fundamentally different ways from classical computing. Here\u2019s a breakdown of key concepts and how it works:\n\n### 1. Classical Bits vs Quantum Bits (Qubits",
+    "Quantum computing is a rapidly advancing field of computer science that leverages the principles of quantum mechanics to process information in fundamentally new ways compared to classical computers. Here's an overview of quantum computing:\n\n### Basics of Quantum Mechanics\n\nBefore diving into quantum computing"
+  ]
+}
