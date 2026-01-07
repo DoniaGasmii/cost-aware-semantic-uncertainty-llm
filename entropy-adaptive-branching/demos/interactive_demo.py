@@ -43,7 +43,8 @@ from utils import (
 )
 
 try:
-    from eab import EntropyAdaptiveBranching
+    from eab.core import EntropyAdaptiveBranching as EAB_Original
+    from eab.core_cow import EntropyAdaptiveBranching as EAB_COW
 except ImportError:
     print("Error: Could not import EntropyAdaptiveBranching")
     print("Make sure you're running from the demos/ directory")
@@ -149,6 +150,12 @@ def get_user_input():
     save_str = input("> ").strip().lower()
     save_plots = save_str != 'n'
 
+    # COW cache?
+    print("\nUse Copy-on-Write cache for memory efficiency? (y/n, default: y):")
+    print("  (COW cache reduces memory usage by 60-70% during branching)")
+    cow_str = input("> ").strip().lower()
+    use_cow = cow_str != 'n'
+
     print("\n" + "-"*60)
 
     return {
@@ -161,7 +168,8 @@ def get_user_input():
         'max_paths': max_paths,
         'temperature': temperature,
         'save_plots': save_plots,
-        'hf_token': hf_token
+        'hf_token': hf_token,
+        'use_cow': use_cow
     }
 
 
@@ -236,6 +244,7 @@ def display_summary(eab_samples, eab_metrics, naive_samples, naive_metrics, para
     print(f"Threshold: {params['threshold']}")
     print(f"Branch Factor: {params['branch_factor']}")
     print(f"Max Tokens: {params['max_tokens']}")
+    print(f"Implementation: {'COW (Copy-on-Write)' if params.get('use_cow', True) else 'Original (Deep Copy)'}")
 
     print(f"\n--- EAB Results ---")
     print(f"Samples generated: {len(eab_samples)}")
@@ -314,6 +323,8 @@ def main():
     parser.add_argument('--model', type=str, default='Qwen/Qwen2.5-3B-Instruct', help='Model name (default: Qwen/Qwen2.5-3B-Instruct)')
     parser.add_argument('--device', type=str, default='cuda', help='Device (cpu/cuda, default: cuda)')
     parser.add_argument('--hf-token', type=str, default=None, help='HuggingFace token for gated models')
+    parser.add_argument('--use-cow', action='store_true', default=True, help='Use Copy-on-Write cache for memory efficiency (default: True)')
+    parser.add_argument('--no-cow', dest='use_cow', action='store_false', help='Disable COW cache (use original deep copy)')
 
     args = parser.parse_args()
 
@@ -333,10 +344,21 @@ def main():
             'save_plots': args.save_plots,
             'model': args.model,
             'device': args.device,
-            'hf_token': args.hf_token
+            'hf_token': args.hf_token,
+            'use_cow': args.use_cow
         }
 
     print("\n[Setup] Loading model and tokenizer...")
+
+    # Select implementation based on use_cow flag
+    if params.get('use_cow', True):
+        EntropyAdaptiveBranching = EAB_COW
+        impl_name = "COW (Copy-on-Write cache)"
+        print(f"  Using COW implementation for memory efficiency")
+    else:
+        EntropyAdaptiveBranching = EAB_Original
+        impl_name = "Original (deep copy cache)"
+        print(f"  Using original implementation")
 
     # Initialize EAB
     try:
@@ -362,7 +384,7 @@ def main():
             print(f"  ✓ Logged in to HuggingFace")
 
         eab = EntropyAdaptiveBranching(**model_kwargs)
-        print(f"  ✓ Loaded {params['model']} on {params['device']}")
+        print(f"  ✓ Loaded {params['model']} ({impl_name}) on {params['device']}")
     except Exception as e:
         print(f"  ✗ Error loading EAB: {e}")
         traceback.print_exc()
