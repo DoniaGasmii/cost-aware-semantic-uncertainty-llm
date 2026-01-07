@@ -211,15 +211,14 @@ class EntropyAdaptiveBranching:
 
             # Wrap in Copy-on-Write cache for efficient branching
             if past_key_values is not None:
-                if isinstance(past_key_values, tuple):
+                if isinstance(past_key_values, DynamicCache):
+                    # Use DynamicCache directly (most efficient)
+                    cow_cache = CopyOnWriteCache.from_dynamic_cache(past_key_values, device=self.device)
+                elif isinstance(past_key_values, tuple):
+                    # Convert legacy tuple cache
                     cow_cache = CopyOnWriteCache.from_legacy_cache(past_key_values, device=self.device)
-                elif isinstance(past_key_values, DynamicCache):
-                    # Convert DynamicCache to legacy, then to COW
-                    cow_cache = CopyOnWriteCache.from_legacy_cache(
-                        past_key_values.to_legacy_cache(),
-                        device=self.device
-                    )
                 else:
+                    # Try to convert whatever format we got
                     cow_cache = CopyOnWriteCache.from_legacy_cache(past_key_values, device=self.device)
             else:
                 cow_cache = CopyOnWriteCache(device=self.device)
@@ -351,8 +350,8 @@ class EntropyAdaptiveBranching:
                     # Sample different tokens for each branch
                     probs = F.softmax(path_logits, dim=-1)
 
-                    # Sample multiple tokens at once
-                    sampled_tokens = torch.multinomial(probs, actual_branch_factor, replacement=True)
+                    # Sample multiple DIFFERENT tokens at once (replacement=False ensures diversity)
+                    sampled_tokens = torch.multinomial(probs, actual_branch_factor, replacement=False)
 
                     for branch_path, token_id in zip(branched_paths, sampled_tokens):
                         token_id = token_id.item()

@@ -72,6 +72,27 @@ class CopyOnWriteCache:
 
         return cow_cache
 
+    @classmethod
+    def from_dynamic_cache(cls, cache: DynamicCache, device: str = 'cuda') -> 'CopyOnWriteCache':
+        """
+        Create COW cache directly from DynamicCache (more efficient).
+
+        Args:
+            cache: DynamicCache object
+            device: Device for cache tensors
+
+        Returns:
+            CopyOnWriteCache initialized with the cache data
+        """
+        cow_cache = cls(device=device)
+
+        if cache is not None:
+            # Use the DynamicCache directly (no conversion needed)
+            cow_cache.own_cache = cache
+            cow_cache._length = cache.get_seq_length()
+
+        return cow_cache
+
     def update(
         self,
         key_states: torch.Tensor,
@@ -108,14 +129,18 @@ class CopyOnWriteCache:
         Returns:
             (key_states, value_states) combining parent and own caches
         """
-        # Get our own cache for this layer - check if cache has data first
+        # Get our own cache for this layer - handle both DynamicCache and legacy formats
         own_key = None
         own_value = None
-        if hasattr(self.own_cache, 'key_cache') and hasattr(self.own_cache, 'value_cache'):
-            if layer_idx < len(self.own_cache.key_cache):
-                own_key = self.own_cache.key_cache[layer_idx]
-            if layer_idx < len(self.own_cache.value_cache):
-                own_value = self.own_cache.value_cache[layer_idx]
+
+        # Try to access cache (DynamicCache is iterable, returns tuples of (key, value))
+        try:
+            if hasattr(self.own_cache, '__len__') and layer_idx < len(self.own_cache):
+                own_layer = self.own_cache[layer_idx]
+                if isinstance(own_layer, tuple) and len(own_layer) == 2:
+                    own_key, own_value = own_layer
+        except (IndexError, TypeError):
+            pass
 
         # If no parent, return just our own
         if self.parent is None:
@@ -165,15 +190,15 @@ class CopyOnWriteCache:
         Returns:
             Tuple of (key_states, value_states) per layer
         """
-        # Get number of layers - check if cache has the attributes first
+        # Get number of layers - check if cache has data
         num_layers = 0
-        if hasattr(self.own_cache, 'key_cache') and self.own_cache.key_cache:
-            num_layers = len(self.own_cache.key_cache)
+        if hasattr(self.own_cache, '__len__'):
+            num_layers = len(self.own_cache)
 
         if self.parent is not None:
             parent_layers = 0
-            if hasattr(self.parent.own_cache, 'key_cache') and self.parent.own_cache.key_cache:
-                parent_layers = len(self.parent.own_cache.key_cache)
+            if hasattr(self.parent.own_cache, '__len__'):
+                parent_layers = len(self.parent.own_cache)
             num_layers = max(num_layers, parent_layers)
 
         if num_layers == 0:
@@ -208,12 +233,15 @@ class CopyOnWriteCache:
             Dictionary with memory usage info
         """
         own_memory = 0
-        if hasattr(self.own_cache, 'key_cache') and self.own_cache.key_cache:
-            for key_cache in self.own_cache.key_cache:
-                own_memory += key_cache.element_size() * key_cache.nelement()
-        if hasattr(self.own_cache, 'value_cache') and self.own_cache.value_cache:
-            for value_cache in self.own_cache.value_cache:
-                own_memory += value_cache.element_size() * value_cache.nelement()
+        # Iterate through cache layers (works for both DynamicCache and legacy)
+        if hasattr(self.own_cache, '__len__'):
+            for layer_data in self.own_cache:
+                if isinstance(layer_data, tuple) and len(layer_data) == 2:
+                    key, value = layer_data
+                    if key is not None:
+                        own_memory += key.element_size() * key.nelement()
+                    if value is not None:
+                        own_memory += value.element_size() * value.nelement()
 
         parent_memory = 0
         if self.parent is not None:

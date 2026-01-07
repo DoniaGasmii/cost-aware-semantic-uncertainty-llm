@@ -54,9 +54,15 @@ def debug_cow_generation():
     print(f"Initial past_key_values type: {type(past_key_values)}")
 
     # Wrap in COW cache
-    if isinstance(past_key_values, tuple):
+    from transformers import DynamicCache as DC
+    if isinstance(past_key_values, DC):
+        print(f"Using from_dynamic_cache")
+        cow_cache = CopyOnWriteCache.from_dynamic_cache(past_key_values, device=eab.device)
+    elif isinstance(past_key_values, tuple):
+        print(f"Using from_legacy_cache (tuple)")
         cow_cache = CopyOnWriteCache.from_legacy_cache(past_key_values, device=eab.device)
     else:
+        print(f"Converting to legacy then using from_legacy_cache")
         cow_cache = CopyOnWriteCache.from_legacy_cache(
             past_key_values.to_legacy_cache(),
             device=eab.device
@@ -64,7 +70,13 @@ def debug_cow_generation():
 
     print(f"\nCOW cache created:")
     print(f"  Sequence length: {cow_cache.get_seq_length()}")
-    print(f"  Own cache layers: {len(cow_cache.own_cache.key_cache) if hasattr(cow_cache.own_cache, 'key_cache') else 0}")
+    print(f"  Own cache type: {type(cow_cache.own_cache)}")
+    if hasattr(cow_cache.own_cache, 'key_cache'):
+        print(f"  Own cache layers: {len(cow_cache.own_cache.key_cache)}")
+        if len(cow_cache.own_cache.key_cache) > 0:
+            print(f"  First layer key shape: {cow_cache.own_cache.key_cache[0].shape}")
+    else:
+        print(f"  Own cache has no key_cache attribute")
 
     # Test token generation
     print(f"\n{'='*80}")

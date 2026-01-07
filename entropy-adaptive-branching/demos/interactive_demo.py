@@ -112,9 +112,9 @@ def get_user_input():
         print(f"Using default: '{prompt}'")
 
     # Get threshold
-    print("\nEntropy threshold (0.0-1.0, default: 0.4):")
+    print("\nEntropy threshold (0.0-1.0, default: 0.055):")
     threshold_str = input("> ").strip()
-    threshold = float(threshold_str) if threshold_str else 0.4
+    threshold = float(threshold_str) if threshold_str else 0.055
 
     # Get branch factor
     print("\nBranch factor (how many paths to create, default: 3):")
@@ -177,8 +177,14 @@ def run_naive_sampling(model, tokenizer, prompt, num_samples, max_tokens, temper
     """Run naive sampling for comparison."""
     print(f"\n[Naive] Generating {num_samples} samples independently...")
 
-    # Start tracking
-    tracemalloc.start()
+    # Start tracking - use GPU memory if CUDA, otherwise Python memory
+    if device == 'cuda':
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
+        mem_before = torch.cuda.memory_allocated()
+    else:
+        tracemalloc.start()
+
     start_time = time.time()
     total_tokens = 0
 
@@ -217,8 +223,14 @@ def run_naive_sampling(model, tokenizer, prompt, num_samples, max_tokens, temper
 
     # Stop tracking
     end_time = time.time()
-    current, peak = tracemalloc.get_traced_memory()
-    tracemalloc.stop()
+
+    if device == 'cuda':
+        mem_after = torch.cuda.memory_allocated()
+        peak = torch.cuda.max_memory_allocated()
+        current = mem_after - mem_before
+    else:
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
 
     metrics = {
         'wall_time': end_time - start_time,
@@ -411,7 +423,14 @@ def main():
     # Run EAB generation
     print(f"\n[EAB] Generating with threshold={params['threshold']}...")
 
-    tracemalloc.start()
+    # Measure GPU memory if using CUDA, otherwise Python memory
+    if params['device'] == 'cuda':
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
+        mem_before_eab = torch.cuda.memory_allocated()
+    else:
+        tracemalloc.start()
+
     start_time = time.time()
 
     try:
@@ -427,8 +446,14 @@ def main():
         return
 
     end_time = time.time()
-    current, peak = tracemalloc.get_traced_memory()
-    tracemalloc.stop()
+
+    if params['device'] == 'cuda':
+        mem_after_eab = torch.cuda.memory_allocated()
+        peak = torch.cuda.max_memory_allocated()
+        current = mem_after_eab - mem_before_eab
+    else:
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
 
     # Extract entropy history from EAB
     entropy_data = eab.get_entropy_history()

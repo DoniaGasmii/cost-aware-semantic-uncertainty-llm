@@ -1,0 +1,97 @@
+# Experiment 1.A.2: Speedup vs Sample Count
+# Research Question: How does EAB efficiency scale with number of samples?
+# Hypothesis: Speedup increases with more samples (shared computation amortized)
+
+experiment:
+  name: "exp_1a_2_speedup_vs_sample_count"
+  description: "Measure EAB speedup across different sample counts (natural EAB behavior)"
+  date_created: "2025-01-07"
+  parent_experiment: "1.A - Efficiency Analysis"
+  sub_experiment: "2 of 4"
+
+# Model configuration
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"
+  dtype: "float16"
+
+# Generation parameters
+generation:
+  max_new_tokens: 30
+  temperature: 0.8
+  top_p: 1.0
+  do_sample: true
+
+# EAB parameters (base configuration)
+eab:
+  entropy_threshold: 0.055
+  branch_factor: 3
+  # max_paths will vary - see sample_count_configs below
+
+# Naive sampling parameters (will match EAB sample count)
+naive:
+  temperature: 0.8
+  top_p: 1.0
+
+# Fair Comparison Protocol (from README):
+# 1. Run EAB with natural behavior → generates N samples (varies by prompt)
+# 2. Run Naive N times → match EAB's sample count
+# 3. Compare costs fairly
+#
+# Strategy: Vary max_paths to encourage different sample counts
+# Note: Actual sample count is determined by EAB's natural behavior
+
+# Independent Variable: Sample count (controlled via max_paths)
+sample_count_configs:
+  - target_count: 5
+    max_paths: 5
+  - target_count: 10
+    max_paths: 10
+  - target_count: 20
+    max_paths: 20
+  - target_count: 50
+    max_paths: 50
+
+# Fixed Variables
+prompt_length: 200  # tokens (FIXED across all runs)
+prompts_count: 10   # number of prompts to test
+
+# Debug mode (for quick testing)
+debug:
+  enabled: true
+  sample_count_configs:
+    - target_count: 5
+      max_paths: 5
+    - target_count: 20
+      max_paths: 20
+  prompts_count: 2  # Only 2 prompts
+
+# Metrics to track
+metrics:
+  cost:
+    - "token_steps"        # Total forward passes × tokens (FLOPs proxy)
+    - "wall_clock_time"    # Real execution time (seconds)
+    - "memory_peak_mb"     # Peak memory usage (MB)
+    - "tokens_per_sample"  # Total tokens / number of samples
+
+  efficiency:
+    - "speedup_factor"     # Naive cost / EAB cost
+    - "cost_ratio"         # EAB cost / Naive cost
+
+  branching:
+    - "branch_count"       # Total number of branches
+    - "branch_frequency"   # Branches per token position
+    - "avg_branch_position"  # Average token position where branching occurs
+    - "final_path_count"   # Number of active paths at end
+
+# Output configuration
+output:
+  save_raw_results: true
+  save_intermediate: true
+  save_generated_texts: true
+  results_dir: "results"
+  figures_dir: "results/figures"
+  texts_dir: "results/generated_texts"
+
+# Reproducibility
+seed: 42

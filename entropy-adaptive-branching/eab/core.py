@@ -312,8 +312,8 @@ class EntropyAdaptiveBranching:
                     # Sample different tokens for each branch
                     probs = F.softmax(path_logits, dim=-1)
 
-                    # Sample multiple tokens at once
-                    sampled_tokens = torch.multinomial(probs, actual_branch_factor, replacement=True)
+                    # Sample multiple DIFFERENT tokens at once (replacement=False ensures diversity)
+                    sampled_tokens = torch.multinomial(probs, actual_branch_factor, replacement=False)
 
                     for branch_path, token_id in zip(branched_paths, sampled_tokens):
                         token_id = token_id.item()
