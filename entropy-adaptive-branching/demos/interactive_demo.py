@@ -18,6 +18,12 @@ Usage:
         --max-paths 20 \
         --temperature 0.8 \
         --save-plots
+
+    # 3-way comparison mode (Naive vs COW EAB vs Original EAB)
+    python interactive_demo.py \
+        --prompt "Name one important skill students should develop today." \
+        --compare-all \
+        --save-plots
 """
 
 import sys
@@ -258,6 +264,127 @@ def run_naive_sampling(model, tokenizer, prompt, num_samples, max_tokens, temper
     return samples, metrics
 
 
+def run_eab_generation(eab_instance, params, impl_name="EAB"):
+    """Run EAB generation and collect metrics."""
+    print(f"\n[{impl_name}] Generating with threshold={params['threshold']}...")
+
+    # Measure generation overhead (excluding model weights)
+    if params['device'] == 'cuda':
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
+        mem_before = torch.cuda.memory_allocated()
+        peak_before = mem_before  # Baseline (model weights)
+    else:
+        tracemalloc.start()
+
+    start_time = time.time()
+
+    try:
+        samples = eab_instance.generate(
+            prompt=params['prompt'],
+            max_new_tokens=params['max_tokens'],
+            temperature=params['temperature'],
+            use_chat_template=True  # Use chat template for coherent results
+        )
+    except Exception as e:
+        print(f"  ✗ Error during {impl_name} generation: {e}")
+        traceback.print_exc()
+        return None, None
+
+    end_time = time.time()
+
+    if params['device'] == 'cuda':
+        mem_after = torch.cuda.memory_allocated()
+        peak_total = torch.cuda.max_memory_allocated()
+        # Generation overhead = delta from baseline (excludes model weights)
+        generation_overhead = mem_after - mem_before
+        peak_overhead = peak_total - peak_before
+    else:
+        generation_overhead, peak_overhead = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+
+    # Extract entropy history
+    entropy_data = eab_instance.get_entropy_history()
+
+    # Extract metrics
+    all_branch_points = set()
+    total_tokens = 0
+
+    for sample in samples:
+        branch_points = sample.get('branch_points', [])
+        all_branch_points.update(branch_points)
+        total_tokens += sample.get('length', len(sample.get('tokens', [])))
+
+    metrics = {
+        'wall_time': end_time - start_time,
+        'total_tokens': total_tokens,
+        'peak_memory_mb': peak_overhead / 1024 / 1024,  # Only generation overhead
+        'total_branches': len(all_branch_points),
+        'branch_positions': sorted(all_branch_points),
+        'num_samples': len(samples),
+        'entropy_history': entropy_data  # Store full entropy data
+    }
+
+    print(f"  ✓ Generated {len(samples)} samples")
+    print(f"  ✓ Total branches: {len(all_branch_points)}")
+    print(f"  ✓ Time: {metrics['wall_time']:.2f}s")
+    print(f"  ✓ Memory overhead: {metrics['peak_memory_mb']:.1f} MB")
+
+    return samples, metrics
+
+
+def display_three_way_comparison(naive_metrics, cow_metrics, original_metrics, params):
+    """Display 3-way comparison table."""
+    print("\n" + "="*80)
+    print("  3-WAY RESOURCE COMPARISON")
+    print("="*80)
+
+    print(f"\nPrompt: '{params['prompt']}'")
+    print(f"Threshold: {params['threshold']}, Branch Factor: {params['branch_factor']}, Max Tokens: {params['max_tokens']}")
+
+    # Header
+    print("\n" + "-"*80)
+    print(f"{'Metric':<30} {'Naive':<15} {'COW EAB':<15} {'Original EAB':<15}")
+    print("-"*80)
+
+    # Samples
+    print(f"{'Samples generated':<30} {naive_metrics['num_samples']:<15} {cow_metrics['num_samples']:<15} {original_metrics['num_samples']:<15}")
+
+    # Time
+    print(f"{'Wall time (s)':<30} {naive_metrics['wall_time']:<15.2f} {cow_metrics['wall_time']:<15.2f} {original_metrics['wall_time']:<15.2f}")
+
+    # Memory
+    print(f"{'Memory overhead (MB)':<30} {naive_metrics['peak_memory_mb']:<15.1f} {cow_metrics['peak_memory_mb']:<15.1f} {original_metrics['peak_memory_mb']:<15.1f}")
+
+    # Tokens
+    print(f"{'Total tokens':<30} {naive_metrics['total_tokens']:<15} {cow_metrics['total_tokens']:<15} {original_metrics['total_tokens']:<15}")
+
+    # Branches (N/A for naive)
+    print(f"{'Total branches':<30} {'N/A':<15} {cow_metrics.get('total_branches', 'N/A'):<15} {original_metrics.get('total_branches', 'N/A'):<15}")
+
+    print("-"*80)
+
+    # Speedup analysis (compared to naive)
+    print("\n--- Speedup vs Naive ---")
+    cow_speedup = naive_metrics['wall_time'] / max(cow_metrics['wall_time'], 0.001)
+    orig_speedup = naive_metrics['wall_time'] / max(original_metrics['wall_time'], 0.001)
+    print(f"  COW EAB:      {cow_speedup:.2f}×")
+    print(f"  Original EAB: {orig_speedup:.2f}×")
+
+    # Memory analysis
+    print("\n--- Memory Overhead Comparison ---")
+    print(f"  Naive:        {naive_metrics['peak_memory_mb']:.1f} MB (baseline)")
+    print(f"  COW EAB:      {cow_metrics['peak_memory_mb']:.1f} MB ({cow_metrics['peak_memory_mb']/naive_metrics['peak_memory_mb']:.2f}× naive)")
+    print(f"  Original EAB: {original_metrics['peak_memory_mb']:.1f} MB ({original_metrics['peak_memory_mb']/naive_metrics['peak_memory_mb']:.2f}× naive)")
+
+    # COW savings vs Original
+    cow_savings = (original_metrics['peak_memory_mb'] - cow_metrics['peak_memory_mb']) / original_metrics['peak_memory_mb'] * 100
+    print(f"\n--- COW Memory Savings vs Original ---")
+    print(f"  COW reduces memory by {cow_savings:.1f}% compared to deep copy")
+
+    print("\n" + "="*80)
+
+
 def display_summary(eab_samples, eab_metrics, naive_samples, naive_metrics, params):
     """Display summary statistics."""
     print("\n" + "="*60)
@@ -370,50 +497,75 @@ def main():
             'model': args.model,
             'device': args.device,
             'hf_token': args.hf_token,
-            'use_cow': args.use_cow
+            'use_cow': args.use_cow,
+            'compare_all': args.compare_all
         }
 
     print("\n[Setup] Loading model and tokenizer...")
 
-    # Select implementation based on use_cow flag
-    if params.get('use_cow', True):
-        EntropyAdaptiveBranching = EAB_COW
-        impl_name = "COW (Copy-on-Write cache)"
-        print(f"  Using COW implementation for memory efficiency")
+    # Prepare model loading kwargs
+    model_kwargs = {
+        'model_name': params['model'],
+        'entropy_threshold': params['threshold'],
+        'branch_factor': params['branch_factor'],
+        'max_paths': params['max_paths'],
+        'device': params['device']
+    }
+
+    # Add FP16 for CUDA
+    if params['device'] == 'cuda':
+        model_kwargs['torch_dtype'] = torch.float16
+        print(f"  Using FP16 precision to reduce memory usage")
+
+    # Add HF token if provided (for gated models like Llama)
+    if params.get('hf_token'):
+        # Token will be used via huggingface_hub login
+        from huggingface_hub import login
+        login(token=params['hf_token'])
+        print(f"  ✓ Logged in to HuggingFace")
+
+    # Initialize EAB implementations based on mode
+    eab_cow = None
+    eab_original = None
+    eab = None
+
+    if params.get('compare_all', False):
+        # 3-way comparison mode: load both implementations
+        print(f"  Loading both COW and Original implementations for comparison...")
+
+        try:
+            eab_cow = EAB_COW(**model_kwargs)
+            print(f"  ✓ Loaded COW implementation")
+        except Exception as e:
+            print(f"  ✗ Error loading COW EAB: {e}")
+            traceback.print_exc()
+            return
+
+        try:
+            eab_original = EAB_Original(**model_kwargs)
+            print(f"  ✓ Loaded Original implementation")
+        except Exception as e:
+            print(f"  ✗ Error loading Original EAB: {e}")
+            traceback.print_exc()
+            return
     else:
-        EntropyAdaptiveBranching = EAB_Original
-        impl_name = "Original (deep copy cache)"
-        print(f"  Using original implementation")
+        # Single mode: load selected implementation
+        if params.get('use_cow', True):
+            EntropyAdaptiveBranching = EAB_COW
+            impl_name = "COW (Copy-on-Write cache)"
+            print(f"  Using COW implementation for memory efficiency")
+        else:
+            EntropyAdaptiveBranching = EAB_Original
+            impl_name = "Original (deep copy cache)"
+            print(f"  Using original implementation")
 
-    # Initialize EAB
-    try:
-        # Prepare model loading kwargs
-        model_kwargs = {
-            'model_name': params['model'],
-            'entropy_threshold': params['threshold'],
-            'branch_factor': params['branch_factor'],
-            'max_paths': params['max_paths'],
-            'device': params['device']
-        }
-
-        # Add FP16 for CUDA
-        if params['device'] == 'cuda':
-            model_kwargs['torch_dtype'] = torch.float16
-            print(f"  Using FP16 precision to reduce memory usage")
-
-        # Add HF token if provided (for gated models like Llama)
-        if params.get('hf_token'):
-            # Token will be used via huggingface_hub login
-            from huggingface_hub import login
-            login(token=params['hf_token'])
-            print(f"  ✓ Logged in to HuggingFace")
-
-        eab = EntropyAdaptiveBranching(**model_kwargs)
-        print(f"  ✓ Loaded {params['model']} ({impl_name}) on {params['device']}")
-    except Exception as e:
-        print(f"  ✗ Error loading EAB: {e}")
-        traceback.print_exc()
-        return
+        try:
+            eab = EntropyAdaptiveBranching(**model_kwargs)
+            print(f"  ✓ Loaded {params['model']} ({impl_name}) on {params['device']}")
+        except Exception as e:
+            print(f"  ✗ Error loading EAB: {e}")
+            traceback.print_exc()
+            return
 
     # Also load model/tokenizer for naive comparison
     print("\n[Setup] Loading model for naive comparison...")
@@ -433,87 +585,71 @@ def main():
         model = None
         tokenizer = None
 
-    # Run EAB generation
-    print(f"\n[EAB] Generating with threshold={params['threshold']}...")
+    # Generation phase
+    if params.get('compare_all', False):
+        # ====== 3-WAY COMPARISON MODE ======
+        print("\n" + "="*80)
+        print("  RUNNING 3-WAY COMPARISON")
+        print("="*80)
 
-    # Measure generation overhead (excluding model weights)
-    if params['device'] == 'cuda':
-        torch.cuda.empty_cache()
-        torch.cuda.reset_peak_memory_stats()
-        mem_before_eab = torch.cuda.memory_allocated()
-        peak_before_eab = mem_before_eab  # Baseline (model weights)
+        # Run COW EAB
+        cow_samples, cow_metrics = run_eab_generation(eab_cow, params, impl_name="COW EAB")
+        if cow_samples is None:
+            return
+
+        # Run Original EAB
+        original_samples, original_metrics = run_eab_generation(eab_original, params, impl_name="Original EAB")
+        if original_samples is None:
+            return
+
+        # Run Naive sampling (use same count as COW)
+        if model is not None and tokenizer is not None:
+            naive_samples, naive_metrics = run_naive_sampling(
+                model, tokenizer, params['prompt'],
+                num_samples=len(cow_samples),
+                max_tokens=params['max_tokens'],
+                temperature=params['temperature'],
+                device=params['device']
+            )
+        else:
+            print("\n[Naive] Skipping naive comparison (model not loaded)")
+            naive_samples = []
+            naive_metrics = {'peak_memory_mb': 0.001, 'wall_time': 0.001, 'total_tokens': 0, 'num_samples': 0}
+
+        # Display 3-way comparison
+        display_three_way_comparison(naive_metrics, cow_metrics, original_metrics, params)
+
+        # Use COW samples/metrics for visualization
+        eab_samples = cow_samples
+        eab_metrics = cow_metrics
+        entropy_data = cow_metrics.get('entropy_history')
+
     else:
-        tracemalloc.start()
+        # ====== SINGLE MODE ======
+        # Run EAB generation
+        eab_samples, eab_metrics = run_eab_generation(eab, params, impl_name="EAB")
+        if eab_samples is None:
+            return
 
-    start_time = time.time()
+        entropy_data = eab_metrics.get('entropy_history')
 
-    try:
-        eab_samples = eab.generate(
-            prompt=params['prompt'],
-            max_new_tokens=params['max_tokens'],
-            temperature=params['temperature'],
-            use_chat_template=True  # Use chat template for coherent results
-        )
-    except Exception as e:
-        print(f"  ✗ Error during EAB generation: {e}")
-        traceback.print_exc()
-        return
+        # Run naive sampling with SAME sample count for fair comparison
+        if model is not None and tokenizer is not None:
+            naive_samples, naive_metrics = run_naive_sampling(
+                model, tokenizer, params['prompt'],
+                num_samples=len(eab_samples),
+                max_tokens=params['max_tokens'],
+                temperature=params['temperature'],
+                device=params['device']
+            )
+        else:
+            print("\n[Naive] Skipping naive comparison (model not loaded)")
+            naive_samples = []
+            naive_metrics = {'peak_memory_mb': 0.001, 'wall_time': 0.001, 'total_tokens': 0, 'num_samples': 0}
 
-    end_time = time.time()
-
-    if params['device'] == 'cuda':
-        mem_after_eab = torch.cuda.memory_allocated()
-        peak_total = torch.cuda.max_memory_allocated()
-        # Generation overhead = delta from baseline (excludes model weights)
-        generation_overhead = mem_after_eab - mem_before_eab
-        peak_overhead = peak_total - peak_before_eab
-    else:
-        generation_overhead, peak_overhead = tracemalloc.get_traced_memory()
-        tracemalloc.stop()
-
-    # Extract entropy history from EAB
-    entropy_data = eab.get_entropy_history()
-
-    # Extract metrics from EAB samples
-    all_branch_points = set()
-    total_tokens = 0
-
-    for sample in eab_samples:
-        branch_points = sample.get('branch_points', [])
-        all_branch_points.update(branch_points)
-        total_tokens += sample.get('length', len(sample.get('tokens', [])))
-
-    eab_metrics = {
-        'wall_time': end_time - start_time,
-        'total_tokens': total_tokens,
-        'peak_memory_mb': peak_overhead / 1024 / 1024,  # Only generation overhead
-        'total_branches': len(all_branch_points),
-        'branch_positions': sorted(all_branch_points),
-        'num_samples': len(eab_samples),
-        'entropy_history': entropy_data  # Store full entropy data
-    }
-
-    print(f"  ✓ Generated {len(eab_samples)} samples")
-    print(f"  ✓ Total branches: {len(all_branch_points)}")
-    print(f"  ✓ Time: {eab_metrics['wall_time']:.2f}s")
-
-    # Run naive sampling with SAME sample count for fair comparison
-    if model is not None and tokenizer is not None:
-        naive_samples, naive_metrics = run_naive_sampling(
-            model, tokenizer, params['prompt'],
-            num_samples=len(eab_samples),
-            max_tokens=params['max_tokens'],
-            temperature=params['temperature'],
-            device=params['device']
-        )
-    else:
-        print("\n[Naive] Skipping naive comparison (model not loaded)")
-        naive_samples = []
-        naive_metrics = {'peak_memory_mb': 0, 'wall_time': 0, 'tokens_per_sec': 0}
-
-    # Display results
-    display_summary(eab_samples, eab_metrics, naive_samples, naive_metrics, params)
-    display_branching_info(eab_samples, params['threshold'])
+        # Display results
+        display_summary(eab_samples, eab_metrics, naive_samples, naive_metrics, params)
+        display_branching_info(eab_samples, params['threshold'])
 
     # Create visualizations
     print("\n[Visualization] Generating plots...")
