@@ -150,11 +150,19 @@ def get_user_input():
     save_str = input("> ").strip().lower()
     save_plots = save_str != 'n'
 
-    # COW cache?
-    print("\nUse Copy-on-Write cache for memory efficiency? (y/n, default: y):")
-    print("  (COW cache reduces memory usage by 60-70% during branching)")
-    cow_str = input("> ").strip().lower()
-    use_cow = cow_str != 'n'
+    # Comparison mode?
+    print("\nRun 3-way comparison? (Naive vs COW EAB vs Original EAB) (y/n, default: n):")
+    print("  This will run all three approaches and compare resource costs")
+    compare_str = input("> ").strip().lower()
+    compare_all = compare_str == 'y'
+
+    use_cow = True  # Default
+    if not compare_all:
+        # COW cache choice only if not doing full comparison
+        print("\nUse Copy-on-Write cache for memory efficiency? (y/n, default: y):")
+        print("  (COW cache reduces memory usage by 60-70% during branching)")
+        cow_str = input("> ").strip().lower()
+        use_cow = cow_str != 'n'
 
     print("\n" + "-"*60)
 
@@ -169,7 +177,8 @@ def get_user_input():
         'temperature': temperature,
         'save_plots': save_plots,
         'hf_token': hf_token,
-        'use_cow': use_cow
+        'use_cow': use_cow,
+        'compare_all': compare_all
     }
 
 
@@ -177,11 +186,12 @@ def run_naive_sampling(model, tokenizer, prompt, num_samples, max_tokens, temper
     """Run naive sampling for comparison."""
     print(f"\n[Naive] Generating {num_samples} samples independently...")
 
-    # Start tracking - use GPU memory if CUDA, otherwise Python memory
+    # Start tracking - measure generation overhead only (excluding model weights)
     if device == 'cuda':
         torch.cuda.empty_cache()
         torch.cuda.reset_peak_memory_stats()
         mem_before = torch.cuda.memory_allocated()
+        peak_before = mem_before  # Baseline (model weights)
     else:
         tracemalloc.start()
 
@@ -226,16 +236,18 @@ def run_naive_sampling(model, tokenizer, prompt, num_samples, max_tokens, temper
 
     if device == 'cuda':
         mem_after = torch.cuda.memory_allocated()
-        peak = torch.cuda.max_memory_allocated()
-        current = mem_after - mem_before
+        peak_total = torch.cuda.max_memory_allocated()
+        # Generation overhead = delta from baseline (excludes model weights)
+        generation_overhead = mem_after - mem_before
+        peak_overhead = peak_total - peak_before
     else:
-        current, peak = tracemalloc.get_traced_memory()
+        generation_overhead, peak_overhead = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
     metrics = {
         'wall_time': end_time - start_time,
         'total_tokens': total_tokens,
-        'peak_memory_mb': peak / 1024 / 1024,
+        'peak_memory_mb': peak_overhead / 1024 / 1024,  # Only generation overhead
         'num_samples': num_samples
     }
 
@@ -264,7 +276,7 @@ def display_summary(eab_samples, eab_metrics, naive_samples, naive_metrics, para
     print(f"Branch positions: {eab_metrics['branch_positions'][:10]}{'...' if len(eab_metrics['branch_positions']) > 10 else ''}")
     print(f"Total tokens: {eab_metrics['total_tokens']}")
     print(f"Wall time: {eab_metrics['wall_time']:.2f}s")
-    print(f"Peak memory: {eab_metrics['peak_memory_mb']:.1f} MB")
+    print(f"Generation overhead: {eab_metrics['peak_memory_mb']:.1f} MB (excl. model weights)")
 
     # Display entropy statistics
     if 'entropy_history' in eab_metrics and eab_metrics['entropy_history']:
@@ -279,7 +291,7 @@ def display_summary(eab_samples, eab_metrics, naive_samples, naive_metrics, para
     print(f"Samples generated: {len(naive_samples)}")
     print(f"Total tokens: {naive_metrics['total_tokens']}")
     print(f"Wall time: {naive_metrics['wall_time']:.2f}s")
-    print(f"Peak memory: {naive_metrics['peak_memory_mb']:.1f} MB")
+    print(f"Generation overhead: {naive_metrics['peak_memory_mb']:.1f} MB (excl. model weights)")
 
     print(f"\n--- Comparison ---")
     if naive_metrics['wall_time'] > 0:
@@ -337,6 +349,7 @@ def main():
     parser.add_argument('--hf-token', type=str, default=None, help='HuggingFace token for gated models')
     parser.add_argument('--use-cow', action='store_true', default=True, help='Use Copy-on-Write cache for memory efficiency (default: True)')
     parser.add_argument('--no-cow', dest='use_cow', action='store_false', help='Disable COW cache (use original deep copy)')
+    parser.add_argument('--compare-all', action='store_true', help='Run 3-way comparison (Naive vs COW EAB vs Original EAB)')
 
     args = parser.parse_args()
 
@@ -423,11 +436,12 @@ def main():
     # Run EAB generation
     print(f"\n[EAB] Generating with threshold={params['threshold']}...")
 
-    # Measure GPU memory if using CUDA, otherwise Python memory
+    # Measure generation overhead (excluding model weights)
     if params['device'] == 'cuda':
         torch.cuda.empty_cache()
         torch.cuda.reset_peak_memory_stats()
         mem_before_eab = torch.cuda.memory_allocated()
+        peak_before_eab = mem_before_eab  # Baseline (model weights)
     else:
         tracemalloc.start()
 
@@ -449,10 +463,12 @@ def main():
 
     if params['device'] == 'cuda':
         mem_after_eab = torch.cuda.memory_allocated()
-        peak = torch.cuda.max_memory_allocated()
-        current = mem_after_eab - mem_before_eab
+        peak_total = torch.cuda.max_memory_allocated()
+        # Generation overhead = delta from baseline (excludes model weights)
+        generation_overhead = mem_after_eab - mem_before_eab
+        peak_overhead = peak_total - peak_before_eab
     else:
-        current, peak = tracemalloc.get_traced_memory()
+        generation_overhead, peak_overhead = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
     # Extract entropy history from EAB
@@ -470,7 +486,7 @@ def main():
     eab_metrics = {
         'wall_time': end_time - start_time,
         'total_tokens': total_tokens,
-        'peak_memory_mb': peak / 1024 / 1024,
+        'peak_memory_mb': peak_overhead / 1024 / 1024,  # Only generation overhead
         'total_branches': len(all_branch_points),
         'branch_positions': sorted(all_branch_points),
         'num_samples': len(eab_samples),
