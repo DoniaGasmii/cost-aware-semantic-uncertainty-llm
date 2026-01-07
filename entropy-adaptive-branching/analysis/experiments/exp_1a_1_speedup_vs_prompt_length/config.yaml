@@ -4,38 +4,42 @@
 
 experiment:
   name: "exp_1a_1_speedup_vs_prompt_length"
-  description: "Measure EAB speedup across different prompt lengths (FIXED sample count)"
+  description: "Measure EAB speedup across different prompt lengths (natural EAB behavior)"
   date_created: "2025-01-01"
   parent_experiment: "1.A - Efficiency Analysis"
   sub_experiment: "1 of 4"
 
-# Model configuration (FIXED)
+# Model configuration
 model:
-  name: "Qwen/Qwen2.5-7B-Instruct"  # Start with GPT-2 (124M) for fast debugging
-  device: "cpu"  # Use "cuda" if GPU available
-  dtype: "float32"
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"
+  dtype: "float16"
 
-# Generation parameters (FIXED)
+# Generation parameters
 generation:
-  max_new_tokens: 30  # Reduced for easier debugging and visualization
+  max_new_tokens: 30
   temperature: 0.8
   top_p: 1.0
   do_sample: true
 
-# EAB parameters (FIXED)
+# EAB parameters
 eab:
-  entropy_threshold: 0.2
+  entropy_threshold: 0.055
   branch_factor: 3
   max_paths: 20
 
-# Naive sampling parameters
+# Naive sampling parameters (will match EAB sample count)
 naive:
   temperature: 0.8
   top_p: 1.0
 
-# CRITICAL: Fixed sample count for fair comparison
-# Both EAB and Naive will generate EXACTLY this many samples
-target_samples: 20  # FIXED across all prompts
+# Fair Comparison Protocol (from README):
+# 1. Run EAB with natural behavior → generates N samples (varies by prompt)
+# 2. Run Naive N times → match EAB's sample count
+# 3. Compare costs fairly
+#
+# Note: target_samples below is just a reference, NOT enforced
+target_samples: 20  # Reference only - actual count determined by EAB
 
 # Experimental variables (INDEPENDENT VARIABLE)
 prompt_lengths: [50, 100, 200, 500]  # in tokens
@@ -43,10 +47,10 @@ prompts_per_length: 10  # number of prompts to test per length
 
 # Debug mode (for quick testing)
 debug:
-  enabled: false  # Set to true for quick testing
+  enabled: true  # Set to true for quick testing
   prompt_lengths: [50, 200]  # Only 2 lengths
   prompts_per_length: 2  # Only 2 prompts per length
-  target_samples: 10  # Fewer samples for quick testing
+  target_samples: 10  # Reference only (actual count from EAB)
 
 # Metrics to track
 metrics:

@@ -65,11 +65,12 @@ def run_eab_generation(
     """
     tracker.start()
 
-    # Generate with EAB
+    # Generate with EAB (using chat template for instruct models)
     samples = eab.generate(
         prompt=prompt_text,
         max_new_tokens=config['generation']['max_new_tokens'],
-        temperature=config['generation']['temperature']
+        temperature=config['generation']['temperature'],
+        use_chat_template=True  # Format as chat for instruct models
     )
 
     # Record metrics from EAB samples
@@ -224,7 +225,12 @@ def run_single_experiment(
     target_samples: int
 ) -> Dict[str, Any]:
     """
-    Run experiment on a single prompt with FIXED sample count.
+    Run experiment on a single prompt following the Fair Comparison Protocol.
+
+    Protocol (from README):
+    1. Run EAB with natural behavior → generates N samples (varies by prompt)
+    2. Run Naive N times → match EAB's sample count
+    3. Compare costs fairly
 
     Args:
         prompt: Prompt dictionary
@@ -232,7 +238,7 @@ def run_single_experiment(
         model: Language model
         tokenizer: Tokenizer
         config: Configuration
-        target_samples: FIXED number of samples to generate (same for EAB and Naive)
+        target_samples: Reference sample count (for info only, not enforced)
 
     Returns:
         Result dictionary with all metrics
@@ -241,19 +247,10 @@ def run_single_experiment(
     prompt_length = prompt['actual_length']
 
     print(f"  Prompt: {prompt['id']} (length: {prompt_length})")
-    print(f"    Target samples: {target_samples} (FIXED)")
+    print(f"    Reference target: {target_samples} samples")
 
-    # Run Naive FIRST with exact target count (for fair comparison)
-    print(f"    Running Naive ({target_samples} samples)...")
-    naive_tracker = MetricsTracker(device=config['model']['device'])
-    naive_samples, naive_metrics = run_naive_generation(
-        prompt_text, target_samples, model, tokenizer, config, naive_tracker
-    )
-    print(f"      ✓ Generated {len(naive_samples)} samples")
-    print(f"      ✓ Avg generated tokens: {sum(s['num_generated_tokens'] for s in naive_samples) / len(naive_samples):.1f}")
-
-    # Run EAB with same target (it will generate approximately this many)
-    print(f"    Running EAB (target: {target_samples} samples)...")
+    # Step 1: Run EAB FIRST with natural behavior
+    print(f"    Running EAB (natural behavior)...")
     eab_tracker = MetricsTracker(device=config['model']['device'])
     eab_samples, eab_metrics = run_eab_generation(
         prompt_text, eab, config, eab_tracker
@@ -261,9 +258,14 @@ def run_single_experiment(
     num_eab_samples = len(eab_samples)
     print(f"      ✓ Generated {num_eab_samples} samples")
 
-    # Warn if EAB didn't generate exact target count
-    if num_eab_samples != target_samples:
-        print(f"      ⚠ EAB generated {num_eab_samples} instead of {target_samples} (±{abs(num_eab_samples - target_samples)})")
+    # Step 2: Run Naive with EXACT same count as EAB for fair comparison
+    print(f"    Running Naive ({num_eab_samples} samples to match EAB)...")
+    naive_tracker = MetricsTracker(device=config['model']['device'])
+    naive_samples, naive_metrics = run_naive_generation(
+        prompt_text, num_eab_samples, model, tokenizer, config, naive_tracker
+    )
+    print(f"      ✓ Generated {len(naive_samples)} samples")
+    print(f"      ✓ Avg generated tokens: {sum(s['num_generated_tokens'] for s in naive_samples) / len(naive_samples):.1f}")
 
     # Save generated texts if configured
     if config['output'].get('save_generated_texts', False):
@@ -281,9 +283,9 @@ def run_single_experiment(
         'prompt_id': prompt['id'],
         'prompt_length': prompt_length,
         'target_length': prompt['target_length'],
-        'target_samples': target_samples,  # FIXED across all experiments
-        'num_eab_samples': num_eab_samples,  # Actual EAB output
-        'num_naive_samples': target_samples,  # Naive always matches target
+        'reference_target_samples': target_samples,  # Reference value (not enforced)
+        'num_eab_samples': num_eab_samples,  # Actual EAB output (natural behavior)
+        'num_naive_samples': num_eab_samples,  # Naive matched to EAB
 
         # EAB metrics
         'eab_metrics': eab_metrics.to_dict(),
@@ -333,7 +335,7 @@ def main():
 
     print(f"   Prompt lengths: {prompt_lengths}")
     print(f"   Prompts per length: {prompts_per_length}")
-    print(f"   Target samples: {target_samples} (FIXED)")
+    print(f"   Reference target samples: {target_samples} (EAB uses natural behavior)")
     print(f"   Device: {config['model']['device']}")
 
     # Initialize model and EAB
