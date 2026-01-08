@@ -59,8 +59,10 @@ class SampleGenerator:
         print(f"✓ Model loaded on {self.device}")
 
     def generate_samples(self, prompt: str, n_samples: int = 10, max_new_tokens: int = 50,
-                        temperature: float = 0.8) -> list:
-        """Generate multiple samples for a prompt."""
+                        temperature_range: tuple = (0.7, 1.3)) -> list:
+        """Generate multiple samples for a prompt with varied temperatures."""
+        import numpy as np
+
         messages = [{"role": "user", "content": prompt}]
         chat_prompt = self.tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
@@ -69,15 +71,21 @@ class SampleGenerator:
         inputs = self.tokenizer(chat_prompt, return_tensors="pt").to(self.device)
         input_length = inputs['input_ids'].shape[1]
 
+        # Generate temperature values across range for diversity
+        temperatures = np.linspace(temperature_range[0], temperature_range[1], n_samples)
+
         samples = []
-        print(f"\nGenerating {n_samples} samples", end="", flush=True)
+        print(f"\nGenerating {n_samples} samples (temp range: {temperature_range[0]:.1f}-{temperature_range[1]:.1f})", end="", flush=True)
 
         with torch.no_grad():
             for i in range(n_samples):
+                # Use different temperature for each sample
+                temp = float(temperatures[i])
+
                 outputs = self.model.generate(
                     **inputs,
                     max_new_tokens=max_new_tokens,
-                    temperature=temperature,
+                    temperature=temp,
                     do_sample=True,
                     top_p=0.9,
                     pad_token_id=self.tokenizer.eos_token_id

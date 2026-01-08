@@ -31,7 +31,7 @@ class SemanticUncertaintyEstimator:
     def __init__(
         self,
         encoder_model: str = "sentence-t5",
-        distance_threshold: float = 0.15,
+        distance_threshold: float = 0.05,
         linkage: str = "average",
         use_weighted_probs: bool = False,
         device: Optional[str] = None,

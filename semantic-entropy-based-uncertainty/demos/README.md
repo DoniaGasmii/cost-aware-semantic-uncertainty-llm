@@ -63,14 +63,25 @@ python interactive_demo.py [--embedder sentence-t5|mpnet|minilm]
 **Purpose**: Visualization library (used by other tools)
 
 **Features**:
-- `plot_2d_projection()` - PCA/t-SNE/UMAP projections
-- `plot_3d_interactive()` - Plotly 3D plots
-- `plot_similarity_heatmap()` - Pairwise similarity
-- `plot_dendrogram()` - Hierarchical clustering
+- `plot_2d_projection()` - PCA/t-SNE/UMAP projections with:
+  - **All samples** shown as colored points
+  - **Convex hull boundaries** around each cluster (shaded regions)
+  - **Centroids** marked with stars (★)
+  - **Sample indices** labeled (for datasets ≤30 samples)
+  - **Representative text** annotated with arrows
+- `plot_3d_interactive()` - Plotly 3D plots (rotatable, hover text)
+- `plot_similarity_heatmap()` - Pairwise similarity matrix
+- `plot_dendrogram()` - Hierarchical clustering tree
 - `plot_cluster_distribution()` - Bar charts
 - `create_visualization_suite()` - Generate all plots at once
 
 **All plots**: 300 DPI, publication-quality
+
+**Visualization Legend**:
+- 🔵 **Circles**: Individual samples
+- ⭐ **Stars**: Cluster centroids
+- 🔷 **Shaded regions**: Cluster boundaries (convex hulls)
+- 📝 **Text boxes**: Representative sample from each cluster
 
 ---
 
@@ -127,6 +138,7 @@ python interactive_demo.py [--embedder sentence-t5|mpnet|minilm]
 - **Threshold**: Lower = more clusters (stricter), Higher = fewer clusters (more lenient)
 - **Sample count**: 10-20 samples usually sufficient for debugging
 - **Max tokens**: 30-50 for short answers, 100+ for creative generation
+- **Temperature diversity**: By default, samples are generated with **varied temperatures** (0.7-1.3) to ensure diversity. Each sample uses a different temperature from this range.
 
 ---
 

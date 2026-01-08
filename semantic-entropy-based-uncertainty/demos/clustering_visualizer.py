@@ -104,42 +104,129 @@ class ClusteringVisualizer:
         n_clusters = len(np.unique(labels))
         colors = plt.cm.Set3(np.linspace(0, 1, n_clusters))
 
-        # Plot each cluster
+        # Plot each cluster with boundaries
         for cluster_id in range(n_clusters):
             mask = labels == cluster_id
             cluster_count = mask.sum()
+            cluster_points = coords_2d[mask]
 
+            # Plot cluster boundary (convex hull) if enough points
+            if cluster_count >= 3:
+                from scipy.spatial import ConvexHull
+                try:
+                    hull = ConvexHull(cluster_points)
+                    # Draw convex hull boundary
+                    for simplex in hull.simplices:
+                        ax.plot(
+                            cluster_points[simplex, 0],
+                            cluster_points[simplex, 1],
+                            color=colors[cluster_id],
+                            linewidth=2,
+                            alpha=0.6
+                        )
+                    # Fill the hull with transparent color
+                    hull_points = cluster_points[hull.vertices]
+                    ax.fill(
+                        hull_points[:, 0],
+                        hull_points[:, 1],
+                        color=colors[cluster_id],
+                        alpha=0.15
+                    )
+                except:
+                    pass  # If hull computation fails, skip boundary
+            elif cluster_count == 2:
+                # Draw line between two points
+                ax.plot(
+                    cluster_points[:, 0],
+                    cluster_points[:, 1],
+                    color=colors[cluster_id],
+                    linewidth=2,
+                    alpha=0.6
+                )
+            elif cluster_count == 1:
+                # Draw circle around single point
+                circle = plt.Circle(
+                    cluster_points[0],
+                    radius=0.1 * (coords_2d.max() - coords_2d.min()),
+                    color=colors[cluster_id],
+                    fill=False,
+                    linewidth=2,
+                    alpha=0.6
+                )
+                ax.add_patch(circle)
+
+            # Plot all points in cluster
             ax.scatter(
-                coords_2d[mask, 0],
-                coords_2d[mask, 1],
+                cluster_points[:, 0],
+                cluster_points[:, 1],
                 c=[colors[cluster_id]],
                 label=f'Cluster {cluster_id} ({cluster_count} samples)',
-                s=100,
-                alpha=0.7,
+                s=120,
+                alpha=0.8,
                 edgecolors='black',
-                linewidths=1
+                linewidths=1.5,
+                zorder=3  # Ensure points are on top
             )
 
-            # Add representative text annotation
+            # Add sample indices as text labels (optional, for small datasets)
+            if len(texts) <= 30:  # Only label if not too many points
+                for i, idx in enumerate(np.where(mask)[0]):
+                    ax.annotate(
+                        f'{idx}',
+                        xy=cluster_points[i],
+                        xytext=(3, 3),
+                        textcoords='offset points',
+                        fontsize=7,
+                        alpha=0.7,
+                        zorder=4
+                    )
+
+            # Add cluster centroid with representative text
             if cluster_count > 0:
-                centroid = coords_2d[mask].mean(axis=0)
+                centroid = cluster_points.mean(axis=0)
+
+                # Mark centroid with a star
+                ax.scatter(
+                    centroid[0],
+                    centroid[1],
+                    marker='*',
+                    s=400,
+                    c=[colors[cluster_id]],
+                    edgecolors='black',
+                    linewidths=2,
+                    zorder=5
+                )
+
+                # Add representative text (full text with wrapping)
                 representative_idx = np.where(mask)[0][0]
-                representative_text = texts[representative_idx][:40] + "..."
+                representative_text = texts[representative_idx]
+
+                # Wrap text for long sentences (break at ~60 chars per line)
+                import textwrap
+                wrapped_text = '\n'.join(textwrap.wrap(representative_text, width=60))
 
                 ax.annotate(
-                    representative_text,
+                    wrapped_text,
                     xy=centroid,
-                    xytext=(10, 10),
+                    xytext=(15, 15),
                     textcoords='offset points',
                     bbox=dict(
                         boxstyle='round,pad=0.5',
                         facecolor=colors[cluster_id],
-                        alpha=0.3,
+                        alpha=0.92,
                         edgecolor='black',
-                        linewidth=0.5
+                        linewidth=1.5
                     ),
-                    fontsize=9,
-                    ha='left'
+                    fontsize=7,  # Smaller font for full text
+                    ha='left',
+                    va='bottom',
+                    zorder=6,
+                    arrowprops=dict(
+                        arrowstyle='->',
+                        connectionstyle='arc3,rad=0.3',
+                        color='black',
+                        linewidth=1
+                    )
                 )
 
         ax.set_xlabel(f'{method_name} Component 1', fontweight='bold')
@@ -150,8 +237,34 @@ class ClusteringVisualizer:
         else:
             ax.set_title(f'Semantic Clustering ({method_name} Projection)', fontweight='bold', fontsize=16)
 
-        ax.legend(loc='best', framealpha=0.9)
-        ax.grid(True, alpha=0.3)
+        # Create custom legend
+        from matplotlib.lines import Line2D
+        legend_elements = [Line2D([0], [0], marker='o', color='w',
+                                 markerfacecolor='gray', markersize=10,
+                                 markeredgecolor='black', markeredgewidth=1.5,
+                                 label='Sample', linestyle='None'),
+                          Line2D([0], [0], marker='*', color='w',
+                                 markerfacecolor='gray', markersize=15,
+                                 markeredgecolor='black', markeredgewidth=2,
+                                 label='Centroid', linestyle='None'),
+                          Line2D([0], [0], color='gray', linewidth=2,
+                                 label='Cluster boundary')]
+
+        # Add cluster-specific entries
+        for cluster_id in range(n_clusters):
+            mask = labels == cluster_id
+            cluster_count = mask.sum()
+            legend_elements.append(
+                Line2D([0], [0], marker='o', color='w',
+                      markerfacecolor=colors[cluster_id],
+                      markersize=10,
+                      markeredgecolor='black',
+                      label=f'Cluster {cluster_id} ({cluster_count} samples)')
+            )
+
+        ax.legend(handles=legend_elements, loc='best', framealpha=0.95,
+                 edgecolor='black', fancybox=True)
+        ax.grid(True, alpha=0.3, linestyle='--')
 
         plt.tight_layout()
 
