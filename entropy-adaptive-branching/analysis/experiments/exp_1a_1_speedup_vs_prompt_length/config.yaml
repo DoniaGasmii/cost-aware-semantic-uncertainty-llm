@@ -27,6 +27,7 @@ eab:
   entropy_threshold: 0.055
   branch_factor: 3
   max_paths: 20
+  implementation: "cow"  # "cow" (Copy-on-Write) or "original" (deep copy) or "both"
 
 # Naive sampling parameters (will match EAB sample count)
 naive:

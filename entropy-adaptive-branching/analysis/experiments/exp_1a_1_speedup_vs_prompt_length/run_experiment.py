@@ -24,8 +24,13 @@ eab_dir = analysis_dir.parent
 sys.path.insert(0, str(analysis_dir))
 sys.path.insert(0, str(eab_dir))
 
-# Import EAB
-from eab import EntropyAdaptiveBranching
+# Import EAB (both implementations)
+from eab.core import EntropyAdaptiveBranching as EAB_Original
+from eab.core_cow import EntropyAdaptiveBranching as EAB_COW
+from typing import Union
+
+# Type alias for EAB instances
+EABInstance = Union[EAB_Original, EAB_COW]
 
 # Import analysis utils
 from utils.metrics import (
@@ -53,7 +58,7 @@ def load_prompts(length_dir: Path) -> List[Dict[str, Any]]:
 
 def run_eab_generation(
     prompt_text: str,
-    eab: EntropyAdaptiveBranching,
+    eab: EABInstance,
     config: Dict[str, Any],
     tracker: MetricsTracker
 ) -> tuple:
@@ -218,7 +223,7 @@ def save_generated_texts(
 
 def run_single_experiment(
     prompt: Dict[str, Any],
-    eab: EntropyAdaptiveBranching,
+    eab: EABInstance,
     model,
     tokenizer,
     config: Dict[str, Any],
@@ -338,24 +343,65 @@ def main():
     print(f"   Reference target samples: {target_samples} (EAB uses natural behavior)")
     print(f"   Device: {config['model']['device']}")
 
+    # Check implementation mode
+    impl_mode = config['eab'].get('implementation', 'cow')
+    print(f"   Implementation: {impl_mode}")
+
     # Initialize model and EAB
     print("\n2. Initializing model and EAB...")
     device = config['model']['device']
 
-    # Initialize EAB
-    eab = EntropyAdaptiveBranching(
-        model_name=config['model']['name'],
-        entropy_threshold=config['eab']['entropy_threshold'],
-        branch_factor=config['eab']['branch_factor'],
-        max_paths=config['eab']['max_paths'],
-        device=device
-    )
-    print(f"   ✓ EAB initialized with threshold={config['eab']['entropy_threshold']}")
+    # Prepare model kwargs
+    model_kwargs = {
+        'model_name': config['model']['name'],
+        'entropy_threshold': config['eab']['entropy_threshold'],
+        'branch_factor': config['eab']['branch_factor'],
+        'max_paths': config['eab']['max_paths'],
+        'device': device
+    }
 
-    # Get model and tokenizer for naive sampling
-    model = eab.model  # Reuse EAB's model
-    tokenizer = eab.tokenizer
-    print(f"   ✓ Model: {config['model']['name']}")
+    # Add FP16 for CUDA to reduce memory usage
+    if device == 'cuda':
+        model_kwargs['torch_dtype'] = torch.float16
+        print(f"   Using FP16 precision to reduce memory usage")
+
+    # Select implementation class
+    if impl_mode == 'cow':
+        EntropyAdaptiveBranching = EAB_COW
+        print(f"   Using COW (Copy-on-Write) implementation")
+    elif impl_mode == 'original':
+        EntropyAdaptiveBranching = EAB_Original
+        print(f"   Using Original (deep copy) implementation")
+    elif impl_mode == 'both':
+        print(f"   Will run with BOTH implementations (COW and Original)")
+    else:
+        print(f"   ⚠ Unknown implementation '{impl_mode}', defaulting to COW")
+        EntropyAdaptiveBranching = EAB_COW
+
+    # Initialize EAB
+    if impl_mode != 'both':
+        eab = EntropyAdaptiveBranching(**model_kwargs)
+        print(f"   ✓ EAB initialized with threshold={config['eab']['entropy_threshold']}")
+
+        # Get model and tokenizer for naive sampling
+        model = eab.model  # Reuse EAB's model
+        tokenizer = eab.tokenizer
+        print(f"   ✓ Model: {config['model']['name']}")
+    else:
+        # For 'both' mode, initialize both implementations
+        eab_cow = EAB_COW(**model_kwargs)
+        print(f"   ✓ COW EAB initialized")
+
+        eab_original = EAB_Original(**model_kwargs)
+        print(f"   ✓ Original EAB initialized")
+
+        # Get model and tokenizer for naive sampling (from COW instance)
+        model = eab_cow.model
+        tokenizer = eab_cow.tokenizer
+        print(f"   ✓ Model: {config['model']['name']}")
+
+        # For compatibility with single mode code below
+        eab = None
 
     # Prepare results directory
     results_dir = experiment_dir / config['output']['results_dir']
@@ -393,14 +439,37 @@ def main():
             print(f"\n[{experiment_count}/{total_experiments}]")
 
             try:
-                result = run_single_experiment(
-                    prompt, eab, model, tokenizer, config, target_samples
-                )
-                all_results.append(result)
+                if impl_mode == 'both':
+                    # Run with both implementations
+                    print(f"  Running with COW implementation...")
+                    result_cow = run_single_experiment(
+                        prompt, eab_cow, model, tokenizer, config, target_samples
+                    )
+                    result_cow['implementation'] = 'cow'
+                    all_results.append(result_cow)
 
-                # Save incrementally
-                if config['output']['save_intermediate']:
-                    append_result(result, results_file)
+                    print(f"\n  Running with Original implementation...")
+                    result_orig = run_single_experiment(
+                        prompt, eab_original, model, tokenizer, config, target_samples
+                    )
+                    result_orig['implementation'] = 'original'
+                    all_results.append(result_orig)
+
+                    # Save incrementally
+                    if config['output']['save_intermediate']:
+                        append_result(result_cow, results_file)
+                        append_result(result_orig, results_file)
+                else:
+                    # Run with single implementation
+                    result = run_single_experiment(
+                        prompt, eab, model, tokenizer, config, target_samples
+                    )
+                    result['implementation'] = impl_mode
+                    all_results.append(result)
+
+                    # Save incrementally
+                    if config['output']['save_intermediate']:
+                        append_result(result, results_file)
 
             except Exception as e:
                 print(f"    ✗ Error: {e}")

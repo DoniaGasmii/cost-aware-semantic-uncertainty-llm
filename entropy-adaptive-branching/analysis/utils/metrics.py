@@ -58,13 +58,24 @@ class MetricsTracker:
     def start(self):
         """Start tracking metrics."""
         self.start_time = time.time()
-        self.start_memory = self._get_memory_usage()
+
+        # Reset peak memory stats and record baseline
+        if self.device == "cuda" and torch.cuda.is_available():
+            torch.cuda.reset_peak_memory_stats()
+            self.start_memory = torch.cuda.memory_allocated() / 1024 / 1024
+        else:
+            process = psutil.Process()
+            self.start_memory = process.memory_info().rss / 1024 / 1024
+
         self.peak_memory = self.start_memory
 
     def update_memory(self):
-        """Update peak memory usage."""
-        current_memory = self._get_memory_usage()
-        self.peak_memory = max(self.peak_memory, current_memory)
+        """Update peak memory usage (mainly for non-CUDA tracking)."""
+        # For CUDA, we use max_memory_allocated() in stop()
+        # For CPU, we need to track manually
+        if self.device != "cuda":
+            current_memory = self._get_memory_usage()
+            self.peak_memory = max(self.peak_memory, current_memory)
 
     def record_token_steps(self, steps: int):
         """Record token processing steps."""
@@ -89,7 +100,15 @@ class MetricsTracker:
             raise RuntimeError("Tracker not started. Call start() first.")
 
         wall_clock_time = time.time() - self.start_time
-        memory_peak_mb = self.peak_memory - self.start_memory
+
+        # Calculate peak memory overhead (generation only, excluding model weights)
+        if self.device == "cuda" and torch.cuda.is_available():
+            # Use max_memory_allocated to capture true peak (even if memory was freed)
+            peak_total = torch.cuda.max_memory_allocated() / 1024 / 1024
+            memory_peak_mb = peak_total - self.start_memory
+        else:
+            # For CPU, use manually tracked peak
+            memory_peak_mb = self.peak_memory - self.start_memory
 
         # Compute derived metrics
         tokens_per_sample = (

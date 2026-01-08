@@ -45,7 +45,7 @@ def load_config() -> Dict[str, Any]:
 
 def load_prompts() -> List[Dict[str, Any]]:
     """Load prompts from directory."""
-    prompts_file = experiment_dir / "prompts" / "prompts_200.json"
+    prompts_file = experiment_dir / "prompts" / "prompts_100.json"
     with open(prompts_file, 'r') as f:
         data = json.load(f)
     return data['prompts']

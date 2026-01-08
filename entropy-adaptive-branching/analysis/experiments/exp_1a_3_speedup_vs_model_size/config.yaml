@@ -57,7 +57,7 @@ prompts_count: 10   # number of prompts to test per model
 
 # Debug mode (for quick testing)
 debug:
-  enabled: true
+  enabled: false  # Set to false to run full experiment with all 4 models
   model_configs:
     - name: "Qwen/Qwen2.5-0.5B-Instruct"
       params: "0.5B"
