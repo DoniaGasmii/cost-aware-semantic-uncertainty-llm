@@ -1,0 +1,100 @@
+# Experiment 1.A.3: Speedup vs Model Size
+# Research Question: Does EAB provide greater speedup with larger models?
+# Hypothesis: Larger models benefit more (more computation to share per forward pass)
+
+experiment:
+  name: "exp_1a_3_speedup_vs_model_size"
+  description: "Measure EAB speedup across different model sizes (natural EAB behavior)"
+  date_created: "2025-01-07"
+  parent_experiment: "1.A - Efficiency Analysis"
+  sub_experiment: "3 of 4"
+
+# Generation parameters (FIXED)
+generation:
+  max_new_tokens: 30
+  temperature: 0.8
+  top_p: 1.0
+  do_sample: true
+
+# EAB parameters (FIXED)
+eab:
+  entropy_threshold: 0.055
+  branch_factor: 3
+  max_paths: 20
+
+# Naive sampling parameters (will match EAB sample count)
+naive:
+  temperature: 0.8
+  top_p: 1.0
+
+# Fair Comparison Protocol:
+# 1. Run EAB with natural behavior → generates N samples (varies by prompt)
+# 2. Run Naive N times → match EAB's sample count
+# 3. Compare costs fairly
+
+# Independent Variable: Model size
+model_configs:
+  - name: "Qwen/Qwen2.5-0.5B-Instruct"
+    params: "0.5B"
+    device: "cuda"
+    dtype: "float16"
+  - name: "Qwen/Qwen2.5-1.5B-Instruct"
+    params: "1.5B"
+    device: "cuda"
+    dtype: "float16"
+  - name: "Qwen/Qwen2.5-3B-Instruct"
+    params: "3B"
+    device: "cuda"
+    dtype: "float16"
+  - name: "Qwen/Qwen2.5-7B-Instruct"
+    params: "7B"
+    device: "cuda"
+    dtype: "float16"
+
+# Fixed Variables
+prompt_length: 200  # tokens (FIXED)
+prompts_count: 10   # number of prompts to test per model
+
+# Debug mode (for quick testing)
+debug:
+  enabled: true
+  model_configs:
+    - name: "Qwen/Qwen2.5-0.5B-Instruct"
+      params: "0.5B"
+      device: "cuda"
+      dtype: "float16"
+    - name: "Qwen/Qwen2.5-3B-Instruct"
+      params: "3B"
+      device: "cuda"
+      dtype: "float16"
+  prompts_count: 2  # Only 2 prompts per model
+
+# Metrics to track
+metrics:
+  cost:
+    - "token_steps"        # Total forward passes × tokens (FLOPs proxy)
+    - "wall_clock_time"    # Real execution time (seconds)
+    - "memory_peak_mb"     # Peak memory usage (MB)
+    - "tokens_per_sample"  # Total tokens / number of samples
+
+  efficiency:
+    - "speedup_factor"     # Naive cost / EAB cost
+    - "cost_ratio"         # EAB cost / Naive cost
+
+  branching:
+    - "branch_count"       # Total number of branches
+    - "branch_frequency"   # Branches per token position
+    - "avg_branch_position"  # Average token position where branching occurs
+    - "final_path_count"   # Number of active paths at end
+
+# Output configuration
+output:
+  save_raw_results: true
+  save_intermediate: true
+  save_generated_texts: true
+  results_dir: "results"
+  figures_dir: "results/figures"
+  texts_dir: "results/generated_texts"
+
+# Reproducibility
+seed: 42

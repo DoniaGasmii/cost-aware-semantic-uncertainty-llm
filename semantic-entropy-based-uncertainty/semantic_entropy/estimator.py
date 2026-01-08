@@ -69,12 +69,26 @@ class SemanticUncertaintyEstimator:
         self.use_weighted_probs = use_weighted_probs
         self.batch_size = batch_size
 
-        # Initialize encoder with caching
+        # Determine device
+        if device is None:
+            import torch
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.device = device
+
+        # Initialize encoder with caching and float16 for memory efficiency
         cache_folder = cache_dir or "./models/cache"
+
+        # Use model_kwargs for float16 on CUDA
+        model_kwargs = {}
+        if device == "cuda":
+            import torch
+            model_kwargs = {'torch_dtype': torch.float16}
+
         self.encoder = SentenceTransformer(
             model_name,
             device=device,
-            cache_folder=cache_folder
+            cache_folder=cache_folder,
+            model_kwargs=model_kwargs
         )
         
         # Initialize clusterer
