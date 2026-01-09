@@ -27,9 +27,9 @@ analysis/
 
 **Goal**: Comprehensive evaluation of EAB's computational efficiency across different conditions
 
-**Status**: 1/4 implemented
+**Status**: 2/5 implemented
 
-This experiment consists of 4 sub-experiments:
+This experiment consists of 5 sub-experiments:
 
 #### 1.A.1: Speedup vs Prompt Length ✅
 
@@ -87,6 +87,20 @@ This experiment consists of 4 sub-experiments:
 
 ---
 
+#### 1.A.5: Speedup vs Generation Length ✅
+
+**Research Question**: Does EAB efficiency increase with longer generations?
+
+**Independent Variable**: Generation length (max_new_tokens) [10, 30, 50, 100]
+
+**Fixed**: Model (Qwen2.5-3B), Prompt length (200), Temperature (0.8)
+
+**Status**: ✅ Implemented
+
+**Location**: [`experiments/exp_1a_5_speedup_vs_generation_length/`](experiments/exp_1a_5_speedup_vs_generation_length/)
+
+---
+
 ### Experiment 1.B: Quality Analysis (Planned)
 
 **Research Question**: Does EAB maintain sample diversity despite sharing computation?
@@ -95,11 +109,73 @@ This experiment consists of 4 sub-experiments:
 
 ---
 
-### Experiment 1.C: Hyperparameter Sensitivity (Planned)
+### Experiment 1.C: Hyperparameter Sensitivity ✅
 
-**Research Question**: How do EAB parameters affect cost-quality tradeoff?
+**Goal**: Analyze how EAB hyperparameters affect cost-quality tradeoff
 
-**Status**: 📋 Planned
+**Status**: ✅ Implemented (4/4 sub-experiments)
+
+This experiment analyzes the most impactful EAB hyperparameters:
+
+#### 1.C.1: Branch Factor Sensitivity ✅
+
+**Research Question**: How does branching width affect cost-quality tradeoff?
+
+**Independent Variable**: branch_factor [2, 3, 5, 7]
+
+**Fixed**: Model (Qwen2.5-3B), Prompt length (200), Threshold (0.055), max_paths (20)
+
+**Status**: ✅ Implemented
+
+**Location**: [`experiments/exp_1c_1_branch_factor_sensitivity/`](experiments/exp_1c_1_branch_factor_sensitivity/)
+
+---
+
+#### 1.C.2: Max Paths Sensitivity ✅
+
+**Research Question**: How does path budget affect cost-quality balance?
+
+**Independent Variable**: max_paths [5, 10, 20, 50]
+
+**Fixed**: Model (Qwen2.5-3B), Prompt length (200), Threshold (0.055), branch_factor (3)
+
+**Status**: ✅ Implemented
+
+**Location**: [`experiments/exp_1c_2_max_paths_sensitivity/`](experiments/exp_1c_2_max_paths_sensitivity/)
+
+---
+
+#### 1.C.3: Temperature Sensitivity ✅
+
+**Research Question**: How does sampling temperature interact with EAB?
+
+**Independent Variable**: temperature [0.5, 0.7, 0.9, 1.1, 1.3]
+
+**Fixed**: Model (Qwen2.5-3B), Prompt length (200), Threshold (0.055)
+
+**Key Insight**: Temperature affects BOTH naive baseline AND EAB entropy distribution
+
+**Status**: ✅ Implemented
+
+**Location**: [`experiments/exp_1c_3_temperature_sensitivity/`](experiments/exp_1c_3_temperature_sensitivity/)
+
+---
+
+#### 1.C.4: Temperature × Threshold Interaction ✅
+
+**Research Question**: How do temperature and threshold interact to control branching?
+
+**Independent Variables**:
+- temperature [0.6, 0.8, 1.0, 1.2]
+- entropy_threshold [0.036, 0.055, 0.075, 0.100]
+
+**Fixed**: Model (Qwen2.5-3B), Prompt length (200), branch_factor (3), max_paths (20)
+
+**Design**: 2D grid search (4×4×5 prompts = 80 runs)
+
+**Status**: ✅ Implemented
+
+**Location**: [`experiments/exp_1c_4_temp_threshold_interaction/`](experiments/exp_1c_4_temp_threshold_interaction/)
 
 ---
 
