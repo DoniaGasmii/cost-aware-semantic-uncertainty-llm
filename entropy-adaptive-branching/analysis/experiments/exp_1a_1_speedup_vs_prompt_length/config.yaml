@@ -48,7 +48,7 @@ prompts_per_length: 10  # number of prompts to test per length
 
 # Debug mode (for quick testing)
 debug:
-  enabled: true  # Set to true for quick testing
+  enabled: false  # Set to true for quick testing
   prompt_lengths: [50, 200]  # Only 2 lengths
   prompts_per_length: 2  # Only 2 prompts per length
   target_samples: 10  # Reference only (actual count from EAB)

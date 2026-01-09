@@ -17,7 +17,7 @@ model:
 
 # Generation parameters
 generation:
-  max_new_tokens: 30
+  max_new_tokens: 50
   top_p: 1.0
   do_sample: true
 
@@ -28,8 +28,8 @@ eab:
   implementation: "cow"
 
 # INDEPENDENT VARIABLES: 2D grid
-temperatures: [0.6, 0.8, 1.0, 1.2]
-entropy_thresholds: [0.036, 0.055, 0.075, 0.100]  # Conservative, Balanced, Moderate, Aggressive
+temperatures:  [0.5, 0.6, 0.8, 1.0, 1.2, 1.5]
+entropy_thresholds: [0.02, 0.036, 0.055, 0.075, 0.100, 0.12]  # Conservative, Balanced, Moderate, Aggressive
 prompts_per_combination: 5  # 4×4×5 = 80 runs total
 
 # Fixed variables
@@ -37,7 +37,7 @@ prompt_length: 200
 
 # Debug mode
 debug:
-  enabled: true
+  enabled: false
   temperatures: [0.6, 1.2]
   entropy_thresholds: [0.036, 0.100]
   prompts_per_combination: 2  # 2×2×2 = 8 runs
