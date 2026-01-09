@@ -1,5 +1,6 @@
 """
 Generate plots for Experiment 1.A.5: Speedup vs Generation Length
+Shows ALL 3 metrics: Token-steps, Wall-clock time, Peak memory
 """
 
 import json
@@ -25,36 +26,64 @@ def set_style():
     })
 
 
-def plot_speedup_vs_generation_length(summary: Dict[int, Dict], output_dir: Path):
-    """Plot speedup vs generation length."""
+def plot_speedup_all_metrics(summary: Dict[int, Dict], output_dir: Path):
+    """Plot ALL 3 speedup metrics together."""
     set_style()
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(12, 7))
 
     lengths = sorted(summary.keys())
-    means = [summary[l]['speedup_token_steps']['mean'] for l in lengths]
-    stds = [summary[l]['speedup_token_steps']['std'] for l in lengths]
 
-    ax.plot(lengths, means, 'o-', color='#2E86AB', markersize=10, linewidth=2, label='Token-steps speedup')
-    ax.fill_between(lengths, np.array(means) - np.array(stds), np.array(means) + np.array(stds),
-                     alpha=0.2, color='#2E86AB')
+    # Metric configurations
+    metrics = {
+        'speedup_token_steps': {
+            'label': 'Token-steps (algorithmic)',
+            'color': '#2E86AB',
+            'marker': 'o'
+        },
+        'speedup_time': {
+            'label': 'Wall-clock time (practical)',
+            'color': '#A23B72',
+            'marker': 's'
+        },
+        'speedup_memory': {
+            'label': 'Peak memory',
+            'color': '#F18F01',
+            'marker': '^'
+        }
+    }
 
-    ax.axhline(y=1.0, color='gray', linestyle='--', linewidth=1, alpha=0.5, label='No speedup')
-    ax.set_xlabel('Generation Length (max_new_tokens)', fontweight='bold')
-    ax.set_ylabel('Speedup Factor (Naive / EAB)', fontweight='bold')
-    ax.set_title('EAB Speedup vs Generation Length', fontweight='bold', pad=20)
-    ax.legend(loc='best')
+    # Plot each metric
+    for metric_name, metric_info in metrics.items():
+        means = [summary[l][metric_name]['mean'] for l in lengths]
+        stds = [summary[l][metric_name]['std'] for l in lengths]
+
+        ax.plot(lengths, means, marker=metric_info['marker'],
+                color=metric_info['color'], markersize=10, linewidth=2,
+                label=metric_info['label'])
+        ax.fill_between(lengths,
+                        np.array(means) - np.array(stds),
+                        np.array(means) + np.array(stds),
+                        alpha=0.2, color=metric_info['color'])
+
+    # Reference line
+    ax.axhline(y=1.0, color='gray', linestyle='--', linewidth=1, alpha=0.5, label='No speedup (1.0×)')
+
+    ax.set_xlabel('Generation Length (max_new_tokens)', fontweight='bold', fontsize=14)
+    ax.set_ylabel('Speedup Factor (Naive / EAB)', fontweight='bold', fontsize=14)
+    ax.set_title('EAB Efficiency: All Metrics vs Generation Length', fontweight='bold', pad=20, fontsize=16)
+    ax.legend(loc='best', framealpha=0.95, fontsize=12)
     ax.grid(True, alpha=0.3, linestyle=':')
     ax.set_ylim(bottom=0)
 
-    output_file = output_dir / "speedup_vs_generation_length.png"
+    output_file = output_dir / "speedup_all_metrics.png"
     plt.savefig(output_file)
     print(f"   ✓ Saved: {output_file.name}")
     plt.close()
 
 
 def plot_cost_breakdown(summary: Dict[int, Dict], output_dir: Path):
-    """Plot cost breakdown: Naive vs EAB."""
+    """Plot cost breakdown: Naive vs EAB (token-steps only)."""
     set_style()
 
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -66,12 +95,12 @@ def plot_cost_breakdown(summary: Dict[int, Dict], output_dir: Path):
     x = np.arange(len(lengths))
     width = 0.35
 
-    ax.bar(x - width/2, naive_means, width, label='Naive', color='#E63946', alpha=0.8)
-    ax.bar(x + width/2, eab_means, width, label='EAB', color='#06A77D', alpha=0.8)
+    ax.bar(x - width/2, naive_means, width, label='Naive (Sequential)', color='#E63946', alpha=0.8)
+    ax.bar(x + width/2, eab_means, width, label='EAB (Adaptive)', color='#06A77D', alpha=0.8)
 
     ax.set_xlabel('Generation Length (tokens)', fontweight='bold')
-    ax.set_ylabel('Token Steps (FLOPs proxy)', fontweight='bold')
-    ax.set_title('Cost Comparison: Naive vs EAB', fontweight='bold', pad=20)
+    ax.set_ylabel('Token Steps (Forward Passes)', fontweight='bold')
+    ax.set_title('Computational Cost: Naive vs EAB', fontweight='bold', pad=20)
     ax.set_xticks(x)
     ax.set_xticklabels([str(l) for l in lengths])
     ax.legend(loc='best')
@@ -127,7 +156,7 @@ def main():
     figures_dir = experiment_dir / "results" / "figures"
     figures_dir.mkdir(parents=True, exist_ok=True)
 
-    plot_speedup_vs_generation_length(summary, figures_dir)
+    plot_speedup_all_metrics(summary, figures_dir)  # Main plot with all 3 metrics!
     plot_cost_breakdown(summary, figures_dir)
     plot_branching_analysis(summary, figures_dir)
 
@@ -135,7 +164,7 @@ def main():
     print("PLOTTING COMPLETE")
     print("=" * 70)
     print(f"\nGenerated figures in: {figures_dir}/")
-    print("  • speedup_vs_generation_length.png")
+    print("  • speedup_all_metrics.png  ← ALL 3 METRICS!")
     print("  • cost_breakdown.png")
     print("  • branching_analysis.png")
     print("=" * 70)

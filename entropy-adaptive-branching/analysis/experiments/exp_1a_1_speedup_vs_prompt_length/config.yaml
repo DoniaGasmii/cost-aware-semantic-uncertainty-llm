@@ -24,7 +24,7 @@ generation:
 
 # EAB parameters
 eab:
-  entropy_threshold: 0.055
+  entropy_threshold: 0.1
   branch_factor: 3
   max_paths: 20
   implementation: "cow"  # "cow" (Copy-on-Write) or "original" (deep copy) or "both"

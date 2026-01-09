@@ -36,6 +36,7 @@ def compute_summary_stats(results: List[Dict[str, Any]]) -> Dict[int, Dict[str, 
     for length, length_results in sorted(by_length.items()):
         speedup_token = [r['efficiency']['speedup_token_steps'] for r in length_results]
         speedup_time = [r['efficiency']['speedup_time'] for r in length_results]
+        speedup_memory = [r['efficiency']['speedup_memory'] for r in length_results]  # Added!
 
         eab_token_steps = [r['eab_metrics']['token_steps'] for r in length_results]
         naive_token_steps = [r['naive_metrics']['token_steps'] for r in length_results]
@@ -64,6 +65,17 @@ def compute_summary_stats(results: List[Dict[str, Any]]) -> Dict[int, Dict[str, 
                     loc=np.mean(speedup_time),
                     scale=stats.sem(speedup_time)
                 )
+            },
+            'speedup_memory': {  # Added!
+                'mean': np.mean(speedup_memory),
+                'std': np.std(speedup_memory),
+                'median': np.median(speedup_memory),
+                'ci_95': stats.t.interval(
+                    0.95,
+                    len(speedup_memory) - 1,
+                    loc=np.mean(speedup_memory),
+                    scale=stats.sem(speedup_memory)
+                ) if len(speedup_memory) > 1 else (np.mean(speedup_memory), np.mean(speedup_memory))
             },
             'eab_token_steps': {
                 'mean': np.mean(eab_token_steps),

@@ -18,7 +18,7 @@ generation:
 
 # EAB parameters (FIXED)
 eab:
-  entropy_threshold: 0.055
+  entropy_threshold: 0.1
   branch_factor: 3
   max_paths: 20
 
@@ -49,7 +49,7 @@ model_configs:
   - name: "Qwen/Qwen2.5-7B-Instruct"
     params: "7B"
     device: "cuda"
-    dtype: "float16"
+    dtype: "int8"
 
 # Fixed Variables
 prompt_length: 200  # tokens (FIXED)

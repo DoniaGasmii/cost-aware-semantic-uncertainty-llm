@@ -293,10 +293,11 @@ def plot_all_results(
 
     print("\nGenerating plots...")
 
-    # Plot 1: Speedup vs length
+    # Plot 1: Speedup vs length (ALL 3 METRICS)
     plot_speedup_vs_length(
         summary,
         output_dir / "speedup_vs_length.png",
+        metrics=['speedup_token_steps', 'speedup_time', 'speedup_memory'],  # All 3!
         show_plot=show_plots
     )
 
