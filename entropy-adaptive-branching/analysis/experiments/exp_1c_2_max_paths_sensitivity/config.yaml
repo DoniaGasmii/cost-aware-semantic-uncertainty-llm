@@ -1,0 +1,79 @@
+# Experiment 1.C.2: Max Paths Sensitivity
+# RQ: How does path budget affect cost-quality balance?
+# Hypothesis: Higher max_paths = better quality but diminishing returns
+
+experiment:
+  name: "exp_1c_2_max_paths_sensitivity"
+  description: "Analyze impact of max_paths on cost-quality tradeoff"
+  date_created: "2026-01-09"
+  parent_experiment: "1.C - Hyperparameter Sensitivity"
+  sub_experiment: "2 of 4"
+
+# Model configuration
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"
+  dtype: "float16"
+
+# Generation parameters (fixed)
+generation:
+  max_new_tokens: 30
+  temperature: 0.8
+  top_p: 1.0
+  do_sample: true
+
+# EAB parameters
+eab:
+  entropy_threshold: 0.055  # Fixed
+  branch_factor: 3          # Fixed
+  implementation: "cow"
+
+# Naive sampling parameters
+naive:
+  temperature: 0.8
+  top_p: 1.0
+
+# INDEPENDENT VARIABLE: Max paths
+max_paths_values: [5, 10, 20, 50]
+prompts_per_value: 10
+
+# Fixed variables
+prompt_length: 200
+
+# Debug mode
+debug:
+  enabled: true
+  max_paths_values: [5, 20]
+  prompts_per_value: 2
+
+# Metrics to track
+metrics:
+  cost:
+    - "token_steps"
+    - "wall_clock_time"
+    - "memory_peak_mb"
+    - "tokens_per_sample"
+  efficiency:
+    - "speedup_factor"
+    - "cost_ratio"
+  branching:
+    - "branch_count"
+    - "avg_branch_position"
+    - "final_path_count"
+    - "pruning_count"       # How many paths were pruned
+  quality:
+    - "diversity_score"
+    - "coherence_score"
+    - "unique_tokens_ratio"
+
+# Output configuration
+output:
+  save_raw_results: true
+  save_intermediate: true
+  save_generated_texts: true
+  results_dir: "results"
+  figures_dir: "results/figures"
+  texts_dir: "results/generated_texts"
+
+# Reproducibility
+seed: 42

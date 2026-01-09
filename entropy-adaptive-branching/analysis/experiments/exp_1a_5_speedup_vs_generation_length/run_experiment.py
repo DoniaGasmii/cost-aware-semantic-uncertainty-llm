@@ -1,0 +1,322 @@
+"""
+Run Experiment 1.A.5: Speedup vs Generation Length
+
+This script:
+1. Loads prompts of fixed length
+2. Varies max_new_tokens (generation length)
+3. Runs EAB generation with metrics tracking
+4. Runs naive generation with same sample count
+5. Computes efficiency metrics
+"""
+
+import sys
+import json
+import yaml
+import torch
+from pathlib import Path
+from tqdm import tqdm
+from typing import Dict, Any, List
+
+# Add parent directories to path
+experiment_dir = Path(__file__).parent
+analysis_dir = experiment_dir.parent.parent
+eab_dir = analysis_dir.parent
+sys.path.insert(0, str(analysis_dir))
+sys.path.insert(0, str(eab_dir))
+
+# Import EAB
+from eab.core_cow import EntropyAdaptiveBranching
+
+# Import analysis utils
+from utils.metrics import (
+    MetricsTracker,
+    compute_efficiency_metrics,
+    compute_branching_stats
+)
+from utils.data_utils import save_json, append_result
+
+
+def load_config() -> Dict[str, Any]:
+    """Load experiment configuration."""
+    config_path = experiment_dir / "config.yaml"
+    with open(config_path, 'r') as f:
+        return yaml.safe_load(f)
+
+
+def load_prompts(prompts_dir: Path) -> List[Dict[str, Any]]:
+    """Load prompts."""
+    prompts_file = prompts_dir / "prompts.json"
+    with open(prompts_file, 'r') as f:
+        data = json.load(f)
+    return data['prompts']
+
+
+def run_eab_generation(
+    prompt_text: str,
+    eab: EntropyAdaptiveBranching,
+    max_new_tokens: int,
+    temperature: float,
+    tracker: MetricsTracker
+) -> tuple:
+    """Run EAB generation with metrics tracking."""
+    tracker.start()
+
+    # Generate with EAB
+    samples = eab.generate(
+        prompt=prompt_text,
+        max_new_tokens=max_new_tokens,
+        temperature=temperature,
+        use_chat_template=True
+    )
+
+    # Record metrics
+    num_samples = len(samples)
+    tracker.record_samples(num_samples)
+
+    total_tokens = sum(s.get('length', len(s['tokens'])) for s in samples)
+    tracker.record_token_steps(total_tokens)
+
+    # Extract branching info
+    all_branch_points = set()
+    for sample in samples:
+        branch_points = sample.get('branch_points', [])
+        all_branch_points.update(branch_points)
+
+    for bp in sorted(all_branch_points):
+        tracker.record_branch(bp)
+
+    tracker.record_final_paths(num_samples)
+    tracker.update_memory()
+
+    metrics = tracker.stop()
+    return samples, metrics
+
+
+def run_naive_generation(
+    prompt_text: str,
+    num_samples: int,
+    max_new_tokens: int,
+    temperature: float,
+    model,
+    tokenizer,
+    device: str,
+    tracker: MetricsTracker
+) -> tuple:
+    """Run naive sampling with metrics tracking."""
+    tracker.start()
+
+    samples = []
+    prompt_ids = tokenizer.encode(prompt_text, return_tensors='pt').to(device)
+
+    for _ in range(num_samples):
+        with torch.no_grad():
+            output_ids = model.generate(
+                prompt_ids,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                do_sample=True,
+                top_p=1.0,
+                pad_token_id=tokenizer.eos_token_id
+            )
+
+        generated_ids = output_ids[0][prompt_ids.shape[1]:]
+        generated_text = tokenizer.decode(generated_ids, skip_special_tokens=True)
+        full_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+
+        samples.append({
+            'text': full_text,
+            'generated_only': generated_text,
+            'tokens': output_ids[0].tolist(),
+            'num_generated_tokens': len(generated_ids)
+        })
+
+        tracker.record_token_steps(len(output_ids[0]))
+        tracker.update_memory()
+
+    tracker.record_samples(num_samples)
+    metrics = tracker.stop()
+
+    return samples, metrics
+
+
+def run_single_experiment(
+    prompt: Dict[str, Any],
+    generation_length: int,
+    eab: EntropyAdaptiveBranching,
+    model,
+    tokenizer,
+    config: Dict[str, Any]
+) -> Dict[str, Any]:
+    """Run experiment on a single prompt with specific generation length."""
+    prompt_text = prompt['text']
+
+    print(f"  Prompt: {prompt['id']} | Generation length: {generation_length}")
+
+    # Run EAB
+    print(f"    Running EAB...")
+    eab_tracker = MetricsTracker(device=config['model']['device'])
+    eab_samples, eab_metrics = run_eab_generation(
+        prompt_text, eab, generation_length, config['generation']['temperature'], eab_tracker
+    )
+    num_eab_samples = len(eab_samples)
+    print(f"      ✓ Generated {num_eab_samples} samples")
+
+    # Run Naive with same count
+    print(f"    Running Naive ({num_eab_samples} samples)...")
+    naive_tracker = MetricsTracker(device=config['model']['device'])
+    naive_samples, naive_metrics = run_naive_generation(
+        prompt_text, num_eab_samples, generation_length, config['generation']['temperature'],
+        model, tokenizer, config['model']['device'], naive_tracker
+    )
+    print(f"      ✓ Generated {len(naive_samples)} samples")
+
+    # Compute metrics
+    efficiency = compute_efficiency_metrics(naive_metrics, eab_metrics)
+    branching_stats = compute_branching_stats(eab_metrics)
+
+    result = {
+        'prompt_id': prompt['id'],
+        'generation_length': generation_length,
+        'prompt_length': prompt['actual_length'],
+        'num_eab_samples': num_eab_samples,
+        'num_naive_samples': num_eab_samples,
+        'eab_metrics': eab_metrics.to_dict(),
+        'naive_metrics': naive_metrics.to_dict(),
+        'efficiency': efficiency,
+        'branching_stats': branching_stats,
+    }
+
+    print(f"      → Speedup: {efficiency['speedup_token_steps']:.2f}×")
+
+    return result
+
+
+def main():
+    """Main experiment runner."""
+    print("=" * 70)
+    print("EXPERIMENT 1.A.5: SPEEDUP VS GENERATION LENGTH")
+    print("=" * 70)
+
+    # Load configuration
+    print("\n1. Loading configuration...")
+    config = load_config()
+
+    # Set random seed
+    torch.manual_seed(config['seed'])
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(config['seed'])
+
+    # Determine mode
+    if config['debug']['enabled']:
+        print("   🔧 DEBUG MODE")
+        generation_lengths = config['debug']['generation_lengths']
+        prompts_per_length = config['debug']['prompts_per_length']
+    else:
+        print("   🚀 FULL EXPERIMENT MODE")
+        generation_lengths = config['generation_lengths']
+        prompts_per_length = config['prompts_per_length']
+
+    print(f"   Generation lengths: {generation_lengths}")
+    print(f"   Prompts per length: {prompts_per_length}")
+    print(f"   Device: {config['model']['device']}")
+
+    # Initialize model and EAB
+    print("\n2. Initializing model and EAB...")
+    device = config['model']['device']
+
+    model_kwargs = {
+        'model_name': config['model']['name'],
+        'entropy_threshold': config['eab']['entropy_threshold'],
+        'branch_factor': config['eab']['branch_factor'],
+        'max_paths': config['eab']['max_paths'],
+        'device': device
+    }
+
+    if device == 'cuda':
+        model_kwargs['torch_dtype'] = torch.float16
+        print(f"   Using FP16 precision")
+
+    eab = EntropyAdaptiveBranching(**model_kwargs)
+    model = eab.model
+    tokenizer = eab.tokenizer
+    print(f"   ✓ EAB initialized: threshold={config['eab']['entropy_threshold']}")
+    print(f"   ✓ Model: {config['model']['name']}")
+
+    # Prepare results directory
+    results_dir = experiment_dir / config['output']['results_dir']
+    results_dir.mkdir(exist_ok=True, parents=True)
+    results_file = results_dir / "raw_results.json"
+
+    # Initialize results file
+    save_json({
+        'metadata': {
+            'config': config,
+            'total_experiments': len(generation_lengths) * prompts_per_length
+        },
+        'results': []
+    }, results_file)
+
+    # Load prompts once (fixed length)
+    print("\n3. Loading prompts...")
+    prompts_dir = experiment_dir / "prompts" / f"length_{config['prompt_length']:03d}"
+    prompts = load_prompts(prompts_dir)[:prompts_per_length]
+    print(f"   ✓ Loaded {len(prompts)} prompts")
+
+    # Run experiments
+    print("\n4. Running experiments...")
+    print("-" * 70)
+
+    all_results = []
+    total_experiments = len(generation_lengths) * len(prompts)
+    experiment_count = 0
+
+    for gen_length in generation_lengths:
+        print(f"\n📏 Generation Length: {gen_length} tokens")
+        print("-" * 70)
+
+        for prompt in prompts:
+            experiment_count += 1
+            print(f"\n[{experiment_count}/{total_experiments}]")
+
+            try:
+                result = run_single_experiment(
+                    prompt, gen_length, eab, model, tokenizer, config
+                )
+                all_results.append(result)
+
+                if config['output']['save_intermediate']:
+                    append_result(result, results_file)
+
+            except Exception as e:
+                print(f"    ✗ Error: {e}")
+                import traceback
+                traceback.print_exc()
+                continue
+
+    # Final save
+    print("\n" + "=" * 70)
+    print("5. Saving final results...")
+    save_json({
+        'metadata': {
+            'config': config,
+            'total_experiments': len(all_results),
+            'completed_successfully': len(all_results),
+        },
+        'results': all_results
+    }, results_file)
+    print(f"   ✓ Results saved to {results_file}")
+
+    # Summary
+    print("\n" + "=" * 70)
+    print("EXPERIMENT COMPLETE")
+    print("=" * 70)
+    print(f"Total experiments: {len(all_results)}")
+    print(f"Results saved to: {results_file}")
+    print("\nNext steps:")
+    print("  1. Run: python analyze_results.py")
+    print("  2. Run: python plot_results.py")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    main()

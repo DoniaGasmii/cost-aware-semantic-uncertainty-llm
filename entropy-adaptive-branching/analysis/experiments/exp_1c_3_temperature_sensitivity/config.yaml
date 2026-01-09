@@ -1,0 +1,78 @@
+# Experiment 1.C.3: Temperature Sensitivity
+# RQ: How does sampling temperature interact with EAB?
+# Hypothesis: Higher temp = higher entropy = more branching
+
+experiment:
+  name: "exp_1c_3_temperature_sensitivity"
+  description: "Analyze impact of temperature on entropy distribution and branching"
+  date_created: "2026-01-09"
+  parent_experiment: "1.C - Hyperparameter Sensitivity"
+  sub_experiment: "3 of 4"
+
+# Model configuration
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"
+  dtype: "float16"
+
+# Generation parameters
+generation:
+  max_new_tokens: 30
+  top_p: 1.0
+  do_sample: true
+
+# EAB parameters
+eab:
+  entropy_threshold: 0.055  # Fixed
+  branch_factor: 3          # Fixed
+  max_paths: 20             # Fixed
+  implementation: "cow"
+
+# INDEPENDENT VARIABLE: Temperature
+temperatures: [0.5, 0.7, 0.9, 1.1, 1.3]
+prompts_per_temp: 10
+
+# Fixed variables
+prompt_length: 200
+
+# Debug mode
+debug:
+  enabled: true
+  temperatures: [0.7, 1.1]
+  prompts_per_temp: 2
+
+# Metrics to track
+metrics:
+  cost:
+    - "token_steps"
+    - "wall_clock_time"
+    - "memory_peak_mb"
+    - "tokens_per_sample"
+  efficiency:
+    - "speedup_factor"
+    - "cost_ratio"
+  branching:
+    - "branch_count"
+    - "avg_branch_position"
+    - "final_path_count"
+  entropy:
+    - "avg_entropy"           # Average entropy across all positions
+    - "max_entropy"            # Peak entropy during generation
+    - "entropy_std"            # Entropy variance
+    - "branching_rate"         # Fraction of positions that branched
+  quality:
+    - "diversity_score"
+    - "coherence_score"
+    - "unique_tokens_ratio"
+
+# Output configuration
+output:
+  save_raw_results: true
+  save_intermediate: true
+  save_generated_texts: true
+  results_dir: "results"
+  figures_dir: "results/figures"
+  texts_dir: "results/generated_texts"
+
+# Reproducibility
+seed: 42
