@@ -45,7 +45,7 @@ def load_config() -> Dict[str, Any]:
 
 def load_prompts(prompts_dir: Path) -> List[Dict[str, Any]]:
     """Load prompts."""
-    prompts_file = prompts_dir / "prompts.json"
+    prompts_file = prompts_dir / "prompts_100.json"
     with open(prompts_file, 'r') as f:
         data = json.load(f)
     return data['prompts']
@@ -258,7 +258,7 @@ def main():
 
     # Load prompts once (fixed length)
     print("\n3. Loading prompts...")
-    prompts_dir = experiment_dir / "prompts" / f"length_{config['prompt_length']:03d}"
+    prompts_dir = experiment_dir / "prompts" 
     prompts = load_prompts(prompts_dir)[:prompts_per_length]
     print(f"   ✓ Loaded {len(prompts)} prompts")
 

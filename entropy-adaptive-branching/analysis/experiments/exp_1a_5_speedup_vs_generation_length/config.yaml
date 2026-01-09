@@ -38,11 +38,11 @@ generation_lengths: [10, 30, 50, 100]  # max_new_tokens values
 prompts_per_length: 10
 
 # Fixed variables
-prompt_length: 200  # Fixed at 200 tokens
+prompt_length: 100  # Fixed at 200 tokens
 
 # Debug mode
 debug:
-  enabled: true
+  enabled: false
   generation_lengths: [10, 50]
   prompts_per_length: 2
 
