@@ -32,9 +32,11 @@ def plot_speedup_vs_model_size(summary, output_path):
     token_stds = [summary[m]['speedup_token_steps']['std'] for m in model_params]
     time_means = [summary[m]['speedup_time']['mean'] for m in model_params]
     time_stds = [summary[m]['speedup_time']['std'] for m in model_params]
+    memory_means = [summary[m].get('speedup_memory', {}).get('mean', 0.0) for m in model_params]
+    memory_stds = [summary[m].get('speedup_memory', {}).get('std', 0.0) for m in model_params]
 
     # Plot token-steps speedup
-    ax.plot(model_sizes, token_means, label='Token-steps', color='#2E86AB',
+    ax.plot(model_sizes, token_means, label='Token-steps (algorithmic)', color='#2E86AB',
             marker='o', markersize=8, linewidth=2, linestyle='-')
     ax.fill_between(model_sizes,
                      np.array(token_means) - np.array(token_stds),
@@ -42,12 +44,21 @@ def plot_speedup_vs_model_size(summary, output_path):
                      alpha=0.2, color='#2E86AB')
 
     # Plot time speedup
-    ax.plot(model_sizes, time_means, label='Wall-clock time', color='#A23B72',
+    ax.plot(model_sizes, time_means, label='Wall-clock time (practical)', color='#A23B72',
             marker='s', markersize=8, linewidth=2, linestyle='-')
     ax.fill_between(model_sizes,
                      np.array(time_means) - np.array(time_stds),
                      np.array(time_means) + np.array(time_stds),
                      alpha=0.2, color='#A23B72')
+
+    # Plot memory speedup (if data available)
+    if any(memory_means):
+        ax.plot(model_sizes, memory_means, label='Peak memory', color='#F18F01',
+                marker='^', markersize=8, linewidth=2, linestyle='-')
+        ax.fill_between(model_sizes,
+                         np.array(memory_means) - np.array(memory_stds),
+                         np.array(memory_means) + np.array(memory_stds),
+                         alpha=0.2, color='#F18F01')
 
     # Reference line
     ax.axhline(y=1.0, color='gray', linestyle='--', linewidth=1, alpha=0.5, label='No speedup')

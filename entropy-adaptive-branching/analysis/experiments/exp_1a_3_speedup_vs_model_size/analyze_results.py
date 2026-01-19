@@ -45,6 +45,7 @@ def compute_summary_stats(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, 
         # Extract metrics
         speedup_token = [r['efficiency']['speedup_token_steps'] for r in model_results]
         speedup_time = [r['efficiency']['speedup_time'] for r in model_results]
+        speedup_memory = [r['efficiency'].get('speedup_memory', 0.0) for r in model_results]
 
         eab_token_steps = [r['eab_metrics']['token_steps'] for r in model_results]
         naive_token_steps = [r['naive_metrics']['token_steps'] for r in model_results]
@@ -86,6 +87,20 @@ def compute_summary_stats(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, 
                     loc=np.mean(speedup_time),
                     scale=stats.sem(speedup_time)
                 )
+            },
+
+            'speedup_memory': {
+                'mean': np.mean(speedup_memory) if any(speedup_memory) else 0.0,
+                'std': np.std(speedup_memory) if any(speedup_memory) else 0.0,
+                'median': np.median(speedup_memory) if any(speedup_memory) else 0.0,
+                'min': np.min(speedup_memory) if any(speedup_memory) else 0.0,
+                'max': np.max(speedup_memory) if any(speedup_memory) else 0.0,
+                'ci_95': stats.t.interval(
+                    0.95,
+                    len(speedup_memory) - 1,
+                    loc=np.mean(speedup_memory),
+                    scale=stats.sem(speedup_memory) if len(speedup_memory) > 1 else 0.0
+                ) if any(speedup_memory) else (0.0, 0.0)
             },
 
             # Absolute times
@@ -164,14 +179,14 @@ def test_speedup_trend(summary: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
 
 def print_summary_table(summary: Dict[str, Dict[str, Any]]):
     """Print formatted summary table."""
-    print("\n" + "=" * 120)
+    print("\n" + "=" * 140)
     print("SUMMARY STATISTICS BY MODEL SIZE")
-    print("=" * 120)
+    print("=" * 140)
 
     # Header
-    print(f"{'Model':<25} {'Size':<8} {'N':<5} {'Speedup (Token)':<25} {'Speedup (Time)':<25} {'Time (s)':<20}")
-    print(f"{'':<25} {'':<8} {'':<5} {'Mean±SD [95% CI]':<25} {'Mean±SD [95% CI]':<25} {'EAB | Naive':<20}")
-    print("-" * 120)
+    print(f"{'Model':<25} {'Size':<8} {'N':<5} {'Speedup (Token)':<22} {'Speedup (Time)':<22} {'Speedup (Memory)':<22} {'Time (s)':<15}")
+    print(f"{'':<25} {'':<8} {'':<5} {'Mean±SD':<22} {'Mean±SD':<22} {'Mean±SD':<22} {'EAB | Naive':<15}")
+    print("-" * 140)
 
     # Rows (ordered by size)
     model_order = {"0.5B": 0, "1.5B": 1, "3B": 2, "7B": 3}
@@ -181,14 +196,17 @@ def print_summary_table(summary: Dict[str, Dict[str, Any]]):
         # Token speedup
         token_mean = s['speedup_token_steps']['mean']
         token_std = s['speedup_token_steps']['std']
-        token_ci = s['speedup_token_steps']['ci_95']
-        token_str = f"{token_mean:.2f}±{token_std:.2f} [{token_ci[0]:.2f}-{token_ci[1]:.2f}]"
+        token_str = f"{token_mean:.2f}±{token_std:.2f}"
 
         # Time speedup
         time_mean = s['speedup_time']['mean']
         time_std = s['speedup_time']['std']
-        time_ci = s['speedup_time']['ci_95']
-        time_str = f"{time_mean:.2f}±{time_std:.2f} [{time_ci[0]:.2f}-{time_ci[1]:.2f}]"
+        time_str = f"{time_mean:.2f}±{time_std:.2f}"
+
+        # Memory speedup
+        mem_mean = s['speedup_memory']['mean']
+        mem_std = s['speedup_memory']['std']
+        mem_str = f"{mem_mean:.2f}±{mem_std:.2f}"
 
         # Absolute times
         eab_time = s['eab_time']['mean']
@@ -198,9 +216,9 @@ def print_summary_table(summary: Dict[str, Dict[str, Any]]):
         # Model name (shortened)
         model_name = s['model_name'].split('/')[-1][:24]
 
-        print(f"{model_name:<25} {model_params:<8} {s['num_prompts']:<5} {token_str:<25} {time_str:<25} {time_abs_str:<20}")
+        print(f"{model_name:<25} {model_params:<8} {s['num_prompts']:<5} {token_str:<22} {time_str:<22} {mem_str:<22} {time_abs_str:<15}")
 
-    print("=" * 120)
+    print("=" * 140)
 
 
 def main():
