@@ -117,8 +117,6 @@ def compute_auroc_metrics(results: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 def compute_summary_statistics(results: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """Compute summary statistics for the experiment."""
-
     # Extract arrays
     se_entropy = [r['se_entropy'] for r in results]
     se_norm_entropy = [r['se_normalized_entropy'] for r in results]
@@ -129,6 +127,10 @@ def compute_summary_statistics(results: List[Dict[str, Any]]) -> Dict[str, Any]:
 
     any_correct = [r['any_correct'] for r in results]
     majority_correct = [r['majority_correct'] for r in results]
+
+    # Compute distribution separately (outside dict)
+    unique_vals, counts = np.unique(n_clusters, return_counts=True)
+    cluster_distribution = {int(k): int(v) for k, v in zip(unique_vals, counts)}
 
     return {
         'num_questions': len(results),
@@ -161,7 +163,7 @@ def compute_summary_statistics(results: List[Dict[str, Any]]) -> Dict[str, Any]:
             'std': float(np.std(n_clusters)),
             'min': int(np.min(n_clusters)),
             'max': int(np.max(n_clusters)),
-            'distribution': dict(zip(*np.unique(n_clusters, return_counts=True))),
+            'distribution': cluster_distribution,  # ← now safe and clean
         },
 
         # Sample info
@@ -169,7 +171,7 @@ def compute_summary_statistics(results: List[Dict[str, Any]]) -> Dict[str, Any]:
         'avg_best_rouge_l': float(np.mean(best_rouge)),
     }
 
-
+    
 def analyze_by_correctness(results: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Compare uncertainty metrics for correct vs incorrect answers.
