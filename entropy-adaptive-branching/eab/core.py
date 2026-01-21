@@ -35,6 +35,7 @@ from .entropy import (
     EntropyTracker
 )
 from .cache import deep_copy_cache, get_cache_size, CacheManager
+from .cache_cow import CopyOnWriteCache
 from .utils import set_seed, format_results, compute_statistics, ProgressTracker
 
 
@@ -64,11 +65,12 @@ class EntropyAdaptiveBranching:
         max_paths: int = 20,
         cache_dir: Optional[str] = None,
         torch_dtype: Optional[torch.dtype] = None,
-        trust_remote_code: bool = False
+        trust_remote_code: bool = False,
+        use_cow: bool = True
     ):
         """
         Initialize the Entropy-Adaptive Branching system.
-        
+
         Args:
             model_name: HuggingFace model name or path
             device: Device to run on ('cuda', 'cpu', or None for auto)
@@ -78,6 +80,7 @@ class EntropyAdaptiveBranching:
             cache_dir: Directory for model cache
             torch_dtype: Data type for model weights (e.g., torch.float16)
             trust_remote_code: Whether to trust remote code (for some models)
+            use_cow: Whether to use Copy-on-Write caching for memory efficiency
         """
         # Device setup
         if device is None:
@@ -123,6 +126,7 @@ class EntropyAdaptiveBranching:
         self.branch_factor = branch_factor
         self.max_paths = max_paths
         self.vocab_size = self.model.config.vocab_size
+        self.use_cow = use_cow
         
         # Managers
         self.cache_manager = CacheManager()
@@ -133,6 +137,7 @@ class EntropyAdaptiveBranching:
         print(f"Entropy threshold: {self.entropy_threshold}")
         print(f"Branch factor: {self.branch_factor}")
         print(f"Max paths: {self.max_paths}")
+        print(f"Copy-on-Write cache: {self.use_cow}")
     
     def generate(
         self,
@@ -241,8 +246,13 @@ class EntropyAdaptiveBranching:
 
                     # Convert cache to DynamicCache if needed
                     cache_to_use = path.cache
-                    if cache_to_use is not None and isinstance(cache_to_use, tuple):
-                        cache_to_use = DynamicCache.from_legacy_cache(cache_to_use)
+                    if cache_to_use is not None:
+                        if isinstance(cache_to_use, CopyOnWriteCache):
+                            # Convert COW cache to DynamicCache for model forward pass
+                            legacy = cache_to_use.to_legacy_cache()
+                            cache_to_use = DynamicCache.from_legacy_cache(legacy) if legacy else None
+                        elif isinstance(cache_to_use, tuple):
+                            cache_to_use = DynamicCache.from_legacy_cache(cache_to_use)
 
                     with torch.no_grad():
                         path_outputs = self.model(
@@ -315,12 +325,24 @@ class EntropyAdaptiveBranching:
                     # Sample multiple DIFFERENT tokens at once (replacement=False ensures diversity)
                     sampled_tokens = torch.multinomial(probs, actual_branch_factor, replacement=False)
 
+                    # Prepare cache for branching
+                    if self.use_cow:
+                        # Wrap current cache in COW for efficient branching
+                        if isinstance(path_cache, CopyOnWriteCache):
+                            cow_cache = path_cache
+                        else:
+                            cow_cache = CopyOnWriteCache.from_dynamic_cache(path_cache, device=self.device)
+
                     for branch_path, token_id in zip(branched_paths, sampled_tokens):
                         token_id = token_id.item()
                         token_log_prob = F.log_softmax(path_logits, dim=-1)[token_id].item()
 
                         branch_path.add_token(token_id, token_log_prob)
-                        branch_path.cache = deep_copy_cache(path_cache)
+                        if self.use_cow:
+                            # Use COW branching - shares parent cache, only stores divergent data
+                            branch_path.cache = cow_cache.branch()
+                        else:
+                            branch_path.cache = deep_copy_cache(path_cache)
                         new_paths.append(branch_path)
 
                 else:
@@ -440,3 +462,8 @@ class EntropyAdaptiveBranching:
             raise ValueError("Max paths must be >= 1")
         self.max_paths = max_paths
         print(f"Max paths updated to: {max_paths}")
+
+    def set_use_cow(self, use_cow: bool):
+        """Update Copy-on-Write cache setting."""
+        self.use_cow = use_cow
+        print(f"Copy-on-Write cache updated to: {use_cow}")

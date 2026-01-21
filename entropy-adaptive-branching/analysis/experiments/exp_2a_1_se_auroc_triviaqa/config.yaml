@@ -1,0 +1,61 @@
+# Experiment 2.A.1: Semantic Entropy AUROC on TriviaQA
+# ==========================================================
+# Purpose: Validate Layer 2 (SE) pipeline by measuring AUROC
+#          (how well SE predicts incorrect answers)
+#
+# This is an ablation study using naive sampling (not EAB)
+# to isolate and evaluate the semantic entropy component.
+
+experiment:
+  name: "SE AUROC on TriviaQA"
+  description: "Evaluate semantic entropy's ability to predict answer correctness"
+  version: "1.0"
+
+# Dataset configuration
+dataset:
+  name: "trivia_qa"
+  subset: "rc.nocontext"  # Use no-context version (just Q&A)
+  split: "validation"
+  num_questions: 200  # Quick ablation; increase for final results
+  seed: 42
+
+# Model configuration
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"
+  torch_dtype: "float16"
+
+# Generation configuration (naive sampling)
+generation:
+  num_samples: 10  # Samples per question
+  max_new_tokens: 50
+  temperature: 0.7  # Balanced diversity/quality
+  top_p: 0.9
+  do_sample: true
+
+# Semantic entropy configuration
+semantic_entropy:
+  encoder_model: "mpnet"  # Fast and good quality
+  distance_thresholds: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30]  # Sweep for tuning
+  default_threshold: 0.15
+  linkage: "average"
+
+# Correctness evaluation
+correctness:
+  metric: "rouge_l"
+  threshold: 0.3  # RougeL > 0.3 = correct (following literature)
+
+# Output configuration
+output:
+  results_dir: "results"
+  save_intermediate: true
+  save_generated_texts: true
+
+# Reproducibility
+seed: 42
+
+# Debug mode (for quick testing)
+debug:
+  enabled: false
+  num_questions: 10
+  num_samples: 5
