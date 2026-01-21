@@ -56,6 +56,6 @@ seed: 42
 
 # Debug mode (for quick testing)
 debug:
-  enabled: false
+  enabled: true
   num_questions: 10
   num_samples: 5
