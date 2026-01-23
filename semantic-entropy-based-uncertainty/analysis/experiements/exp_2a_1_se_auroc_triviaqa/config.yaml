@@ -1,0 +1,43 @@
+experiment:
+  name: "SE AUROC on TriviaQA"
+  description: "Validate Layer 2: semantic entropy predicts answer correctness"
+  version: "1.0"
+
+dataset:
+  name: "trivia_qa"
+  subset: "rc.nocontext"
+  split: "validation"
+  num_questions: 1000
+  seed: 42
+
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"
+  torch_dtype: "float16"
+
+generation:
+  num_samples: 10
+  max_new_tokens: 50
+  temperature: 0.7
+  top_p: 0.9
+  do_sample: true
+
+semantic_entropy:
+  encoder_model: "mpnet"
+  default_threshold: 0.15
+  linkage: "average"
+
+correctness:
+  metric: "rouge_l"
+  threshold: 0.3
+
+output:
+  results_dir: "results"
+  save_intermediate: true
+
+seed: 42
+
+debug:
+  enabled: false
+  num_questions: 10
+  num_samples: 5
