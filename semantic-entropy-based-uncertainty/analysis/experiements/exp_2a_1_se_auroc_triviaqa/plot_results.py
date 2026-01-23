@@ -4,10 +4,13 @@ Plot results from Experiment 2.A.1 with pastel colors and clear labels.
 
 import sys
 import json
+import yaml
+import argparse
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from pathlib import Path
+from typing import Dict, Any
 from sklearn.metrics import roc_curve, auc
 
 # Set pastel style
@@ -27,8 +30,18 @@ plt.rcParams.update({
 experiment_dir = Path(__file__).parent
 
 
-def load_results():
-    with open(experiment_dir / "results" / "raw_results.json") as f:
+def load_config(config_path: str = None) -> Dict[str, Any]:
+    if config_path is None:
+        config_path = experiment_dir / "config.yaml"
+    else:
+        config_path = Path(config_path)
+    with open(config_path, 'r') as f:
+        return yaml.safe_load(f)
+
+
+def load_results(config: Dict[str, Any]):
+    results_dir = experiment_dir / config['output']['results_dir']
+    with open(results_dir / "raw_results.json") as f:
         return json.load(f)['results']
 
 
@@ -69,8 +82,14 @@ def plot_distribution_comparison(results, save_dir):
 
 
 def main():
-    results = load_results()
-    save_dir = experiment_dir / "results" / "figures"
+    parser = argparse.ArgumentParser(description="Plot Experiment 2.A.1 results")
+    parser.add_argument('--config', type=str, default=None, help='Path to config file')
+    args = parser.parse_args()
+
+    config = load_config(args.config)
+    results = load_results(config)
+    results_dir = experiment_dir / config['output']['results_dir']
+    save_dir = results_dir / "figures"
     save_dir.mkdir(exist_ok=True, parents=True)
     print("Generating plots...")
     plot_roc_curve(results, save_dir)

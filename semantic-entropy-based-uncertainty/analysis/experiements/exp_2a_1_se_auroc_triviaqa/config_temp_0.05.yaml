@@ -3,7 +3,7 @@ correctness:
   threshold: 0.3
 dataset:
   name: trivia_qa
-  num_questions: 1000
+  num_questions: 250
   seed: 42
   split: validation
   subset: rc.nocontext

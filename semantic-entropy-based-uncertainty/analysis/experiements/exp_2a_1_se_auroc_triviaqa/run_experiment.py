@@ -17,6 +17,7 @@ import yaml
 import torch
 import numpy as np
 import time
+import argparse
 from pathlib import Path
 from tqdm import tqdm
 from typing import Dict, Any, List
@@ -89,8 +90,11 @@ class CostTracker:
         }
 
 
-def load_config() -> Dict[str, Any]:
-    config_path = SCRIPT_DIR / "config.yaml"
+def load_config(config_path: str = None) -> Dict[str, Any]:
+    if config_path is None:
+        config_path = SCRIPT_DIR / "config.yaml"
+    else:
+        config_path = Path(config_path)
     with open(config_path, 'r') as f:
         return yaml.safe_load(f)
 
@@ -222,10 +226,14 @@ def save_json(data, path: Path):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Run Experiment 2.A.1")
+    parser.add_argument('--config', type=str, default=None, help='Path to config file')
+    args = parser.parse_args()
+
     print("=" * 70)
     print("EXPERIMENT 2.A.1: SEMANTIC ENTROPY AUROC ON TRIVIAQA")
     print("=" * 70)
-    config = load_config()
+    config = load_config(args.config)
     if config['debug']['enabled']:
         print("   [DEBUG MODE ENABLED]")
     torch.manual_seed(config['seed'])

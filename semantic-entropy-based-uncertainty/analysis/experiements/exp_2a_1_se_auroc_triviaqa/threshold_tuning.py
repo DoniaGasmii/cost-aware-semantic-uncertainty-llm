@@ -55,20 +55,23 @@ def run_single_threshold(threshold: float):
         # Step 1: Run experiment
         print("→ Running experiment...")
         subprocess.run([
-            sys.executable, str(SCRIPT_DIR / "run_experiment.py")
-        ], cwd=SCRIPT_DIR, env={**os.environ, 'PYTHONPATH': str(PROJECT_ROOT)}, check=True)  # ← FIXED
+            sys.executable, str(SCRIPT_DIR / "run_experiment.py"),
+            "--config", str(temp_config)
+        ], cwd=SCRIPT_DIR, env={**os.environ, 'PYTHONPATH': str(PROJECT_ROOT)}, check=True)
 
         # Step 2: Run analysis
         print("→ Analyzing results...")
         subprocess.run([
-            sys.executable, str(SCRIPT_DIR / "analyze_results.py")
-        ], cwd=SCRIPT_DIR, env={**os.environ, 'PYTHONPATH': str(PROJECT_ROOT)}, check=True)  # ← FIXED
+            sys.executable, str(SCRIPT_DIR / "analyze_results.py"),
+            "--config", str(temp_config)
+        ], cwd=SCRIPT_DIR, env={**os.environ, 'PYTHONPATH': str(PROJECT_ROOT)}, check=True)
 
         # Step 3: Run plotting
         print("→ Generating plots...")
         subprocess.run([
-            sys.executable, str(SCRIPT_DIR / "plot_results.py")
-        ], cwd=SCRIPT_DIR, env={**os.environ, 'PYTHONPATH': str(PROJECT_ROOT)}, check=True)  # ← FIXED
+            sys.executable, str(SCRIPT_DIR / "plot_results.py"),
+            "--config", str(temp_config)
+        ], cwd=SCRIPT_DIR, env={**os.environ, 'PYTHONPATH': str(PROJECT_ROOT)}, check=True)
 
         print(f"✓ Completed threshold δ = {threshold:.2f}")
 

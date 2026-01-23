@@ -1,8 +1,10 @@
 """Main semantic uncertainty estimation class."""
 
+import os
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from typing import List, Optional, Dict, Any
+
 
 from .clustering import SemanticClusterer
 from .utils import (
@@ -21,11 +23,11 @@ class SemanticUncertaintyEstimator:
     semantically similar outputs and computing entropy over clusters.
     """
 
-    # Supported embedder shortcuts
+    # Supported embedder shortcuts → full Hugging Face model IDs
     SUPPORTED_MODELS = {
-        'mpnet': 'all-mpnet-base-v2',
+        'mpnet': 'sentence-transformers/all-mpnet-base-v2',
         'sentence-t5': 'sentence-transformers/sentence-t5-xxl',
-        'minilm': 'all-MiniLM-L6-v2',
+        'minilm': 'sentence-transformers/all-MiniLM-L6-v2',
     }
 
     def __init__(
@@ -59,7 +61,7 @@ class SemanticUncertaintyEstimator:
             cache_dir: Directory to cache downloaded models (default: './models/cache')
             batch_size: Batch size for encoding (default: 32)
         """
-        # Resolve model name from shortcuts
+        # Resolve model name using full HF IDs
         if encoder_model in self.SUPPORTED_MODELS:
             model_name = self.SUPPORTED_MODELS[encoder_model]
         else:
@@ -75,18 +77,35 @@ class SemanticUncertaintyEstimator:
             device = "cuda" if torch.cuda.is_available() else "cpu"
         self.device = device
 
-        # Initialize encoder with caching and float16 for memory efficiency
+        # Set up cache folder
         cache_folder = cache_dir or "./models/cache"
 
-        # Use model_kwargs for float16 on CUDA
+        # Build potential local path (Hugging Face Hub cache layout)
+        resolved_model_path = model_name
+        if cache_folder:
+            # Convert 'org/model' → 'models--org--model'
+            safe_name = model_name.replace("/", "--")
+            cache_base = os.path.join(cache_folder, f"models--{safe_name}")
+            if os.path.exists(cache_base):
+                snapshots_dir = os.path.join(cache_base, "snapshots")
+                if os.path.exists(snapshots_dir):
+                    snapshot_dirs = [d for d in os.listdir(snapshots_dir) 
+                                   if os.path.isdir(os.path.join(snapshots_dir, d))]
+                    if snapshot_dirs:
+                        # Use the first (and typically only) snapshot
+                        resolved_model_path = os.path.join(snapshots_dir, snapshot_dirs[0])
+                        print(f"✅ Loading '{model_name}' from local cache: {resolved_model_path}")
+
+        # Prepare model kwargs for memory efficiency
         model_kwargs = {}
-        if device == "cuda":
+        if self.device == "cuda":
             import torch
             model_kwargs = {'torch_dtype': torch.float16}
 
+        # Load encoder — now with correct path resolution
         self.encoder = SentenceTransformer(
-            model_name,
-            device=device,
+            resolved_model_path,
+            device=self.device,
             cache_folder=cache_folder,
             model_kwargs=model_kwargs
         )
@@ -118,7 +137,7 @@ class SemanticUncertaintyEstimator:
             batch_size=batch_size,
             convert_to_numpy=True,
             show_progress_bar=show_progress,
-            normalize_embeddings=True  # Important for cosine similarity
+            normalize_embeddings=True  # Critical for cosine similarity
         )
         return embeddings
     
@@ -176,10 +195,10 @@ class SemanticUncertaintyEstimator:
         
         # Prepare result
         result = {
-            'entropy': entropy,
-            'normalized_entropy': normalized_entropy,
-            'uncertainty_score': uncertainty_score,
-            'n_clusters': n_clusters,
+            'entropy': float(entropy),
+            'normalized_entropy': float(normalized_entropy),
+            'uncertainty_score': float(uncertainty_score),
+            'n_clusters': int(n_clusters),
             'cluster_labels': labels.tolist(),
             'cluster_probs': cluster_probs.tolist()
         }

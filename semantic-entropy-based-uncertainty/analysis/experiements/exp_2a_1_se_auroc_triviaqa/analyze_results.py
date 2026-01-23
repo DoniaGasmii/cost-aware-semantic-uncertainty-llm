@@ -6,6 +6,7 @@ import sys
 import json
 import yaml
 import numpy as np
+import argparse
 from pathlib import Path
 from typing import Dict, Any, List
 from sklearn.metrics import roc_auc_score, average_precision_score
@@ -14,14 +15,17 @@ from scipy.stats import spearmanr
 experiment_dir = Path(__file__).parent
 
 
-def load_config() -> Dict[str, Any]:
-    config_path = experiment_dir / "config.yaml"
+def load_config(config_path: str = None) -> Dict[str, Any]:
+    if config_path is None:
+        config_path = experiment_dir / "config.yaml"
+    else:
+        config_path = Path(config_path)
     with open(config_path, 'r') as f:
         return yaml.safe_load(f)
 
 
-def load_results() -> Dict[str, Any]:
-    results_dir = experiment_dir / "results"
+def load_results(config: Dict[str, Any]) -> Dict[str, Any]:
+    results_dir = experiment_dir / config['output']['results_dir']
     results_file = results_dir / "raw_results.json"
     with open(results_file, 'r') as f:
         return json.load(f)
@@ -83,10 +87,15 @@ def save_json(data, path):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Analyze Experiment 2.A.1 results")
+    parser.add_argument('--config', type=str, default=None, help='Path to config file')
+    args = parser.parse_args()
+
     print("=" * 70)
     print("ANALYZING EXPERIMENT 2.A.1")
     print("=" * 70)
-    data = load_results()
+    config = load_config(args.config)
+    data = load_results(config)
     results = data['results']
     print(f"\nLoaded {len(results)} results")
     print_cost_summary(data)
@@ -98,7 +107,8 @@ def main():
         'accuracy': float(np.mean([r['best_sample_correct'] for r in results])),
         'avg_se': float(np.mean([r['se_uncertainty_score'] for r in results]))
     }
-    save_json(summary, experiment_dir / "results" / "summary_stats.json")
+    results_dir = experiment_dir / config['output']['results_dir']
+    save_json(summary, results_dir / "summary_stats.json")
     key_auroc = auroc_metrics['se_uncertainty_score']['best_incorrect']['auroc']
     print(f"\n>>> KEY RESULT: AUROC = {key_auroc:.3f} <<<")
     print(f"Accuracy: {summary['accuracy']:.1%}")

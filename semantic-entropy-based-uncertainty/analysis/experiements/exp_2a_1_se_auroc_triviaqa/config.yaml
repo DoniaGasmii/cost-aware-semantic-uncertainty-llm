@@ -7,7 +7,7 @@ dataset:
   name: "trivia_qa"
   subset: "rc.nocontext"
   split: "validation"
-  num_questions: 1000
+  num_questions: 250
   seed: 42
 
 model:
