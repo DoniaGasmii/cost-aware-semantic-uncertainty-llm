@@ -35,17 +35,28 @@
         "torch_dtype": "float16"
       },
       "output": {
-        "results_dir": "results/threshold_0_05",
+        "results_dir": "results/threshold_0_20",
         "save_intermediate": true
       },
       "seed": 42,
       "semantic_entropy": {
-        "default_threshold": 0.05,
+        "default_threshold": 0.2,
         "encoder_model": "mpnet",
         "linkage": "average"
       }
     },
-    "processed": 250
+    "timestamp": "2026-01-23T23:33:03.254547",
+    "num_questions": 250,
+    "generation_method": "naive_sampling"
+  },
+  "cost_stats": {
+    "total_time_seconds": 2577.9507789611816,
+    "total_generation_time": 2564.3851823806763,
+    "total_se_time": 4.028486490249634,
+    "total_tokens_generated": 73649,
+    "peak_memory_mb": 3178.69775390625,
+    "avg_time_per_question": 10.311518538475037,
+    "tokens_per_second": 28.71994445531272
   },
   "results": [
     {
@@ -63,16 +74,16 @@
         "A rotating star that emits a regular beat of radiation is generally referred to as a pulsar.",
         "Such a rotating star that emits a regular beat of radiation is generally referred to as a pulsar."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 6.473248720169067,
+      "generation_time": 6.713475227355957,
       "num_tokens_generated": 161
     },
     {
@@ -90,16 +101,16 @@
         "\"The Pirates of Penzance\" is the Gilbert and Sullivan operetta that is sub-titled \"The Witches' Curse\".",
         "\"The Pirates of Penzance\" is the Gilbert and Sullivan operetta that is sub-titled \"The Witches' Curse.\""
       ],
-      "se_entropy": 1.4978661367769952,
-      "se_normalized_entropy": 0.835975008086505,
-      "se_uncertainty_score": 0.7238072270741253,
-      "se_n_clusters": 6,
+      "se_entropy": 0.9502705392332347,
+      "se_normalized_entropy": 0.8649735207179273,
+      "se_uncertainty_score": 0.6078730013196453,
+      "se_n_clusters": 3,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.4210526315789473,
       "num_samples": 10,
-      "generation_time": 12.057491302490234,
+      "generation_time": 9.903295040130615,
       "num_tokens_generated": 281
     },
     {
@@ -117,16 +128,16 @@
         "The English cricketer who had figures of 10 for 53 against Australia in 1956 was Ted Dexter.",
         "The English cricketer who had figures of 10 for 53 against Australia in 1956 was Harold Larwood. He was part of the infamous Bodyline series during which he played for England's Test cricket team."
       ],
-      "se_entropy": 1.8866967846580784,
-      "se_normalized_entropy": 0.969570350190125,
-      "se_uncertainty_score": 0.8484088767807416,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 12.48073959350586,
+      "generation_time": 12.602073192596436,
       "num_tokens_generated": 359
     },
     {
@@ -153,7 +164,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 6.38534688949585,
+      "generation_time": 4.3471503257751465,
       "num_tokens_generated": 122
     },
     {
@@ -171,16 +182,16 @@
         "The patron saint of dancers is Saint Gervase and Saint Fortunatus.",
         "The patron saint of dancers is typically considered Saint Charles Borromeo."
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 0.6730116670092565,
+      "se_normalized_entropy": 0.9709505944546688,
+      "se_uncertainty_score": 0.6270148011172456,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25000000000000006,
       "num_samples": 10,
-      "generation_time": 10.900932312011719,
+      "generation_time": 10.611411094665527,
       "num_tokens_generated": 307
     },
     {
@@ -207,7 +218,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.4347826086956522,
       "num_samples": 10,
-      "generation_time": 12.803695678710938,
+      "generation_time": 10.65057635307312,
       "num_tokens_generated": 307
     },
     {
@@ -225,16 +236,16 @@
         "The fortified wine drink Sherry is named after the town of Jerez in Spain.",
         "Sherry is named after the town of Jerez in Spain."
       ],
-      "se_entropy": 1.0296530140645734,
-      "se_normalized_entropy": 0.9372305632161295,
-      "se_uncertainty_score": 0.6512272268185666,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.45454545454545453,
       "num_samples": 10,
-      "generation_time": 6.550222396850586,
+      "generation_time": 6.430270671844482,
       "num_tokens_generated": 187
     },
     {
@@ -252,16 +263,16 @@
         "The nickname \"Jock\" for Dumfries became the name of the Scottish football club Morton FC (Dumfries).",
         "The nickname \"Jedburgh\" for Dumfries became the name of the Scottish football club Heart of Midlothian F.C."
       ],
-      "se_entropy": 1.6434177197931796,
-      "se_normalized_entropy": 0.9172088932791936,
-      "se_uncertainty_score": 0.7725475581897384,
-      "se_n_clusters": 6,
+      "se_entropy": 1.4184836619456562,
+      "se_normalized_entropy": 0.8813534532688829,
+      "se_uncertainty_score": 0.7065898497391075,
+      "se_n_clusters": 5,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.3333333333333333,
       "num_samples": 10,
-      "generation_time": 9.109273672103882,
+      "generation_time": 9.161442756652832,
       "num_tokens_generated": 264
     },
     {
@@ -288,7 +299,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.4444444444444444,
       "num_samples": 10,
-      "generation_time": 5.729026794433594,
+      "generation_time": 3.543229818344116,
       "num_tokens_generated": 100
     },
     {
@@ -306,16 +317,16 @@
         "The conservative candidate beaten by Ken Livingstone in the first two elections for Mayor of London was Conservative candidate Bob Kyncl in 1998 and 2000.",
         "The conservative candidate beaten by Ken Livingstone in the first two elections for Mayor of London was Conservative Party candidate Frank Dobson."
       ],
-      "se_entropy": 1.2275294114572126,
-      "se_normalized_entropy": 0.7627069065377661,
-      "se_uncertainty_score": 0.6354019217004374,
-      "se_n_clusters": 5,
+      "se_entropy": 0.5004024235381879,
+      "se_normalized_entropy": 0.7219280948873623,
+      "se_uncertainty_score": 0.47760130137686185,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 11.805274724960327,
+      "generation_time": 11.889415502548218,
       "num_tokens_generated": 345
     },
     {
@@ -333,16 +344,16 @@
         "The quote \"To err is human, but to forgive, to embrace the divine\" is often attributed to American author Natalie Goldberg, although the exact attribution can vary. It captures the idea that making mistakes is a natural part of being human, and that",
         "The phrase \"To err is human, but to forgive, divine, and to prosper, divine again\" is often mistakenly attributed to Thomas Jefferson, though it does not appear in his writings. The exact origin of this particular variation is unclear, but it"
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": 0.6730116670092565,
+      "se_normalized_entropy": 0.9709505944546688,
+      "se_uncertainty_score": 0.6270148011172456,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.13559322033898305,
       "num_samples": 10,
-      "generation_time": 19.16882348060608,
+      "generation_time": 17.254870414733887,
       "num_tokens_generated": 500
     },
     {
@@ -360,16 +371,16 @@
         "I'm sorry, but there seems to be some confusion. There is no widely known story or context about Mr. Benn visiting a specific type of shop for an adventure. Could you provide more details or the source of this question?",
         "I'm sorry, but there seems to be a mix-up. There isn't any information about a character named \"Mr Benn\" looking for an adventure in a specific type of shop. This name does not correspond to any widely known historical or fictional figure"
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 1.1935496040981333,
+      "se_normalized_entropy": 0.8609640474436813,
+      "se_uncertainty_score": 0.649911761799542,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.23529411764705882,
       "num_samples": 10,
-      "generation_time": 14.329883098602295,
+      "generation_time": 12.06704568862915,
       "num_tokens_generated": 349
     },
     {
@@ -387,16 +398,16 @@
         "A Wainwright was historically a craftsman who specialized in building and repairing wagons and other wooden vehicles. Therefore, what was made and repaired by a Wainwright were wagons and similar vehicles.",
         "A Wainwright was historically a craftsman who made and repaired wainscots (large panels of wood used to cover the lower part of interior walls in buildings)."
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2857142857142857,
       "num_samples": 10,
-      "generation_time": 9.55798888206482,
+      "generation_time": 9.427797555923462,
       "num_tokens_generated": 274
     },
     {
@@ -423,7 +434,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 11.611200094223022,
+      "generation_time": 9.287351608276367,
       "num_tokens_generated": 267
     },
     {
@@ -450,7 +461,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.5714285714285715,
       "num_samples": 10,
-      "generation_time": 6.142454385757446,
+      "generation_time": 6.3084306716918945,
       "num_tokens_generated": 178
     },
     {
@@ -477,7 +488,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.4615384615384615,
       "num_samples": 10,
-      "generation_time": 5.668342113494873,
+      "generation_time": 5.73424768447876,
       "num_tokens_generated": 164
     },
     {
@@ -495,16 +506,16 @@
         "The Hastings and Herald aircraft were produced by Hawker Aircraft Limited, which later became part of British Aerospace and is now part of Airbus.",
         "The Hastings and Herald aircraft were produced by Hawker Aircraft Limited, which later became Hawker Siddeley before being merged into Boeing in 1999."
       ],
-      "se_entropy": 1.3661588475692017,
-      "se_normalized_entropy": 0.9854752972273343,
-      "se_uncertainty_score": 0.7246185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": 0.6931471805599453,
+      "se_normalized_entropy": 1.0,
+      "se_uncertainty_score": 0.6444444444444444,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.14285714285714288,
       "num_samples": 10,
-      "generation_time": 9.901670455932617,
+      "generation_time": 7.810961484909058,
       "num_tokens_generated": 224
     },
     {
@@ -522,16 +533,16 @@
         "Buenos Aires is located on the estuary of the R\u00edo de la Plata.",
         "Buenos Aires is located on the estuary of the R\u00edo de la Plata."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.42857142857142855,
       "num_samples": 10,
-      "generation_time": 6.97664213180542,
+      "generation_time": 7.220083475112915,
       "num_tokens_generated": 203
     },
     {
@@ -549,16 +560,16 @@
         "The Prime Minister of Egypt who was assassinated in 1910 was Saad Zaghloul.",
         "The Prime Minister of Egypt who was assassinated in 1910 was Ahmed Orabi."
       ],
-      "se_entropy": 1.2798542258336674,
-      "se_normalized_entropy": 0.9232196723355077,
-      "se_uncertainty_score": 0.687265136734638,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 7.534653902053833,
+      "generation_time": 7.8962788581848145,
       "num_tokens_generated": 218
     },
     {
@@ -576,16 +587,16 @@
         "Cathay is a poetic name for China.",
         "Cathay is a poetic name for China."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 6.4666666984558105,
+      "generation_time": 4.429839372634888,
       "num_tokens_generated": 128
     },
     {
@@ -603,16 +614,16 @@
         "Elizabeth II was the first and only Head of the Commonwealth when she ascended to the throne in 1952.",
         "Elizabeth II was the first and longest-serving Head of the Commonwealth when she ascended to the throne in 1952."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.30769230769230765,
       "num_samples": 10,
-      "generation_time": 10.769698858261108,
+      "generation_time": 10.847660303115845,
       "num_tokens_generated": 308
     },
     {
@@ -639,7 +650,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.4,
       "num_samples": 10,
-      "generation_time": 5.065062999725342,
+      "generation_time": 5.049477815628052,
       "num_tokens_generated": 145
     },
     {
@@ -666,7 +677,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.34285714285714286,
       "num_samples": 10,
-      "generation_time": 15.861696004867554,
+      "generation_time": 13.60961103439331,
       "num_tokens_generated": 389
     },
     {
@@ -684,16 +695,16 @@
         "The opera by Rossini that is based on a play by Schiller is \"William Tell.\"",
         "The opera by Rossini that is based on a play by Schiller is \"William Tell\"."
       ],
-      "se_entropy": 1.1682824501765625,
-      "se_normalized_entropy": 0.8427376486136672,
-      "se_uncertainty_score": 0.6389759225015336,
-      "se_n_clusters": 4,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.27272727272727276,
       "num_samples": 10,
-      "generation_time": 8.317077875137329,
+      "generation_time": 7.568182468414307,
       "num_tokens_generated": 217
     },
     {
@@ -711,16 +722,16 @@
         "'The Queen of Hearts' is the nursery rhyme that begins with 'The Queen was in the parlour eating bread and honey.'",
         "'The Queen of Hearts' is the title of the nursery rhyme that starts with \"The Queen was in the parlour eating bread and honey.\""
       ],
-      "se_entropy": 1.6094379124341,
-      "se_normalized_entropy": 0.898244401703927,
-      "se_uncertainty_score": 0.7611688632445784,
-      "se_n_clusters": 6,
+      "se_entropy": 1.1682824501765625,
+      "se_normalized_entropy": 0.8427376486136672,
+      "se_uncertainty_score": 0.6389759225015336,
+      "se_n_clusters": 4,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.4,
       "num_samples": 10,
-      "generation_time": 12.142770528793335,
+      "generation_time": 11.274906873703003,
       "num_tokens_generated": 321
     },
     {
@@ -738,16 +749,16 @@
         "The father-in-law of Manchester City footballer Sergio \"Kun\" Ag\u00fcero is Jorge Scaglia.",
         "The father-in-law of Manchester City footballer Sergio \"Kun\" Aguero is Jorge C\u00farculo."
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 9.814477443695068,
+      "generation_time": 9.13724970817566,
       "num_tokens_generated": 255
     },
     {
@@ -765,16 +776,16 @@
         "Charles Dickens' character David Copperfield had red hair.",
         "Charles Dickens' character David Copperfield had red hair."
       ],
-      "se_entropy": 1.4184836619456562,
-      "se_normalized_entropy": 0.8813534532688829,
-      "se_uncertainty_score": 0.7065898497391075,
-      "se_n_clusters": 5,
+      "se_entropy": 0.639031859650177,
+      "se_normalized_entropy": 0.5816718657178869,
+      "se_uncertainty_score": 0.437892008319621,
+      "se_n_clusters": 3,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 5.999545097351074,
+      "generation_time": 5.247959852218628,
       "num_tokens_generated": 148
     },
     {
@@ -792,16 +803,16 @@
         "Elizabeth Taylor made a fortune not just from acting, but also from her extensive real estate holdings.",
         "Elizabeth Taylor made a fortune not just from acting but also from her extensive real estate holdings and investments."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 8.127682447433472,
+      "generation_time": 8.24917721748352,
       "num_tokens_generated": 232
     },
     {
@@ -819,16 +830,16 @@
         "The charity you're referring to is called \"Just Kids,\" which was founded in the 1970s and currently has J.K. Rowling as its President.",
         "The charity you are referring to is Single Parents Association (SPA). However, it's important to note that there have been some changes and rebrandings over the years, and the current president being J.K. Rowling does not necessarily mean she took over"
       ],
-      "se_entropy": 2.163955656882057,
-      "se_normalized_entropy": 0.9848586617875468,
-      "se_uncertainty_score": 0.9464707526280836,
-      "se_n_clusters": 9,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 18.130964040756226,
+      "generation_time": 16.5437331199646,
       "num_tokens_generated": 476
     },
     {
@@ -846,16 +857,16 @@
         "The UK Poet Laureate who served for the longest period was Ted Hughes, serving from 1984 to 1998.\u4e4b\u524d\u7684\u6700\u957f\u4efb\u804c\u8005\u662f William Wordsworth\uff0c\u4ece 1805 \u5e74\u5230 1",
         "The UK Poet Laureate who served for the longest period is Ted Hughes, who held the position from 1984 to 1998."
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.08695652173913042,
       "num_samples": 10,
-      "generation_time": 15.059437274932861,
+      "generation_time": 13.247085332870483,
       "num_tokens_generated": 383
     },
     {
@@ -882,7 +893,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 3.218564033508301,
+      "generation_time": 3.110140800476074,
       "num_tokens_generated": 90
     },
     {
@@ -900,16 +911,16 @@
         "Bill Fraser played the character of Frank Martin in \"The Army Game.\"",
         "Bill Fraser played the character of Captain John Fenn in \"The Army Game.\""
       ],
-      "se_entropy": 1.7480673485460891,
-      "se_normalized_entropy": 0.8983289127685204,
-      "se_uncertainty_score": 0.8056640143277789,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 5.783915042877197,
+      "generation_time": 5.849874019622803,
       "num_tokens_generated": 170
     },
     {
@@ -927,16 +938,16 @@
         "The Greek God of War is Ares.",
         "The Greek God of War is Ares."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 3.4130916595458984,
+      "generation_time": 3.574284076690674,
       "num_tokens_generated": 100
     },
     {
@@ -963,7 +974,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.16,
       "num_samples": 10,
-      "generation_time": 14.29717230796814,
+      "generation_time": 12.862210750579834,
       "num_tokens_generated": 360
     },
     {
@@ -990,7 +1001,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.15384615384615383,
       "num_samples": 10,
-      "generation_time": 6.113806247711182,
+      "generation_time": 6.588040828704834,
       "num_tokens_generated": 180
     },
     {
@@ -1008,16 +1019,16 @@
         "A creance is the name of the long fine cord used in horse racing to control the lead horse or mount.",
         "A creance is the name of the long fine cord used in horse racing to control a racehorse during a race."
       ],
-      "se_entropy": 0.8018185525433373,
-      "se_normalized_entropy": 0.7298466991620977,
-      "se_uncertainty_score": 0.5267969083861475,
-      "se_n_clusters": 3,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 11.404765605926514,
+      "generation_time": 10.68913197517395,
       "num_tokens_generated": 303
     },
     {
@@ -1044,7 +1055,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.5,
       "num_samples": 10,
-      "generation_time": 4.119210243225098,
+      "generation_time": 4.176831245422363,
       "num_tokens_generated": 120
     },
     {
@@ -1062,16 +1073,16 @@
         "In June 2013, Wendy Davis filibustered for 10 hours in the Texas Senate to obstruct debate on Senate Bill 5, which would have repealed certain provisions of the Texas Family Code related to abortion access and regulations.",
         "In June 2013, Wendy Davis filibustered for 10 hours in the Texas Senate to obstruct debate on a bill that would have further restricted access to abortions in Texas."
       ],
-      "se_entropy": 1.2275294114572126,
-      "se_normalized_entropy": 0.7627069065377661,
-      "se_uncertainty_score": 0.6354019217004374,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.13333333333333333,
       "num_samples": 10,
-      "generation_time": 16.900726556777954,
+      "generation_time": 16.49810218811035,
       "num_tokens_generated": 474
     },
     {
@@ -1089,16 +1100,16 @@
         "Mickey Mouse was first drawn by Walt Disney and Ub Iwerks in 1928. Disney did not supply the voice for Mickey Mouse; he is credited with creating the character. The first appearance of Mickey Mouse was in the short film",
         "Mickey Mouse was first drawn by Ub Iwerks and Walt Disney in 1927. Disney first provided the voice for Mickey Mouse in 1929."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.16666666666666669,
       "num_samples": 10,
-      "generation_time": 15.89249038696289,
+      "generation_time": 15.413939237594604,
       "num_tokens_generated": 444
     },
     {
@@ -1116,16 +1127,16 @@
         "Alan Greenspan was the Chairman of the Federal Reserve System from 1987 to 2006. The Federal Reserve System is not an agency within the US Department of any particular department, but rather an independent entity of the United States",
         "Alan Greenspan was the head of the US Federal Reserve System from 1987 to 2006."
       ],
-      "se_entropy": 0.8979457248567797,
-      "se_normalized_entropy": 0.8173454221465102,
-      "se_uncertainty_score": 0.5792961421767949,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.43478260869565216,
       "num_samples": 10,
-      "generation_time": 16.70360827445984,
+      "generation_time": 14.964138746261597,
       "num_tokens_generated": 431
     },
     {
@@ -1152,7 +1163,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.19999999999999998,
       "num_samples": 10,
-      "generation_time": 5.254317045211792,
+      "generation_time": 5.2222559452056885,
       "num_tokens_generated": 150
     },
     {
@@ -1179,7 +1190,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.06451612903225806,
       "num_samples": 10,
-      "generation_time": 19.185828685760498,
+      "generation_time": 17.57474994659424,
       "num_tokens_generated": 500
     },
     {
@@ -1197,16 +1208,16 @@
         "The Costa Concordia sank in the Tyrrhenian Sea off the coast of Italy.",
         "The Costa Concordia sank in the Tyrrhenian Sea off the coast of Italy."
       ],
-      "se_entropy": 1.1682824501765625,
-      "se_normalized_entropy": 0.8427376486136672,
-      "se_uncertainty_score": 0.6389759225015336,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.08695652173913045,
       "num_samples": 10,
-      "generation_time": 9.749162197113037,
+      "generation_time": 9.722551822662354,
       "num_tokens_generated": 280
     },
     {
@@ -1224,16 +1235,16 @@
         "Zloty and Grosz are the currency and unit of currency, respectively, of Poland. Therefore, Zloty and Grosz are money in Poland.",
         "Zloty and Grosz are the former currency units of Poland. The zloty is the official currency of Poland, while \"grosz\" was an old Polish monetary unit, now obsolete."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.28571428571428575,
       "num_samples": 10,
-      "generation_time": 13.328383445739746,
+      "generation_time": 11.314768314361572,
       "num_tokens_generated": 328
     },
     {
@@ -1251,16 +1262,16 @@
         "The US folk singer who had the phrase \"This machine kills fascists\" written on his guitar was Cris Williamson.",
         "The US folk singer who had the words \"This machine kills fascists\" written on his guitar was Bob Dylan."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1904761904761905,
       "num_samples": 10,
-      "generation_time": 10.455793380737305,
+      "generation_time": 9.442024946212769,
       "num_tokens_generated": 273
     },
     {
@@ -1278,16 +1289,16 @@
         "'The Journal of the House of Commons' is better known as \"Hansard.\"",
         "'The Journal of the House of Commons' is better known as the **Official Report** or simply the **House of Commons Journal**."
       ],
-      "se_entropy": 0.9502705392332347,
-      "se_normalized_entropy": 0.8649735207179273,
-      "se_uncertainty_score": 0.6078730013196453,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.15384615384615385,
       "num_samples": 10,
-      "generation_time": 9.602505683898926,
+      "generation_time": 9.10140872001648,
       "num_tokens_generated": 264
     },
     {
@@ -1314,7 +1325,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.11764705882352941,
       "num_samples": 10,
-      "generation_time": 6.99514627456665,
+      "generation_time": 6.6821513175964355,
       "num_tokens_generated": 190
     },
     {
@@ -1332,16 +1343,16 @@
         "The Liverpool Oratorio was composed in collaboration with Carl Davis, but it was primarily composed by John Rutter.",
         "The Liverpool Oratorio was composed in collaboration with Carl Davis, but it was originally composed by Howard Blake."
       ],
-      "se_entropy": 1.6957425341696344,
-      "se_normalized_entropy": 0.9464119282150145,
-      "se_uncertainty_score": 0.7900693791512309,
-      "se_n_clusters": 6,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.08695652173913045,
       "num_samples": 10,
-      "generation_time": 9.709764003753662,
+      "generation_time": 7.8822691440582275,
       "num_tokens_generated": 230
     },
     {
@@ -1368,7 +1379,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.23076923076923078,
       "num_samples": 10,
-      "generation_time": 13.806642532348633,
+      "generation_time": 13.519219160079956,
       "num_tokens_generated": 393
     },
     {
@@ -1386,16 +1397,16 @@
         "Tikki Tikki Tembo fell into a well in the story.",
         "Tikki Tikki Tembo fell into a bottle."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": 0.5004024235381879,
+      "se_normalized_entropy": 0.7219280948873623,
+      "se_uncertainty_score": 0.47760130137686185,
+      "se_n_clusters": 2,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 6.200181245803833,
+      "generation_time": 4.785722255706787,
       "num_tokens_generated": 129
     },
     {
@@ -1413,16 +1424,16 @@
         "The most southerly of the Shipping Forecast areas is \"Sea of Japan.\" However, it's important to note that the Shipping Forecast does not cover this area, as it is not part of the British Isles' maritime regions. The closest Shipping Forecast",
         "The most southerly of the Shipping Forecast areas is the \"Biscay\" area."
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 2.0253262207700677,
+      "se_normalized_entropy": 0.9739760316291209,
+      "se_uncertainty_score": 0.8954967300885837,
+      "se_n_clusters": 8,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 8.167091131210327,
+      "generation_time": 8.220789432525635,
       "num_tokens_generated": 236
     },
     {
@@ -1440,16 +1451,16 @@
         "A gerber was an alternative name for a tailor or tailor's shop in some regions.",
         "A gerber was an alternative name for a tailor or seamstress in some regions."
       ],
-      "se_entropy": 0.8979457248567797,
-      "se_normalized_entropy": 0.8173454221465102,
-      "se_uncertainty_score": 0.5792961421767949,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.125,
       "num_samples": 10,
-      "generation_time": 6.281177282333374,
+      "generation_time": 6.381466388702393,
       "num_tokens_generated": 184
     },
     {
@@ -1467,16 +1478,16 @@
         "The famous road that begins in Chicago, Illinois, and ends in Santa Monica, California is the Lincoln Highway.",
         "The famous road that begins in Chicago, Illinois, and ends in Santa Monica, California is the Old Chicago Avenue Highway (now known as Chicago Avenue). However, it's important to note that there isn't a single road named \"Chicago Avenue\" that"
       ],
-      "se_entropy": 1.4978661367769952,
-      "se_normalized_entropy": 0.835975008086505,
-      "se_uncertainty_score": 0.7238072270741253,
-      "se_n_clusters": 6,
+      "se_entropy": 0.5004024235381879,
+      "se_normalized_entropy": 0.7219280948873623,
+      "se_uncertainty_score": 0.47760130137686185,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.08333333333333334,
       "num_samples": 10,
-      "generation_time": 13.260435581207275,
+      "generation_time": 12.338804960250854,
       "num_tokens_generated": 344
     },
     {
@@ -1503,7 +1514,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.3529411764705882,
       "num_samples": 10,
-      "generation_time": 6.724315166473389,
+      "generation_time": 7.1614158153533936,
       "num_tokens_generated": 198
     },
     {
@@ -1521,16 +1532,16 @@
         "The Romans called the English town/city Dover, which is now in Kent, England.",
         "The Romans called the town/city in what is now Portsmouth, England, Dubris."
       ],
-      "se_entropy": 0.8018185525433373,
-      "se_normalized_entropy": 0.7298466991620977,
-      "se_uncertainty_score": 0.5267969083861475,
-      "se_n_clusters": 3,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 9.227332830429077,
+      "generation_time": 7.58849024772644,
       "num_tokens_generated": 209
     },
     {
@@ -1557,7 +1568,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 3.0873701572418213,
+      "generation_time": 3.138216495513916,
       "num_tokens_generated": 90
     },
     {
@@ -1575,16 +1586,16 @@
         "In October 2003, Adam Gilchrist, while playing for Australia in a Test series against Zimbabwe, scored a record 380 not out.",
         "In October 2003, Matthew Hayden scored a record 380 not out while playing in a Test series against Zimbabwe."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1904761904761905,
       "num_samples": 10,
-      "generation_time": 12.945158243179321,
+      "generation_time": 12.338009595870972,
       "num_tokens_generated": 356
     },
     {
@@ -1602,16 +1613,16 @@
         "I'm sorry, but I don't have the specific information about which horse won the 2013 Ascot Gold Cup. My training data only goes up until 2021, and I don't have real-time or updated information",
         "I'm sorry, but I don't have the exact information about which Queen's horse won the 2013 Ascot Gold Cup. Horse racing results can be complex and subject to change over time, and I don't have access to real"
       ],
-      "se_entropy": 0.8018185525433372,
-      "se_normalized_entropy": 0.7298466991620975,
-      "se_uncertainty_score": 0.5267969083861473,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 18.343626499176025,
+      "generation_time": 17.2791006565094,
       "num_tokens_generated": 500
     },
     {
@@ -1629,16 +1640,16 @@
         "The 1987 US film based on the 1985 French film 'Trois hommes et un couffin' (Three Men and a Baby) is \"Airplane!\"",
         "The 1987 US film based on the 1985 French film 'Trois hommes et un couffin' (Three Men and a Baby) is \"Young Doctors in Love\" (also known as \"Three Men and"
       ],
-      "se_entropy": 1.9730014063936128,
-      "se_normalized_entropy": 0.9488131148903386,
-      "se_uncertainty_score": 0.8803989800453143,
-      "se_n_clusters": 8,
+      "se_entropy": 1.5047882836811906,
+      "se_normalized_entropy": 0.9349775297671231,
+      "se_uncertainty_score": 0.7387642956380517,
+      "se_n_clusters": 5,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.3846153846153846,
       "num_samples": 10,
-      "generation_time": 16.918813705444336,
+      "generation_time": 15.281316757202148,
       "num_tokens_generated": 444
     },
     {
@@ -1665,7 +1676,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.13793103448275862,
       "num_samples": 10,
-      "generation_time": 11.445000648498535,
+      "generation_time": 8.866275548934937,
       "num_tokens_generated": 259
     },
     {
@@ -1683,16 +1694,16 @@
         "Galliano liqueur is typically green in color due to its herbal flavorings.",
         "Galliano liqueur is typically green in color due to the inclusion of natural flavors and coloring agents."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.22222222222222224,
       "num_samples": 10,
-      "generation_time": 6.964432716369629,
+      "generation_time": 6.954300880432129,
       "num_tokens_generated": 196
     },
     {
@@ -1710,16 +1721,16 @@
         "The word \"Tet\" in the Tet Offensive refers to the Vietnamese New Year holiday, known as the Lunar New Year or Spring Festival in Chinese cultures, marking the beginning of the lunar calendar year. The offensive took place during this period in 1",
         "In this context, \"Tet\" refers to the lunar new year, also known as the Spring Festival or Lunar New Year, which is a significant holiday for many Asian cultures including Vietnamese. The Tet Offensive was a series of coordinated attacks launched by North"
       ],
-      "se_entropy": 1.2798542258336674,
-      "se_normalized_entropy": 0.9232196723355077,
-      "se_uncertainty_score": 0.687265136734638,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.14634146341463414,
       "num_samples": 10,
-      "generation_time": 19.029874801635742,
+      "generation_time": 17.551945209503174,
       "num_tokens_generated": 492
     },
     {
@@ -1737,16 +1748,16 @@
         "West Indian cricketer Sarwan is known by his first name, which is Roshan.",
         "West Indian cricketer Sarwan is known by his first name: \"Ricky.\""
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 0.9404479886553263,
+      "se_normalized_entropy": 0.6783898247235197,
+      "se_uncertainty_score": 0.5403672281674452,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 6.363754987716675,
+      "generation_time": 6.584646224975586,
       "num_tokens_generated": 187
     },
     {
@@ -1773,7 +1784,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.14285714285714288,
       "num_samples": 10,
-      "generation_time": 6.5668745040893555,
+      "generation_time": 5.6720898151397705,
       "num_tokens_generated": 160
     },
     {
@@ -1800,7 +1811,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.3,
       "num_samples": 10,
-      "generation_time": 9.976104736328125,
+      "generation_time": 8.691280841827393,
       "num_tokens_generated": 245
     },
     {
@@ -1827,7 +1838,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.14285714285714288,
       "num_samples": 10,
-      "generation_time": 6.536305665969849,
+      "generation_time": 6.712350130081177,
       "num_tokens_generated": 190
     },
     {
@@ -1845,16 +1856,16 @@
         "\"Yellow River\" was a No.1 hit single for the Chinese singer Li Guying (\u674e\u8c37\u4e00) in May 1970.",
         "\"Yellow River\" was a No.1 hit song in May 1970 for the Chinese singer-songwriter Li Guying (\u674e\u8c37\u4e00)."
       ],
-      "se_entropy": 0.9404479886553263,
-      "se_normalized_entropy": 0.6783898247235197,
-      "se_uncertainty_score": 0.5403672281674452,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 14.350862741470337,
+      "generation_time": 12.464600563049316,
       "num_tokens_generated": 354
     },
     {
@@ -1872,16 +1883,16 @@
         "The Formula One San Marino Grand Prix is typically held on the Autodromo Enzo e Dino Ferrari circuit in Imola, Italy.",
         "The Formula One San Marino Grand Prix was traditionally held on the Autodromo Enzo e Dino Ferrari circuit in Imola, Italy. However, due to the coronavirus pandemic, the race was not held in 2020 and 2"
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.09523809523809523,
       "num_samples": 10,
-      "generation_time": 12.46900725364685,
+      "generation_time": 11.230716228485107,
       "num_tokens_generated": 326
     },
     {
@@ -1899,16 +1910,16 @@
         "The ESA stands for European Space Agency, and the S likely represents \"Space\" as it's common practice to abbreviate \"European Space Agency\" as ESA. However, without more context, it's not possible to definitively state if there is an",
         "The ESA stands for European Space Agency, and the S likely stands for \"Space\" as it's common practice to abbreviate \"Space\" as \"S\" in acronyms related to space agencies or projects. However, without more context, I"
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 12.0725839138031,
+      "generation_time": 10.992179155349731,
       "num_tokens_generated": 320
     },
     {
@@ -1926,16 +1937,16 @@
         "The principal charity for single-parent families in the UK is Single Parent Alliance (SPA).",
         "The principal charity for single-parent families in the UK is often considered to be the Joseph Rowntree Foundation (JRF). However, the largest and most well-known charity specifically supporting single-parent families is likely [Foster Care UK](https://www"
       ],
-      "se_entropy": 1.6957425341696344,
-      "se_normalized_entropy": 0.9464119282150145,
-      "se_uncertainty_score": 0.7900693791512309,
-      "se_n_clusters": 6,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 9.221428394317627,
+      "generation_time": 8.393246412277222,
       "num_tokens_generated": 236
     },
     {
@@ -1953,16 +1964,16 @@
         "The first winners of the League Cup (formerly known as the Football League Cup) were Arsenal in 1992.",
         "The first League Cup (then known as the FA Community Shield) winner was Arsenal, who defeated Manchester United 2-1 in the final held on August 10, 1966."
       ],
-      "se_entropy": 1.8866967846580784,
-      "se_normalized_entropy": 0.969570350190125,
-      "se_uncertainty_score": 0.8484088767807416,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 10.980144262313843,
+      "generation_time": 9.995387077331543,
       "num_tokens_generated": 284
     },
     {
@@ -1980,16 +1991,16 @@
         "Wayne Rooney scored his first senior goal for Stockport County when he was just 15 years old. However, his first senior goal for a major English club was for Everton.",
         "Wayne Rooney scored his first senior goal for Stockport County when he was 15 years old on loan from Everton in a match against Darlaston Town on 26 September 1998."
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 13.634596586227417,
+      "generation_time": 12.102089166641235,
       "num_tokens_generated": 345
     },
     {
@@ -2016,7 +2027,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.6666666666666667,
       "num_samples": 10,
-      "generation_time": 4.914741516113281,
+      "generation_time": 4.7165679931640625,
       "num_tokens_generated": 132
     },
     {
@@ -2034,16 +2045,16 @@
         "predicted before its existence was confirmed through observation? \nThe prediction you're referring to is likely about the planet Neptune. Urbain Le Verrier, a French mathematician and astronomer, used mathematical calculations to predict the position of Neptune based on observed pert",
         "predicted before its existence was confirmed by observation?  \nJupiter is often cited as an example where the existence of a planet was mathematically predicted before it was observed. This prediction was based on the perturbations in the orbit of Jupiter's moon"
       ],
-      "se_entropy": 2.163955656882057,
-      "se_normalized_entropy": 0.9848586617875468,
-      "se_uncertainty_score": 0.9464707526280836,
-      "se_n_clusters": 9,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1,
       "num_samples": 10,
-      "generation_time": 18.79598879814148,
+      "generation_time": 16.494922399520874,
       "num_tokens_generated": 476
     },
     {
@@ -2070,7 +2081,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.5714285714285715,
       "num_samples": 10,
-      "generation_time": 6.416546821594238,
+      "generation_time": 6.220789670944214,
       "num_tokens_generated": 180
     },
     {
@@ -2097,7 +2108,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.3076923076923077,
       "num_samples": 10,
-      "generation_time": 5.803317070007324,
+      "generation_time": 5.770899534225464,
       "num_tokens_generated": 166
     },
     {
@@ -2124,7 +2135,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 6.185948371887207,
+      "generation_time": 4.879260778427124,
       "num_tokens_generated": 140
     },
     {
@@ -2142,16 +2153,16 @@
         "The memoirs titled \"A Journey\" published in 2010 were written by Liu Cixin, the renowned Chinese science fiction author.",
         "The memoirs titled \"A Journey\" were published in 2010 and were written by Liu Cixin."
       ],
-      "se_entropy": 1.4978661367769952,
-      "se_normalized_entropy": 0.835975008086505,
-      "se_uncertainty_score": 0.7238072270741253,
-      "se_n_clusters": 6,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.10526315789473685,
       "num_samples": 10,
-      "generation_time": 11.455000400543213,
+      "generation_time": 10.300474166870117,
       "num_tokens_generated": 298
     },
     {
@@ -2169,16 +2180,16 @@
         "The bridge design with a divided lifting roadway, like Tower Bridge, is often referred to as a bascule bridge or a drawbridge.",
         "The bridge design with a divided lifting roadway, often seen in places like London's Tower Bridge, is typically referred to as a \"drawbridge\" or a \"lifting bridge.\""
       ],
-      "se_entropy": 1.5047882836811908,
-      "se_normalized_entropy": 0.9349775297671233,
-      "se_uncertainty_score": 0.7387642956380518,
-      "se_n_clusters": 5,
+      "se_entropy": 0.5004024235381879,
+      "se_normalized_entropy": 0.7219280948873623,
+      "se_uncertainty_score": 0.47760130137686185,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.08695652173913045,
       "num_samples": 10,
-      "generation_time": 15.483703851699829,
+      "generation_time": 13.692863941192627,
       "num_tokens_generated": 388
     },
     {
@@ -2205,7 +2216,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.1,
       "num_samples": 10,
-      "generation_time": 19.721025228500366,
+      "generation_time": 17.538476705551147,
       "num_tokens_generated": 500
     },
     {
@@ -2223,16 +2234,16 @@
         "The name of the line separating the numerator and denominator of a fraction, when written as a diagonal line, is called a vinculum. However, the specific line itself is simply referred to as a fraction bar.",
         "The line separating the numerator and the denominator of a fraction is called a vinculum, but if you're referring to the actual diagonal line used in written fractions, it is simply called a \"fraction bar.\""
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.09523809523809525,
       "num_samples": 10,
-      "generation_time": 15.876913070678711,
+      "generation_time": 15.203884601593018,
       "num_tokens_generated": 427
     },
     {
@@ -2259,7 +2270,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.2857142857142857,
       "num_samples": 10,
-      "generation_time": 7.5731728076934814,
+      "generation_time": 6.490476846694946,
       "num_tokens_generated": 184
     },
     {
@@ -2277,16 +2288,16 @@
         "The dish you're describing is typically known as \"Blintz\" or \"Blood Sausage\" (also called \"Black Pudding\" in some regions), although it's important to note that while this description fits Welsh and English Midlands cuisine",
         "The dish you're describing is likely \"Bisztyk,\" though it's worth noting that this term can vary in some regions. In parts of Wales and the English Midlands, a similar dish called \"Ewenny Pork Pudding\" or"
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 2.0253262207700677,
+      "se_normalized_entropy": 0.9739760316291209,
+      "se_uncertainty_score": 0.8954967300885837,
+      "se_n_clusters": 8,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 17.784064531326294,
+      "generation_time": 16.589452981948853,
       "num_tokens_generated": 469
     },
     {
@@ -2304,16 +2315,16 @@
         "Ursus arctos horribilis is the scientific name for the American black bear (Ursus americanus). There seems to be a slight confusion in your question, as \"horribilis\" is not typically used as part",
         "Ursus arctos horribilis is the scientific name for the American black bear."
       ],
-      "se_entropy": 0.9433483923290392,
-      "se_normalized_entropy": 0.8586727110732552,
-      "se_uncertainty_score": 0.6040925155328419,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.4,
       "num_samples": 10,
-      "generation_time": 9.495644330978394,
+      "generation_time": 9.31522536277771,
       "num_tokens_generated": 268
     },
     {
@@ -2331,16 +2342,16 @@
         "Helium takes its name from the Greek word \"helios\" meaning \"sun,\" not \"hidden.\" However, Neon is derived from the Greek word \"neos,\" which means \"new,\" and Argon comes from the Greek \"argon,\" meaning",
         "Helium does not take its name from the Greek for 'hidden.' The noble gases with names related to hidden or rare elements are Krypton (from Greek \u03ba\u03c1\u03c5\u03c0\u03c4\u03cc\u03c2, meaning \"hidden\") and Argon (from the Greek"
       ],
-      "se_entropy": 1.4708084763221112,
-      "se_normalized_entropy": 0.9138646883853214,
-      "se_uncertainty_score": 0.7260965908089706,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.05882352941176471,
       "num_samples": 10,
-      "generation_time": 19.262087106704712,
+      "generation_time": 17.6596360206604,
       "num_tokens_generated": 500
     },
     {
@@ -2358,16 +2369,16 @@
         "The popular newsreader who resigned from ITN (Independent Television News) in 1979 was Michael Parkinson.",
         "John Sergeant resigned from ITN (Independent Television News) in 1979."
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 1.8343719702816235,
+      "se_normalized_entropy": 0.9426807148172599,
+      "se_uncertainty_score": 0.8322750955570226,
+      "se_n_clusters": 7,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 10.549340724945068,
+      "generation_time": 9.688623428344727,
       "num_tokens_generated": 275
     },
     {
@@ -2385,16 +2396,16 @@
         "The play \"Amadeus\" by Sir Peter Shaffer was made into a film with Tom Hulke in the title role.",
         "The play \"Amadeus\" by Sir Peter Shaffer was made into a film with Tom Hulkin the title role."
       ],
-      "se_entropy": 1.2798542258336674,
-      "se_normalized_entropy": 0.9232196723355077,
-      "se_uncertainty_score": 0.687265136734638,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1111111111111111,
       "num_samples": 10,
-      "generation_time": 10.382364988327026,
+      "generation_time": 9.22866439819336,
       "num_tokens_generated": 266
     },
     {
@@ -2412,16 +2423,16 @@
         "I'm sorry, but there isn't enough information provided in your question to determine the city where Robert Ironside, described as a wheelchair-bound Chief of Detectives, was located. Robert Ironside is not a well-known character from any widely recognized source",
         "Robert Ironside, the fictional character from the CBS series \"Ironside,\" was portrayed by various actors and did not have a specific physical disability tied to his location in any city. The show is set in Chicago, but the actor playing Ironside determines"
       ],
-      "se_entropy": 1.9730014063936128,
-      "se_normalized_entropy": 0.9488131148903386,
-      "se_uncertainty_score": 0.8803989800453143,
-      "se_n_clusters": 8,
+      "se_entropy": 1.0888999753452235,
+      "se_normalized_entropy": 0.7854752972273343,
+      "se_uncertainty_score": 0.6046185116697339,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 18.18112540245056,
+      "generation_time": 16.170637130737305,
       "num_tokens_generated": 467
     },
     {
@@ -2439,16 +2450,16 @@
         "The UK Women's Prize for Fiction does not have a specific name; it is simply referred to as \"The Women's Prize for Fiction.\"",
         "The UK Women's Prize for Fiction does not have a specific official name; it is simply known as \"the Women's Prize for Fiction.\""
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.4166666666666667,
       "num_samples": 10,
-      "generation_time": 12.273186445236206,
+      "generation_time": 11.55807900428772,
       "num_tokens_generated": 326
     },
     {
@@ -2475,7 +2486,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.38095238095238093,
       "num_samples": 10,
-      "generation_time": 7.949024200439453,
+      "generation_time": 7.16913914680481,
       "num_tokens_generated": 196
     },
     {
@@ -2493,16 +2504,16 @@
         "The person you're referring to is Dafu Zhu, a Chinese businessman and model. He initially denied paternity before a DNA test confirmed he was not the father of Elizabeth Hurley's son.",
         "The person who dated actress Elizabeth Hurley between 2000 and 2001 and initially denied paternity before a DNA test proved otherwise is Chris Martin, the lead singer of Coldplay."
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 1.0888999753452235,
+      "se_normalized_entropy": 0.7854752972273343,
+      "se_uncertainty_score": 0.6046185116697339,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 17.234662532806396,
+      "generation_time": 16.359153747558594,
       "num_tokens_generated": 463
     },
     {
@@ -2520,16 +2531,16 @@
         "The famous racehorse that won Australia's Melbourne Cup in 1930 was **Siphon**.",
         "The famous racehorse that won Australia's Melbourne Cup in 1930 was **Zetto**."
       ],
-      "se_entropy": 1.4978661367769952,
-      "se_normalized_entropy": 0.835975008086505,
-      "se_uncertainty_score": 0.7238072270741253,
-      "se_n_clusters": 6,
+      "se_entropy": 0.9404479886553263,
+      "se_normalized_entropy": 0.6783898247235197,
+      "se_uncertainty_score": 0.5403672281674452,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 9.326238632202148,
+      "generation_time": 8.530922174453735,
       "num_tokens_generated": 241
     },
     {
@@ -2547,16 +2558,16 @@
         "The John Brown Shipyard was located on the River Clyde in Scotland.",
         "The John Brown Shipyard is located on the River Clyde in Scotland."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.15384615384615385,
       "num_samples": 10,
-      "generation_time": 6.654238700866699,
+      "generation_time": 5.4891135692596436,
       "num_tokens_generated": 156
     },
     {
@@ -2583,7 +2594,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.19512195121951217,
       "num_samples": 10,
-      "generation_time": 18.232490301132202,
+      "generation_time": 17.146104335784912,
       "num_tokens_generated": 496
     },
     {
@@ -2601,16 +2612,16 @@
         "The name of the World War I fighter ace nicknamed the Red Baron was Manfred von Richthofen. He was known for his prowess in aerial combat and flew a red airplane, which became iconic in military history.",
         "The name of the World War I fighter ace nicknamed the Red Baron was Manfred von Richthofen."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.38095238095238093,
       "num_samples": 10,
-      "generation_time": 11.5676109790802,
+      "generation_time": 9.615749835968018,
       "num_tokens_generated": 278
     },
     {
@@ -2628,16 +2639,16 @@
         "The name of the island in Norway where over 80 people lost their lives to a gunman on July 22, 2011, is Ut\u00f8ya.",
         "The island in Norway where over 80 people lost their lives to a gunman on 22nd July was Utoya."
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 14.793911218643188,
+      "generation_time": 13.785164594650269,
       "num_tokens_generated": 400
     },
     {
@@ -2655,16 +2666,16 @@
         "The resting object on the back of four giant elephants in this popular series is the World. This refers to the opening line of \"One Thousand and One Nights\" (also known as Arabian Nights), which starts with \"There are upon the backs of four",
         "In the popular children's book series \"Kalila and Dimna\" (also known as \"Arabian Nights\"), a giant pearl rests on the back of four giant elephants."
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 2.163955656882057,
+      "se_normalized_entropy": 0.9848586617875468,
+      "se_uncertainty_score": 0.9464707526280836,
+      "se_n_clusters": 9,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.15,
       "num_samples": 10,
-      "generation_time": 18.333314418792725,
+      "generation_time": 16.201108932495117,
       "num_tokens_generated": 462
     },
     {
@@ -2682,16 +2693,16 @@
         "In Charles Dickens' novel \"Oliver Twist,\" Bill Sikes's dog is unnamed in the text.",
         "The name of Bill Sikes's dog in \"Oliver Twist\" is Betsey."
       ],
-      "se_entropy": 1.9730014063936128,
-      "se_normalized_entropy": 0.9488131148903386,
-      "se_uncertainty_score": 0.8803989800453143,
-      "se_n_clusters": 8,
+      "se_entropy": 1.3138340331927467,
+      "se_normalized_entropy": 0.9477309221191608,
+      "se_uncertainty_score": 0.7019718866048298,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1111111111111111,
       "num_samples": 10,
-      "generation_time": 11.259392261505127,
+      "generation_time": 10.204344272613525,
       "num_tokens_generated": 295
     },
     {
@@ -2718,7 +2729,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.28571428571428575,
       "num_samples": 10,
-      "generation_time": 5.464750051498413,
+      "generation_time": 5.344205856323242,
       "num_tokens_generated": 155
     },
     {
@@ -2736,16 +2747,16 @@
         "The town that stands on the River Aare, between the lakes of Brienz and Thun is Rapperswil.",
         "The town that stands on the River Aare, between the lakes of Brienz and Thun is Interlaken."
       ],
-      "se_entropy": 1.0296530140645734,
-      "se_normalized_entropy": 0.9372305632161295,
-      "se_uncertainty_score": 0.6512272268185666,
-      "se_n_clusters": 3,
+      "se_entropy": 0.6931471805599453,
+      "se_normalized_entropy": 1.0,
+      "se_uncertainty_score": 0.6444444444444444,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1111111111111111,
       "num_samples": 10,
-      "generation_time": 9.948397874832153,
+      "generation_time": 8.815932989120483,
       "num_tokens_generated": 256
     },
     {
@@ -2763,16 +2774,16 @@
         "A suitable name for this type of private club could be \"Outskirts Sports Club\" or \"Rural Retreat Club.\"",
         "A suitable name for such a private club could be \"Outskirts Elite Sports Club.\""
       ],
-      "se_entropy": 2.163955656882057,
-      "se_normalized_entropy": 0.9848586617875468,
-      "se_uncertainty_score": 0.9464707526280836,
-      "se_n_clusters": 9,
+      "se_entropy": 0.5004024235381879,
+      "se_normalized_entropy": 0.7219280948873623,
+      "se_uncertainty_score": 0.47760130137686185,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 9.403175115585327,
+      "generation_time": 8.314983367919922,
       "num_tokens_generated": 235
     },
     {
@@ -2790,16 +2801,16 @@
         "The month that came second in the original Roman calendar was Quintilis. It was later renamed July after Julius Caesar. August came second initially.",
         "The second month of the Roman calendar was March."
       ],
-      "se_entropy": 1.6094379124341,
-      "se_normalized_entropy": 0.898244401703927,
-      "se_uncertainty_score": 0.7611688632445784,
-      "se_n_clusters": 6,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.3333333333333333,
       "num_samples": 10,
-      "generation_time": 9.16695785522461,
+      "generation_time": 7.761322021484375,
       "num_tokens_generated": 225
     },
     {
@@ -2817,16 +2828,16 @@
         "Bibendum is better known as the Michelin Man.",
         "Bibendum is better known as the Michelin tire footprint logo."
       ],
-      "se_entropy": 2.163955656882057,
-      "se_normalized_entropy": 0.9848586617875468,
-      "se_uncertainty_score": 0.9464707526280836,
-      "se_n_clusters": 9,
+      "se_entropy": 1.193549604098133,
+      "se_normalized_entropy": 0.860964047443681,
+      "se_uncertainty_score": 0.6499117617995419,
+      "se_n_clusters": 4,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.5454545454545454,
       "num_samples": 10,
-      "generation_time": 8.148581981658936,
+      "generation_time": 7.072587966918945,
       "num_tokens_generated": 204
     },
     {
@@ -2844,16 +2855,16 @@
         "There are 6 triangles in the BMW logo.",
         "There are 12 triangles in the BMW logo."
       ],
-      "se_entropy": 1.5047882836811908,
-      "se_normalized_entropy": 0.9349775297671233,
-      "se_uncertainty_score": 0.7387642956380518,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 7.882956266403198,
+      "generation_time": 7.692123889923096,
       "num_tokens_generated": 222
     },
     {
@@ -2871,16 +2882,16 @@
         "The given series (1, 16, 81, 256, 625) consists of squares of integers:\n\n- \\(1 = 1^2\\)\n- \\(16 = 4^2\\",
         "The given sequence (1, 16, 81, 256, 625) consists of squares of numbers: \n\n- \\(1 = 1^2\\)\n- \\(16 = 4^2"
       ],
-      "se_entropy": 1.7480673485460891,
-      "se_normalized_entropy": 0.8983289127685204,
-      "se_uncertainty_score": 0.8056640143277789,
-      "se_n_clusters": 7,
+      "se_entropy": 1.2275294114572126,
+      "se_normalized_entropy": 0.7627069065377661,
+      "se_uncertainty_score": 0.6354019217004374,
+      "se_n_clusters": 5,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.06666666666666667,
       "num_samples": 10,
-      "generation_time": 19.06125044822693,
+      "generation_time": 17.259005069732666,
       "num_tokens_generated": 500
     },
     {
@@ -2898,16 +2909,16 @@
         "In the 1961 film \"The Hustler,\" the main character's name is Larry \"The Hustler\" Wilson.",
         "In the 1961 film \"The Hustler,\" the character commonly known as \"The Hustler\" is named Larry Holmes. However, it's important to note that this nickname refers to Paul Newman's character in the movie, not to"
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 15.511042356491089,
+      "generation_time": 13.904378414154053,
       "num_tokens_generated": 403
     },
     {
@@ -2925,16 +2936,16 @@
         "The businessman who was elevated to the House of Lords by Gordon Brown in 2000 and took the title Baron of Clapton was Richard Branson.",
         "The businessman who was elevated to the House of Lords by Gordon Brown in 2000 with the title Baron of Clapton was Richard Branson."
       ],
-      "se_entropy": 1.4978661367769952,
-      "se_normalized_entropy": 0.835975008086505,
-      "se_uncertainty_score": 0.7238072270741253,
-      "se_n_clusters": 6,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.21428571428571427,
       "num_samples": 10,
-      "generation_time": 13.721717834472656,
+      "generation_time": 12.33529782295227,
       "num_tokens_generated": 356
     },
     {
@@ -2961,7 +2972,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.11764705882352941,
       "num_samples": 10,
-      "generation_time": 16.507158279418945,
+      "generation_time": 15.275312900543213,
       "num_tokens_generated": 442
     },
     {
@@ -2979,16 +2990,16 @@
         "The information provided does not contain the pen name of Mrs. Darrell Waters. There seems to be a mismatch between the given information about translations and the specific question asked. Could it be possible that there's additional context or details missing from the question?",
         "The information provided does not contain the pen name used by Mrs. Darrell Waters. She published under her own name, not a pen name, based on the given data."
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": 1.2206072645530175,
+      "se_normalized_entropy": 0.8804820237218407,
+      "se_uncertainty_score": 0.6616225475664377,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.11111111111111112,
       "num_samples": 10,
-      "generation_time": 14.342824935913086,
+      "generation_time": 12.777705907821655,
       "num_tokens_generated": 369
     },
     {
@@ -3006,16 +3017,16 @@
         "The name of the neo-Norman fantasy castle you are referring to is Castell Coch. It was indeed built in the early 19th century by the John Owen family, who made their fortune in sugar and Welsh slate. The castle is now",
         "The name of the neo-Norman fantasy castle you're referring to is Castell Coch. It was indeed built in the early 19th century by the Williams family, who made their fortune from sugar and Welsh slate. Now it is managed by"
       ],
-      "se_entropy": 1.9730014063936128,
-      "se_normalized_entropy": 0.9488131148903386,
-      "se_uncertainty_score": 0.8803989800453143,
-      "se_n_clusters": 8,
+      "se_entropy": 0.9433483923290391,
+      "se_normalized_entropy": 0.858672711073255,
+      "se_uncertainty_score": 0.6040925155328419,
+      "se_n_clusters": 3,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 11.789993047714233,
+      "generation_time": 10.697572469711304,
       "num_tokens_generated": 312
     },
     {
@@ -3033,16 +3044,16 @@
         "The noted English chemist and physicist you are referring to is Michael Faraday. He was born on September 22, 1791, and is known for his work on the principles of electricity and magnetism, including the development of",
         "The noted English chemist and physicist you are referring to is Michael Faraday. He was born on September 22, 1791, and is known for his work on the principles of electricity and magnetism, including the discovery of"
       ],
-      "se_entropy": 0.9404479886553263,
-      "se_normalized_entropy": 0.6783898247235197,
-      "se_uncertainty_score": 0.5403672281674452,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1081081081081081,
       "num_samples": 10,
-      "generation_time": 19.163604974746704,
+      "generation_time": 17.1446430683136,
       "num_tokens_generated": 500
     },
     {
@@ -3060,16 +3071,16 @@
         "In 1986, while playing for England against West Indies in a Test match, Paul Collingwood scored the fastest-ever Test century, achieving it in just 56 balls.",
         "In 1986, whilst playing against England, the West Indian batsman who scored the fastest-ever Test century in just 56 balls was Desmond Haynes."
       ],
-      "se_entropy": 1.6957425341696346,
-      "se_normalized_entropy": 0.9464119282150146,
-      "se_uncertainty_score": 0.790069379151231,
-      "se_n_clusters": 6,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.15384615384615385,
       "num_samples": 10,
-      "generation_time": 14.38513994216919,
+      "generation_time": 13.078322887420654,
       "num_tokens_generated": 381
     },
     {
@@ -3087,16 +3098,16 @@
         "In November 1935, there was no British prime minister who returned to office after a general election. The month you mentioned refers to Neville Chamberlain's return as Prime Minister in November 1937, following the General Election of",
         "In November 1935, Sir Stanley Baldwin returned to office as the Prime Minister of the United Kingdom after a general election."
       ],
-      "se_entropy": 1.7480673485460891,
-      "se_normalized_entropy": 0.8983289127685204,
-      "se_uncertainty_score": 0.8056640143277789,
-      "se_n_clusters": 7,
+      "se_entropy": 0.9433483923290392,
+      "se_normalized_entropy": 0.8586727110732552,
+      "se_uncertainty_score": 0.6040925155328419,
+      "se_n_clusters": 3,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.21428571428571427,
       "num_samples": 10,
-      "generation_time": 14.038343667984009,
+      "generation_time": 13.743558406829834,
       "num_tokens_generated": 401
     },
     {
@@ -3123,7 +3134,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.37499999999999994,
       "num_samples": 10,
-      "generation_time": 5.12923264503479,
+      "generation_time": 4.82474946975708,
       "num_tokens_generated": 140
     },
     {
@@ -3141,16 +3152,16 @@
         "Radiohead's lead singer and principal songwriter is Thom Yorke.",
         "Radiohead's lead singer and principal songwriter is Thom Yorke."
       ],
-      "se_entropy": 0.6931471805599453,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 0.6444444444444444,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 8.899926662445068,
+      "generation_time": 8.828987836837769,
       "num_tokens_generated": 257
     },
     {
@@ -3168,16 +3179,16 @@
         "The type of art particularly associated with Salvador Dal\u00ed is Surrealism.",
         "The type of art particularly associated with Salvador Dal\u00ed is Surrealism."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.4285714285714285,
       "num_samples": 10,
-      "generation_time": 5.560687065124512,
+      "generation_time": 5.560419082641602,
       "num_tokens_generated": 161
     },
     {
@@ -3204,7 +3215,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 4.9931862354278564,
+      "generation_time": 4.9235169887542725,
       "num_tokens_generated": 143
     },
     {
@@ -3222,16 +3233,16 @@
         "The iconic 20th century invention designated by those aircraft codes is the Concorde supersonic passenger jet. \n\n- G-BOAG and G-BOAC were registration numbers for British Airways' Concorde aircraft.\n- F-BV",
         "The iconic 20th century invention designated by those aircraft codes is the Concorde supersonic airliner. G-BOAG and G-BOAC were registration codes for British-built Concorde aircraft (G-BOAD was another registration"
       ],
-      "se_entropy": 0.9404479886553263,
-      "se_normalized_entropy": 0.6783898247235197,
-      "se_uncertainty_score": 0.5403672281674452,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.125,
       "num_samples": 10,
-      "generation_time": 17.33032488822937,
+      "generation_time": 17.14675498008728,
       "num_tokens_generated": 500
     },
     {
@@ -3249,16 +3260,16 @@
         "The painting \"Faithful Unto Death\" is not widely recognized and there isn't a well-known artwork with this exact title. It's possible you might be thinking of another work. Could you please provide more details or verify the name/title?",
         "The painting \"Faithful Unto Death\" is not typically associated with the Walker Art Gallery in Liverpool. There might be some confusion as this title doesn't match well-known works or galleries. Could you provide more details or check the title again?"
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 0.6108643020548934,
+      "se_normalized_entropy": 0.8812908992306926,
+      "se_uncertainty_score": 0.57321898398286,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.15384615384615383,
       "num_samples": 10,
-      "generation_time": 14.679090023040771,
+      "generation_time": 14.566630601882935,
       "num_tokens_generated": 425
     },
     {
@@ -3285,7 +3296,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 2.7687935829162598,
+      "generation_time": 2.7654008865356445,
       "num_tokens_generated": 80
     },
     {
@@ -3303,16 +3314,16 @@
         "The boy with a girl's name that Johnny Cash sang about is Axl Rose, the lead singer of Guns N' Roses.",
         "The boy with a girl's name that Johnny Cash sang about was Axl Rose. Axl Rose was born William Goldstein but is more widely known by his stage name Axl Rose, which is typically considered a girl's name. He is the"
       ],
-      "se_entropy": 1.8866967846580784,
-      "se_normalized_entropy": 0.969570350190125,
-      "se_uncertainty_score": 0.8484088767807416,
-      "se_n_clusters": 7,
+      "se_entropy": 0.6730116670092565,
+      "se_normalized_entropy": 0.9709505944546688,
+      "se_uncertainty_score": 0.6270148011172456,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1111111111111111,
       "num_samples": 10,
-      "generation_time": 10.564861536026001,
+      "generation_time": 10.5326828956604,
       "num_tokens_generated": 306
     },
     {
@@ -3330,16 +3341,16 @@
         "The character played by Michael Caine in a total of five films, with \"The Ipcress File\" being the first, is Mr. Big.",
         "The character played by Michael Caine in a total of five films, with \"The Ipcress File\" being the first, is Mr. Big."
       ],
-      "se_entropy": 0.9404479886553263,
-      "se_normalized_entropy": 0.6783898247235197,
-      "se_uncertainty_score": 0.5403672281674452,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 13.088837623596191,
+      "generation_time": 13.391997575759888,
       "num_tokens_generated": 377
     },
     {
@@ -3366,7 +3377,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 4.557039499282837,
+      "generation_time": 4.6416826248168945,
       "num_tokens_generated": 132
     },
     {
@@ -3384,16 +3395,16 @@
         "The renowned British naturalist you are referring to is Charles Darwin. He wrote \"On the Origin of Species\" with the subtitle \"The Preservation of Favoured Races in the Struggle for Life.\"",
         "The famed British naturalist born on February 12, 1809, who wrote \"On the Origin of Species\" with a subtitle that translates to \"The Preservation of Favoured Races in the Struggle for Life\" is Charles Darwin"
       ],
-      "se_entropy": 1.6434177197931796,
-      "se_normalized_entropy": 0.9172088932791936,
-      "se_uncertainty_score": 0.7725475581897384,
-      "se_n_clusters": 6,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.12121212121212122,
       "num_samples": 10,
-      "generation_time": 16.42091417312622,
+      "generation_time": 16.23948836326599,
       "num_tokens_generated": 474
     },
     {
@@ -3411,16 +3422,16 @@
         "The English producer and screenwriter responsible for the creation of the fictional school Grange Hill is John Sessions.",
         "The English producer and screenwriter responsible for the creation of the fictional school Grange Hill is Tony Scott."
       ],
-      "se_entropy": 0.9502705392332347,
-      "se_normalized_entropy": 0.8649735207179273,
-      "se_uncertainty_score": 0.6078730013196453,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.19999999999999998,
       "num_samples": 10,
-      "generation_time": 7.645389556884766,
+      "generation_time": 7.687113523483276,
       "num_tokens_generated": 222
     },
     {
@@ -3438,16 +3449,16 @@
         "Yukio Hatoyama was sworn in as the 60th Prime Minister of Japan.",
         "Yukio Hatoyama was sworn in as the 60th Prime Minister of Japan."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.375,
       "num_samples": 10,
-      "generation_time": 7.098130702972412,
+      "generation_time": 7.054673910140991,
       "num_tokens_generated": 206
     },
     {
@@ -3465,16 +3476,16 @@
         "The principle you're referring to is known as Gresham's Law. It was first articulated by Thomas Gresham, an English financier of the 16th century, and it applies to various economic scenarios where inferior or depreciated currency drives",
         "The law you're referring to is known as Gresham's Law."
       ],
-      "se_entropy": 1.4978661367769952,
-      "se_normalized_entropy": 0.835975008086505,
-      "se_uncertainty_score": 0.7238072270741253,
-      "se_n_clusters": 6,
+      "se_entropy": 1.1682824501765625,
+      "se_normalized_entropy": 0.8427376486136672,
+      "se_uncertainty_score": 0.6389759225015336,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.15,
       "num_samples": 10,
-      "generation_time": 11.49983286857605,
+      "generation_time": 11.364707469940186,
       "num_tokens_generated": 333
     },
     {
@@ -3492,16 +3503,16 @@
         "The South African fast bowler with the nickname \"White Lightning\" was Dale Steyn.",
         "The South African fast bowler known for the nickname \"White Lightning\" is Dale Steyn."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 6.828296899795532,
+      "generation_time": 6.680047273635864,
       "num_tokens_generated": 195
     },
     {
@@ -3528,7 +3539,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.2857142857142857,
       "num_samples": 10,
-      "generation_time": 5.473528861999512,
+      "generation_time": 5.47559118270874,
       "num_tokens_generated": 160
     },
     {
@@ -3546,16 +3557,16 @@
         "The \"A\" Line was not created in 1955. The term \"A Line\" refers to a type of bus route or public transportation line that runs in a straight path, symbolized by the letter \"A\" on maps.",
         "The \"A\" Line was not created in 1955. It is likely referring to the A-line dress silhouette, which has been popular since the early 20th century and was not attributed to a specific designer or creation date."
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 1.0888999753452235,
+      "se_normalized_entropy": 0.7854752972273343,
+      "se_uncertainty_score": 0.6046185116697339,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.048780487804878044,
       "num_samples": 10,
-      "generation_time": 15.979958295822144,
+      "generation_time": 16.478911876678467,
       "num_tokens_generated": 469
     },
     {
@@ -3573,16 +3584,16 @@
         "The red telephone box, also known as a \"Box K,\" was originally designed by two architects: Sir Giles Gilbert Scott and Edward Maufe. It first appeared in London in 1926 and is famously recognizable for its distinctive red color and",
         "The design of the red telephone box, also known as a \"Box K,\" was by Sir Giles Gilbert Scott. He designed it to be easily recognizable and to blend well with traditional British architecture. The iconic red color was chosen to ensure visibility and distinguish"
       ],
-      "se_entropy": 1.6094379124341,
-      "se_normalized_entropy": 0.898244401703927,
-      "se_uncertainty_score": 0.7611688632445784,
-      "se_n_clusters": 6,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.4,
       "num_samples": 10,
-      "generation_time": 13.3686203956604,
+      "generation_time": 13.280190467834473,
       "num_tokens_generated": 384
     },
     {
@@ -3600,16 +3611,16 @@
         "The family home of the Spencer family for over 500 years is Althorp House.",
         "The family home of the Spencer family for over 500 years is Althorp, which is located in Northamptonshire, England."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 7.695167303085327,
+      "generation_time": 7.704129695892334,
       "num_tokens_generated": 225
     },
     {
@@ -3627,16 +3638,16 @@
         "The 17th- and 18th-century weapon you are referring to is likely a buffalo horn pistol or buffalo horn carbine. These were large-caliber flintlock pistols or carbines known for their distinctive shape and heavy barrels.",
         "The 17th- and 18th-century weapon you're referring to is likely a smoothbore musket."
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.13333333333333333,
       "num_samples": 10,
-      "generation_time": 12.841222524642944,
+      "generation_time": 12.997644901275635,
       "num_tokens_generated": 380
     },
     {
@@ -3663,7 +3674,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.4615384615384615,
       "num_samples": 10,
-      "generation_time": 4.38507866859436,
+      "generation_time": 4.428568601608276,
       "num_tokens_generated": 129
     },
     {
@@ -3681,16 +3692,16 @@
         "The word \"sacerdotal\" relates to the duties or functions of a priest or other religious officials.",
         "The word \"sacerdotal\" relates to priesthood or religious ceremonies and practices."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.3076923076923077,
       "num_samples": 10,
-      "generation_time": 7.606166362762451,
+      "generation_time": 7.708360433578491,
       "num_tokens_generated": 225
     },
     {
@@ -3708,16 +3719,16 @@
         "The Kyoto Protocol, which aims to stabilize greenhouse gas levels in the atmosphere, was named after the Japanese city where participating nations agreed its framework in 1997. The city is Kyoto.",
         "The climate change agreement you're referring to is the Kyoto Protocol, which was signed in the Japanese city of Kyoto in 1997."
       ],
-      "se_entropy": 1.193549604098133,
-      "se_normalized_entropy": 0.860964047443681,
-      "se_uncertainty_score": 0.6499117617995419,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 11.883194923400879,
+      "generation_time": 11.849086999893188,
       "num_tokens_generated": 346
     },
     {
@@ -3735,16 +3746,16 @@
         "H'Angus the Monkey is not the mascot of any English football club. There seems to be some confusion with this name. Could you provide more details or check the mascot's association if possible?",
         "H'Angus the Monkey is not the official mascot of any English football club. There seems to be some confusion or misidentification."
       ],
-      "se_entropy": 0.9404479886553263,
-      "se_normalized_entropy": 0.6783898247235197,
-      "se_uncertainty_score": 0.5403672281674452,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.23529411764705882,
       "num_samples": 10,
-      "generation_time": 12.77831482887268,
+      "generation_time": 13.259055852890015,
       "num_tokens_generated": 376
     },
     {
@@ -3762,16 +3773,16 @@
         "The name of the line separating the numerator and denominator of a fraction, when written as a diagonal line, is called a \"vinculum\". However, the specific line used in standard notation for fractions is often referred to simply as a \"fraction bar\".",
         "The line separating the numerator and denominator of a fraction, which is written as a diagonal line, is called a vinculum when it is not explicitly drawn. However, if you are referring to the specific diagonal line that appears in the fraction itself, it"
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.09999999999999999,
       "num_samples": 10,
-      "generation_time": 14.468067169189453,
+      "generation_time": 14.654414653778076,
       "num_tokens_generated": 419
     },
     {
@@ -3789,16 +3800,16 @@
         "The Spaniard who accomplished this feat in 1518 was Hern\u00e1n Cort\u00e9s. He indeed overcame Montezuma II, captured Mexico City (then called Tenochtitlan), and later became the first Governor-General of the Spanish V",
         "The Spaniard who accomplished these feats in 1518 was Hern\u00e1n Cort\u00e9s. He indeed overcame Montezuma II, the Aztec ruler, and eventually captured Mexico City, though he did not become the Governor-General of \"much"
       ],
-      "se_entropy": 1.7480673485460891,
-      "se_normalized_entropy": 0.8983289127685204,
-      "se_uncertainty_score": 0.8056640143277789,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.29629629629629634,
       "num_samples": 10,
-      "generation_time": 16.700858116149902,
+      "generation_time": 16.908201217651367,
       "num_tokens_generated": 484
     },
     {
@@ -3816,16 +3827,16 @@
         "The singing style you're referring to is known as \"Cantus Firmus\" or more commonly in this context, \"Plainchant.\" It features singers performing without any musical accompaniment, typically with monophonic melodies that are central to the",
         "The singing style you're referring to is called \"a cappella.\""
       ],
-      "se_entropy": 1.9730014063936128,
-      "se_normalized_entropy": 0.9488131148903386,
-      "se_uncertainty_score": 0.8803989800453143,
-      "se_n_clusters": 8,
+      "se_entropy": 1.4184836619456564,
+      "se_normalized_entropy": 0.881353453268883,
+      "se_uncertainty_score": 0.7065898497391077,
+      "se_n_clusters": 5,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.3076923076923077,
       "num_samples": 10,
-      "generation_time": 13.652230024337769,
+      "generation_time": 13.757797002792358,
       "num_tokens_generated": 399
     },
     {
@@ -3843,16 +3854,16 @@
         "Gwyl San Steffan is the name for December 26th (St Stephen's Day or Boxing Day) in Wales.",
         "Gwyl San Steffan is the name for December 26th (Boxing Day) in Wales."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 9.257803678512573,
+      "generation_time": 9.171222925186157,
       "num_tokens_generated": 267
     },
     {
@@ -3879,7 +3890,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.19999999999999998,
       "num_samples": 10,
-      "generation_time": 4.46794867515564,
+      "generation_time": 4.533671855926514,
       "num_tokens_generated": 125
     },
     {
@@ -3897,16 +3908,16 @@
         "Driving Miss Daisy won the Best Picture Oscar in 1989. Mikhail Gorbachev was elected as the first executive President of the Soviet Union in 1990. Iraq invaded Kuwait in August 1990. So",
         "Driving Miss Daisy won the Best Picture Oscar in 1987. \n\nMikhail Gorbachev was elected as the first executive President of the Soviet Union in 1988.\n\nIraq invaded Kuwait in August 1990"
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.9911594714322187,
-      "se_uncertainty_score": 0.6835845717482201,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0625,
       "num_samples": 10,
-      "generation_time": 17.41331934928894,
+      "generation_time": 17.48523759841919,
       "num_tokens_generated": 500
     },
     {
@@ -3924,16 +3935,16 @@
         "The golf club typically designed to hit the ball the farthest distance is the driver (or wood), which is used for the longest tee shots on a par 3 or par 4 hole. However, the specific club that produces the maximum distance can",
         "The golf club designed to hit the ball the furthest distance is typically the driver (also known as the woods) for men and women's professional players in tournament settings. However, this can vary based on factors like swing speed, technique, and specific"
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.7854752972273343,
-      "se_uncertainty_score": 0.6046185116697339,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.09523809523809523,
       "num_samples": 10,
-      "generation_time": 14.784589767456055,
+      "generation_time": 14.876038551330566,
       "num_tokens_generated": 429
     },
     {
@@ -3951,16 +3962,16 @@
         "The world war 2 German SS captain and Gestapo member known as \"The Butcher of Lyon\" was Klaus Barbie. He operated under the codename \"Le Chiffre\" (the Cipher) during his time as head of the French section",
         "The world war 2 German SS captain and Gestapo member known as \"The Butcher of Lyon\" was Henri Rol-Tanguy. However, it's important to note that his actual name was not \"Rol-Tanguy,\" but rather he"
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2727272727272727,
       "num_samples": 10,
-      "generation_time": 16.190428018569946,
+      "generation_time": 16.43854784965515,
       "num_tokens_generated": 472
     },
     {
@@ -3978,16 +3989,16 @@
         "Star Trek: TOS (The Original Series) ran for 3 seasons and 79 episodes before it was cancelled in 1969.",
         "Star Trek: TOS (The Original Series) was cancelled after 3 years on the air."
       ],
-      "se_entropy": 0.9502705392332347,
-      "se_normalized_entropy": 0.8649735207179273,
-      "se_uncertainty_score": 0.6078730013196453,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.13333333333333333,
       "num_samples": 10,
-      "generation_time": 10.31035327911377,
+      "generation_time": 10.438538789749146,
       "num_tokens_generated": 302
     },
     {
@@ -4014,7 +4025,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.21052631578947367,
       "num_samples": 10,
-      "generation_time": 10.794639825820923,
+      "generation_time": 10.959229469299316,
       "num_tokens_generated": 311
     },
     {
@@ -4041,7 +4052,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.2608695652173913,
       "num_samples": 10,
-      "generation_time": 11.908658266067505,
+      "generation_time": 12.238156795501709,
       "num_tokens_generated": 349
     },
     {
@@ -4068,7 +4079,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.23529411764705882,
       "num_samples": 10,
-      "generation_time": 9.248220682144165,
+      "generation_time": 9.453771591186523,
       "num_tokens_generated": 272
     },
     {
@@ -4095,7 +4106,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.30769230769230765,
       "num_samples": 10,
-      "generation_time": 9.037428855895996,
+      "generation_time": 9.285895347595215,
       "num_tokens_generated": 266
     },
     {
@@ -4113,16 +4124,16 @@
         "The duo that had a hit album entitled \"Sweet Dreams (Are Made of This)\" is Eurythmics, consisting of Annie Lennox and David A. Stewart.",
         "The duo that had a hit album entitled \"Sweet Dreams (Are Made of This)\" is Eurythmics, consisting of Dave Gahan and Annie Lennox."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.16,
       "num_samples": 10,
-      "generation_time": 12.574744462966919,
+      "generation_time": 12.790813207626343,
       "num_tokens_generated": 370
     },
     {
@@ -4140,16 +4151,16 @@
         "Cerberus usually has three heads in Greek mythology.",
         "Cerberus, the dog who guards the entrance to Hades in Greek mythology, is typically depicted as having three heads."
       ],
-      "se_entropy": 0.6931471805599453,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 0.6444444444444444,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 6.786070108413696,
+      "generation_time": 6.730592966079712,
       "num_tokens_generated": 196
     },
     {
@@ -4176,7 +4187,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.2857142857142857,
       "num_samples": 10,
-      "generation_time": 3.739353895187378,
+      "generation_time": 3.7796125411987305,
       "num_tokens_generated": 110
     },
     {
@@ -4194,16 +4205,16 @@
         "The first commercial jet airliner to go into service in the UK was the De Havilland Comet. It entered service in 1952.",
         "The first commercial jet airliner to go into service in the UK was the de Havilland Comet. It made its maiden flight in 1949 and entered scheduled service with BOAC (British Overseas Airways Corporation) in 19"
       ],
-      "se_entropy": 0.8018185525433372,
-      "se_normalized_entropy": 0.7298466991620975,
-      "se_uncertainty_score": 0.5267969083861473,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1111111111111111,
       "num_samples": 10,
-      "generation_time": 12.883394002914429,
+      "generation_time": 13.19207763671875,
       "num_tokens_generated": 380
     },
     {
@@ -4221,16 +4232,16 @@
         "Annie Leibovitz is renowned for her work in photography, particularly in the fields of portrait and advertising photography.",
         "Annie Leibovitz has achieved fame in the field of photography."
       ],
-      "se_entropy": 0.9404479886553263,
-      "se_normalized_entropy": 0.6783898247235197,
-      "se_uncertainty_score": 0.5403672281674452,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.30769230769230765,
       "num_samples": 10,
-      "generation_time": 7.078679323196411,
+      "generation_time": 7.080522298812866,
       "num_tokens_generated": 204
     },
     {
@@ -4257,7 +4268,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.36363636363636365,
       "num_samples": 10,
-      "generation_time": 8.786219358444214,
+      "generation_time": 8.594813585281372,
       "num_tokens_generated": 250
     },
     {
@@ -4284,7 +4295,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 3.786125421524048,
+      "generation_time": 3.7912919521331787,
       "num_tokens_generated": 110
     },
     {
@@ -4302,16 +4313,16 @@
         "Glenn Miller played the trombone and the tuba. However, he was most famous for conducting orchestras and playing the saxophone.",
         "Glenn Miller played the tuba and later switched to the clarinet. However, he is most famously associated with playing the trumpet."
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.28571428571428575,
       "num_samples": 10,
-      "generation_time": 11.677498817443848,
+      "generation_time": 11.647364616394043,
       "num_tokens_generated": 341
     },
     {
@@ -4329,16 +4340,16 @@
         "The canal that began construction on July 4, 1817, linking the Great Lakes to the Hudson River, and ultimately to the Atlantic Ocean is the Erie Canal.",
         "The canal that began construction on July 4, 1817, linking the Great Lakes to the Hudson River and ultimately the Atlantic Ocean is the Erie Canal."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 11.858942031860352,
+      "generation_time": 12.019466400146484,
       "num_tokens_generated": 351
     },
     {
@@ -4356,16 +4367,16 @@
         "The family in the 1960s TV series \"Upstairs, Downstairs\" was the Crawley family.",
         "The family in the 1960s TV series \"Upstairs, Downstairs\" was the Cavendish family."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 9.064547300338745,
+      "generation_time": 8.988542556762695,
       "num_tokens_generated": 262
     },
     {
@@ -4392,7 +4403,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 11.341379165649414,
+      "generation_time": 11.31736707687378,
       "num_tokens_generated": 331
     },
     {
@@ -4410,16 +4421,16 @@
         "Nostradamus \"Bull\" Shannon was not associated with a long-running NBC comedy series. The information about him writing a children's book is likely unrelated to his work in a TV show. There seems to be a mix-up or confusion.",
         "Nostradamus \"Bull\" Shannon, known for his role as the bailiff in \"That '70s Show,\" also wrote the children's book \"Puff the Flesh-Eating Dragon.\" \"That '70s Show\""
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 1.2798542258336674,
+      "se_normalized_entropy": 0.9232196723355077,
+      "se_uncertainty_score": 0.687265136734638,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.21052631578947367,
       "num_samples": 10,
-      "generation_time": 15.52585220336914,
+      "generation_time": 15.506817102432251,
       "num_tokens_generated": 454
     },
     {
@@ -4437,16 +4448,16 @@
         "The Chester Cup is now run over 1 mile (6 furlongs) and 200 yards.",
         "The Chester Cup is now run over 1 mile (16 furlongs) distance."
       ],
-      "se_entropy": 0.8018185525433372,
-      "se_normalized_entropy": 0.7298466991620975,
-      "se_uncertainty_score": 0.5267969083861473,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 8.864719867706299,
+      "generation_time": 9.075761318206787,
       "num_tokens_generated": 254
     },
     {
@@ -4473,7 +4484,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.6153846153846153,
       "num_samples": 10,
-      "generation_time": 4.83870267868042,
+      "generation_time": 4.920473575592041,
       "num_tokens_generated": 140
     },
     {
@@ -4491,16 +4502,16 @@
         "The 1962 ecological classic written by Rachel Carson is \"Silent Spring.\"",
         "The 1962 ecological classic written by Rachel Carson is \"Silent Spring.\""
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.42857142857142855,
       "num_samples": 10,
-      "generation_time": 6.903661251068115,
+      "generation_time": 7.16766619682312,
       "num_tokens_generated": 200
     },
     {
@@ -4518,16 +4529,16 @@
         "St George is a historical figure whose death date is not definitively known. He is primarily celebrated for his Christian martyrdom but the specific year of his death remains uncertain.",
         "St George is a Christian saint and is traditionally said to have been martyred in 303 AD."
       ],
-      "se_entropy": 2.3025850929940455,
-      "se_normalized_entropy": 1.0,
-      "se_uncertainty_score": 1.0,
-      "se_n_clusters": 10,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1111111111111111,
       "num_samples": 10,
-      "generation_time": 14.222272634506226,
+      "generation_time": 14.241079092025757,
       "num_tokens_generated": 413
     },
     {
@@ -4545,16 +4556,16 @@
         "Edward Stanley served three terms as Prime Minister and was known by the title of the Earl of Derby.",
         "Edward Stanley served three terms as Prime Minister and was known by the title of Marquess of Blandford."
       ],
-      "se_entropy": 1.5047882836811908,
-      "se_normalized_entropy": 0.9349775297671233,
-      "se_uncertainty_score": 0.7387642956380518,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.34782608695652173,
       "num_samples": 10,
-      "generation_time": 8.338757753372192,
+      "generation_time": 8.653012752532959,
       "num_tokens_generated": 242
     },
     {
@@ -4572,16 +4583,16 @@
         "Chirac was President of France twice (2000-2007 and 2012-2014), but he was not directly elected for the second term; his presidency was extended due to constitutional limitations preventing",
         "No one has been President of France twice without being elected to the position. Fran\u00e7ois Mitterrand was the only French president to serve two non-consecutive terms from 1981 to 1995."
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 16.61853814125061,
+      "generation_time": 16.798917293548584,
       "num_tokens_generated": 483
     },
     {
@@ -4599,16 +4610,16 @@
         "The Estoril Grand Prix circuit is located in Portugal.",
         "The Estoril Grand Prix circuit is located in Portugal, which is in Europe."
       ],
-      "se_entropy": 0.6730116670092565,
-      "se_normalized_entropy": 0.9709505944546688,
-      "se_uncertainty_score": 0.6270148011172456,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.19999999999999998,
       "num_samples": 10,
-      "generation_time": 5.670745849609375,
+      "generation_time": 5.711851119995117,
       "num_tokens_generated": 165
     },
     {
@@ -4626,16 +4637,16 @@
         "Blue Gum is Eucalyptus and Ironbark is Eucalyptus (specifically several species within this genus).",
         "Both Blue Gum and Ironbark are species of the genus Eucalyptus in the family Myrtaceae. They are native to Australia."
       ],
-      "se_entropy": 1.0888999753452235,
-      "se_normalized_entropy": 0.9911594714322187,
-      "se_uncertainty_score": 0.6835845717482201,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 11.678205490112305,
+      "generation_time": 11.94662618637085,
       "num_tokens_generated": 346
     },
     {
@@ -4653,16 +4664,16 @@
         "Rickets is primarily caused by a lack of vitamin D or calcium in the diet, but it often involves a deficiency in both vitamin D and calcium. The essential element that plays a crucial role in bone health and helps in the absorption of calcium and phosph",
         "Rickets is primarily caused by a deficiency in vitamin D, although it can also be related to a deficiency in calcium and phosphorus when combined with insufficient vitamin D."
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0909090909090909,
       "num_samples": 10,
-      "generation_time": 12.057142972946167,
+      "generation_time": 12.329683542251587,
       "num_tokens_generated": 358
     },
     {
@@ -4680,16 +4691,16 @@
         "The Scotsman you are referring to is John Paul Jones. He received a ship from the United States to attack British shipping and later served as an admiral in the Russian Navy during Catherine the Great's reign.",
         "The Scotsman you are referring to is John Paul Jones. He was given a ship by the Americans to harass English shipping near Great Britain and later served as an admiral in the Russian Navy during Catherine the Great's reign."
       ],
-      "se_entropy": 1.1935496040981333,
-      "se_normalized_entropy": 0.8609640474436813,
-      "se_uncertainty_score": 0.649911761799542,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.17142857142857143,
       "num_samples": 10,
-      "generation_time": 14.81181287765503,
+      "generation_time": 14.92804479598999,
       "num_tokens_generated": 435
     },
     {
@@ -4716,7 +4727,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.1904761904761905,
       "num_samples": 10,
-      "generation_time": 8.49851131439209,
+      "generation_time": 8.598389625549316,
       "num_tokens_generated": 250
     },
     {
@@ -4734,16 +4745,16 @@
         "Objects made of copper also have to be hallmarked by an Assay Office.",
         "Objects made of copper and brass often have to be hallmarking by an Assay Office."
       ],
-      "se_entropy": 0.6108643020548934,
-      "se_normalized_entropy": 0.8812908992306926,
-      "se_uncertainty_score": 0.57321898398286,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 6.13721489906311,
+      "generation_time": 6.202566862106323,
       "num_tokens_generated": 181
     },
     {
@@ -4761,16 +4772,16 @@
         "The son's first name is James. Dick Francis and his younger son James both wrote these novels.",
         "Dick Francis's younger son's first name is James."
       ],
-      "se_entropy": 1.3592367006650063,
-      "se_normalized_entropy": 0.8445412464587144,
-      "se_uncertainty_score": 0.6845025256530064,
-      "se_n_clusters": 5,
+      "se_entropy": 0.8979457248567797,
+      "se_normalized_entropy": 0.8173454221465102,
+      "se_uncertainty_score": 0.5792961421767949,
+      "se_n_clusters": 3,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 5.940253496170044,
+      "generation_time": 6.07845139503479,
       "num_tokens_generated": 171
     },
     {
@@ -4788,16 +4799,16 @@
         "Charles Rennie Mackintosh was a leading exponent of the Arts and Crafts movement around the early 20th century.",
         "Charles Rennie Mackintosh was a leading exponent of the Arts and Crafts movement around the early 1900s."
       ],
-      "se_entropy": 0.6108643020548934,
-      "se_normalized_entropy": 0.8812908992306926,
-      "se_uncertainty_score": 0.57321898398286,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 8.681663990020752,
+      "generation_time": 8.881942987442017,
       "num_tokens_generated": 256
     },
     {
@@ -4815,16 +4826,16 @@
         "The city of Knossos was located on the island of Crete.",
         "The city of Knossos was located on the island of Crete."
       ],
-      "se_entropy": 0.6108643020548934,
-      "se_normalized_entropy": 0.8812908992306926,
-      "se_uncertainty_score": 0.57321898398286,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.4,
       "num_samples": 10,
-      "generation_time": 7.447222471237183,
+      "generation_time": 7.77742600440979,
       "num_tokens_generated": 220
     },
     {
@@ -4842,16 +4853,16 @@
         "In the 2004 film \"Ladies in Lavender,\" Dame Judi Dench and Penelope Wilton played the Widdington sisters.",
         "In the 2004 film \"Ladies in Lavender,\" Dame Judi Dench and Penelope Wilton played the roles of the Widdington sisters."
       ],
-      "se_entropy": 0.6108643020548934,
-      "se_normalized_entropy": 0.8812908992306926,
-      "se_uncertainty_score": 0.57321898398286,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.10526315789473684,
       "num_samples": 10,
-      "generation_time": 12.040387630462646,
+      "generation_time": 12.272367477416992,
       "num_tokens_generated": 355
     },
     {
@@ -4869,16 +4880,16 @@
         "The novel \"Cider with Rosie\" was written by Laurie Lee.",
         "The novel \"Cider With Rosie\" was written by V.S. Naipaul."
       ],
-      "se_entropy": 1.2798542258336674,
-      "se_normalized_entropy": 0.9232196723355077,
-      "se_uncertainty_score": 0.687265136734638,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 5.668376922607422,
+      "generation_time": 6.04232931137085,
       "num_tokens_generated": 167
     },
     {
@@ -4896,16 +4907,16 @@
         "Russia's Tu-144 plane was the broad equivalent of the Western airliners Concorde.",
         "Russia's TU-144 plane was the broad equivalent of the Western airliners Concorde."
       ],
-      "se_entropy": 0.6108643020548934,
-      "se_normalized_entropy": 0.8812908992306926,
-      "se_uncertainty_score": 0.57321898398286,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.13333333333333333,
       "num_samples": 10,
-      "generation_time": 8.25834321975708,
+      "generation_time": 8.412819623947144,
       "num_tokens_generated": 244
     },
     {
@@ -4923,16 +4934,16 @@
         "The director of the CIA from 1976 to 1981 was William Casey.",
         "The director of the CIA from 1976 to 1981 was William Colby."
       ],
-      "se_entropy": 0.8979457248567797,
-      "se_normalized_entropy": 0.8173454221465102,
-      "se_uncertainty_score": 0.5792961421767949,
-      "se_n_clusters": 3,
+      "se_entropy": 0.6108643020548934,
+      "se_normalized_entropy": 0.8812908992306926,
+      "se_uncertainty_score": 0.57321898398286,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2222222222222222,
       "num_samples": 10,
-      "generation_time": 8.559916496276855,
+      "generation_time": 8.624914407730103,
       "num_tokens_generated": 246
     },
     {
@@ -4959,7 +4970,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.5714285714285715,
       "num_samples": 10,
-      "generation_time": 5.4941229820251465,
+      "generation_time": 5.620732307434082,
       "num_tokens_generated": 162
     },
     {
@@ -4977,16 +4988,16 @@
         "Chi (\u5df1) is the fifth stem in the Chinese ten-stem system used in Chinese astrology and calendar. The five stems cycle through every 10 years, and they combine with the four elements (Wu Xing) to determine one's",
         "Chi (\u5df1) is the 5th stem in the Chinese stem-branch system used to denote years in the Chinese calendar. Each stem and branch combination represents a unique year cycle over a 60-year period."
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 0.6931471805599453,
+      "se_normalized_entropy": 1.0,
+      "se_uncertainty_score": 0.6444444444444444,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 16.35600972175598,
+      "generation_time": 16.72878670692444,
       "num_tokens_generated": 484
     },
     {
@@ -5013,7 +5024,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.09523809523809523,
       "num_samples": 10,
-      "generation_time": 12.344398736953735,
+      "generation_time": 12.594177007675171,
       "num_tokens_generated": 364
     },
     {
@@ -5031,16 +5042,16 @@
         "When Jo Durie won the Wimbledon mixed doubles title in 1987, she partnered with Mark Woodforde.",
         "When Jo Durie won the Wimbledon mixed doubles title in 1987, she partnered with Mark Woodforde."
       ],
-      "se_entropy": 1.2275294114572126,
-      "se_normalized_entropy": 0.7627069065377661,
-      "se_uncertainty_score": 0.6354019217004374,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 8.921334743499756,
+      "generation_time": 8.832632303237915,
       "num_tokens_generated": 253
     },
     {
@@ -5067,7 +5078,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 4.54540228843689,
+      "generation_time": 4.575329780578613,
       "num_tokens_generated": 133
     },
     {
@@ -5085,16 +5096,16 @@
         "The first animated film to be nominated for an Academy Award for Best Picture was \"Toy Story\" in 1997.",
         "Gulliver's Travels in 1938 was the first animated film to be nominated for an Academy Award for Best Picture."
       ],
-      "se_entropy": 1.3592367006650063,
-      "se_normalized_entropy": 0.8445412464587144,
-      "se_uncertainty_score": 0.6845025256530064,
-      "se_n_clusters": 5,
+      "se_entropy": 0.639031859650177,
+      "se_normalized_entropy": 0.5816718657178869,
+      "se_uncertainty_score": 0.437892008319621,
+      "se_n_clusters": 3,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.16666666666666666,
       "num_samples": 10,
-      "generation_time": 11.32814884185791,
+      "generation_time": 11.40382170677185,
       "num_tokens_generated": 332
     },
     {
@@ -5112,16 +5123,16 @@
         "The moons of Jupiter are named after Shakespearean characters.",
         "The moons of Jupiter that are named after Shakespearean characters are called \"The Sapphics\" (not commonly used), but the majority are named after characters from Shakespeare's works. The most notable ones are Calisto (which is not a character"
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.16666666666666666,
       "num_samples": 10,
-      "generation_time": 11.67798137664795,
+      "generation_time": 11.807846784591675,
       "num_tokens_generated": 337
     },
     {
@@ -5139,16 +5150,16 @@
         "The only boxer to have won more heavyweight title fights than Muhammad Ali is Lennox Lewis, who faced Ali for the heavyweight championship twice in 1996 and 2000.",
         "The only boxer to win more heavyweight title fights than Muhammad Ali is Lennox Lewis, who won 17 title defenses in his career."
       ],
-      "se_entropy": 1.1682824501765625,
-      "se_normalized_entropy": 0.8427376486136672,
-      "se_uncertainty_score": 0.6389759225015336,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.10526315789473684,
       "num_samples": 10,
-      "generation_time": 10.886005163192749,
+      "generation_time": 10.97810173034668,
       "num_tokens_generated": 318
     },
     {
@@ -5175,7 +5186,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.2857142857142857,
       "num_samples": 10,
-      "generation_time": 11.235204935073853,
+      "generation_time": 11.313190221786499,
       "num_tokens_generated": 326
     },
     {
@@ -5202,7 +5213,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.08333333333333333,
       "num_samples": 10,
-      "generation_time": 9.328011989593506,
+      "generation_time": 9.687369346618652,
       "num_tokens_generated": 272
     },
     {
@@ -5229,7 +5240,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.15384615384615385,
       "num_samples": 10,
-      "generation_time": 8.438054323196411,
+      "generation_time": 8.348577499389648,
       "num_tokens_generated": 241
     },
     {
@@ -5247,16 +5258,16 @@
         "Art Garfunkel trained to be a lawyer but did not qualify for one. He later pursued a career in music.",
         "Art Garfunkel did not actually train for a specific profession and didn't need to qualify for it, as he became famous as a singer and actor rather than through formal training. However, if you're asking about his background in music, he"
       ],
-      "se_entropy": 1.7480673485460891,
-      "se_normalized_entropy": 0.8983289127685204,
-      "se_uncertainty_score": 0.8056640143277789,
-      "se_n_clusters": 7,
+      "se_entropy": 0.6730116670092565,
+      "se_normalized_entropy": 0.9709505944546688,
+      "se_uncertainty_score": 0.6270148011172456,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 13.75524640083313,
+      "generation_time": 13.743459939956665,
       "num_tokens_generated": 398
     },
     {
@@ -5274,16 +5285,16 @@
         "The actress who played Brad Pitt's character Theresa Mills in the film 'Seven' is Helena Bonham Carter.",
         "The actress who played Brad Pitt's character Theresa Mills in the film 'Seven' is Helena Bonham Carter."
       ],
-      "se_entropy": 1.2275294114572126,
-      "se_normalized_entropy": 0.7627069065377661,
-      "se_uncertainty_score": 0.6354019217004374,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 8.813457727432251,
+      "generation_time": 8.721735000610352,
       "num_tokens_generated": 254
     },
     {
@@ -5310,7 +5321,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.5,
       "num_samples": 10,
-      "generation_time": 3.4408583641052246,
+      "generation_time": 3.4449446201324463,
       "num_tokens_generated": 100
     },
     {
@@ -5328,16 +5339,16 @@
         "The London Livery Companies are organized in a specific order based on historical precedence and their original incorporation into the City of London Corporation. The first in this order is the Worshipful Company of Goldsmiths.",
         "The London Livery Companies are organized in a hierarchy based on their founding dates. The company that is first in order of preference (oldest) is the Worshipful Company of Ironmongers."
       ],
-      "se_entropy": 1.4708084763221112,
-      "se_normalized_entropy": 0.9138646883853214,
-      "se_uncertainty_score": 0.7260965908089706,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.19354838709677416,
       "num_samples": 10,
-      "generation_time": 13.776954412460327,
+      "generation_time": 13.821174383163452,
       "num_tokens_generated": 403
     },
     {
@@ -5355,16 +5366,16 @@
         "On 30 September 1399, Henry Bolingbroke, Duke of Lancaster, became better known as King Henry IV.",
         "On 30 September 1399, Henry Bolingbroke, Duke of Lancaster, became better known as King Henry IV."
       ],
-      "se_entropy": 1.2798542258336674,
-      "se_normalized_entropy": 0.9232196723355077,
-      "se_uncertainty_score": 0.687265136734638,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2857142857142857,
       "num_samples": 10,
-      "generation_time": 13.918002843856812,
+      "generation_time": 14.261015176773071,
       "num_tokens_generated": 405
     },
     {
@@ -5391,7 +5402,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.24,
       "num_samples": 10,
-      "generation_time": 11.081356763839722,
+      "generation_time": 11.349348068237305,
       "num_tokens_generated": 324
     },
     {
@@ -5409,16 +5420,16 @@
         "The US author who wrote \"The Naked and the Dead\" based on his military service in World War II was Norman Mailer.",
         "William Manchester wrote 'The Naked and the Dead', although it's important to note that he actually wrote under the pseudonym of Norman Mailer."
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": 0.6931471805599453,
+      "se_normalized_entropy": 1.0,
+      "se_uncertainty_score": 0.6444444444444444,
+      "se_n_clusters": 2,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.3636363636363636,
       "num_samples": 10,
-      "generation_time": 9.800486326217651,
+      "generation_time": 10.060598373413086,
       "num_tokens_generated": 285
     },
     {
@@ -5445,7 +5456,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.23076923076923075,
       "num_samples": 10,
-      "generation_time": 11.169249534606934,
+      "generation_time": 11.439144849777222,
       "num_tokens_generated": 330
     },
     {
@@ -5463,16 +5474,16 @@
         "In the UK television series Doctor Who, Terry Molloy, David Gooderson, and Julian Bleach have all portrayed the same villain\u2014The Master.",
         "In the UK television series \"Doctor Who,\" Terry Molloy, David Gooderson, and Julian Bleach have all portrayed the Dalek in different episodes."
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": 1.4708084763221112,
+      "se_normalized_entropy": 0.9138646883853214,
+      "se_uncertainty_score": 0.7260965908089706,
+      "se_n_clusters": 5,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.16216216216216214,
       "num_samples": 10,
-      "generation_time": 12.234703779220581,
+      "generation_time": 12.212045431137085,
       "num_tokens_generated": 356
     },
     {
@@ -5490,16 +5501,16 @@
         "The future Hollywood star who got her break as Wonder Girl (Drusilla) was Willow Smith.",
         "The future Hollywood star who got her break as Wonder Girl, Drusilla, was Willow Shields."
       ],
-      "se_entropy": 1.4708084763221112,
-      "se_normalized_entropy": 0.9138646883853214,
-      "se_uncertainty_score": 0.7260965908089706,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 11.772238969802856,
+      "generation_time": 11.922297477722168,
       "num_tokens_generated": 344
     },
     {
@@ -5517,16 +5528,16 @@
         "The infamous character who became Pope Alexander VI was Rodrigo Borgia. He reigned as Pope from 1492 to 1503.",
         "The infamous character who became Pope Alexander VI was Cesare Borgia."
       ],
-      "se_entropy": 0.6108643020548934,
-      "se_normalized_entropy": 0.8812908992306926,
-      "se_uncertainty_score": 0.57321898398286,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.42857142857142855,
       "num_samples": 10,
-      "generation_time": 7.031609058380127,
+      "generation_time": 7.222485542297363,
       "num_tokens_generated": 204
     },
     {
@@ -5544,16 +5555,16 @@
         "Erotology is the study of sexual behavior and sexuality.",
         "Erotology is the study of sexual behavior and eroticism."
       ],
-      "se_entropy": 0.6730116670092565,
-      "se_normalized_entropy": 0.9709505944546688,
-      "se_uncertainty_score": 0.6270148011172456,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1818181818181818,
       "num_samples": 10,
-      "generation_time": 4.625929594039917,
+      "generation_time": 4.699678421020508,
       "num_tokens_generated": 131
     },
     {
@@ -5571,16 +5582,16 @@
         "The homonymic word that refers both to a pit and a hunted animal is \"bear.\"",
         "The homonymic word that refers both to a pit and a hunted animal is \"bear.\""
       ],
-      "se_entropy": 0.5004024235381879,
-      "se_normalized_entropy": 0.7219280948873623,
-      "se_uncertainty_score": 0.47760130137686185,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.11764705882352941,
       "num_samples": 10,
-      "generation_time": 7.045732021331787,
+      "generation_time": 7.136584043502808,
       "num_tokens_generated": 204
     },
     {
@@ -5607,7 +5618,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.28571428571428575,
       "num_samples": 10,
-      "generation_time": 7.12940239906311,
+      "generation_time": 7.222052812576294,
       "num_tokens_generated": 210
     },
     {
@@ -5625,16 +5636,16 @@
         "Wales is separated from Devon, England by the River Taw and the River Teign.",
         "Wales is separated from Devon, England, by the English Channel and Bristol Channel. Specifically, the main separation is through the Bristol Channel, which includes the estuary of the River Severn."
       ],
-      "se_entropy": 1.2798542258336676,
-      "se_normalized_entropy": 0.9232196723355078,
-      "se_uncertainty_score": 0.687265136734638,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2666666666666667,
       "num_samples": 10,
-      "generation_time": 9.761273384094238,
+      "generation_time": 10.15156102180481,
       "num_tokens_generated": 288
     },
     {
@@ -5652,16 +5663,16 @@
         "The 1989 music video of Madonna that attracted criticism for the themes you mentioned was \"Like a Prayer.\" The video included scenes with imagery related to Saint Martin de Porres and was also criticized for its use of cross burning.",
         "The 1989 music video of Madonna that attracted such criticism is \"Like a Prayer.\" It included scenes and imagery that were seen as controversial, particularly the depiction of making love to Saint Martin de Porres and the use of Catholic iconography"
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 15.02722978591919,
+      "generation_time": 15.337479591369629,
       "num_tokens_generated": 444
     },
     {
@@ -5679,16 +5690,16 @@
         "The curve seen at the surface of a liquid in a narrow tube is called a meniscus.",
         "The name given to the curve seen at the surface of a liquid in a narrow tube is called a meniscus."
       ],
-      "se_entropy": 0.8018185525433372,
-      "se_normalized_entropy": 0.7298466991620975,
-      "se_uncertainty_score": 0.5267969083861473,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.1111111111111111,
       "num_samples": 10,
-      "generation_time": 10.74368166923523,
+      "generation_time": 11.206817150115967,
       "num_tokens_generated": 317
     },
     {
@@ -5706,16 +5717,16 @@
         "In the culinary world, this word is often referred to as \"game bird's livers and hearts,\" but more commonly, it might be called \"giblets\" when referring to these specific parts (heart, gizzard, and sometimes liver)",
         "In the culinary world, this word is commonly referred to as \"game birds' livers,\" but more specifically for the mentioned parts of a fowl, it can be described as \"bird's giblets\" which include the heart, gizzard ("
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 14.31040358543396,
+      "generation_time": 14.742304801940918,
       "num_tokens_generated": 422
     },
     {
@@ -5733,16 +5744,16 @@
         "The ancient pre-scientific system of classifying all universal matter as Water/Air/Fire/Earth/Aether is called the Classical Four Elements or Ancient Greek philosophy's concept known as the \"elements.\"",
         "The ancient pre-scientific system of classifying all universal matter as Water/Air/Fire/Earth/Aether is called the Classical Four Elements or the Aristotelian system."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.17391304347826084,
       "num_samples": 10,
-      "generation_time": 12.649550437927246,
+      "generation_time": 12.993870258331299,
       "num_tokens_generated": 372
     },
     {
@@ -5769,7 +5780,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.23529411764705882,
       "num_samples": 10,
-      "generation_time": 5.592386960983276,
+      "generation_time": 5.7439775466918945,
       "num_tokens_generated": 164
     },
     {
@@ -5787,16 +5798,16 @@
         "The term \"kotwal\" in Hindi and Sanskrit historically referred to the police superintendent or city magistrate in medieval India.",
         "The term \"kotwal\" in Hindi and Sanskrit historically referred to the position of a police magistrate or city watchman in medieval India."
       ],
-      "se_entropy": 0.9433483923290393,
-      "se_normalized_entropy": 0.8586727110732553,
-      "se_uncertainty_score": 0.604092515532842,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.3333333333333333,
       "num_samples": 10,
-      "generation_time": 9.151829481124878,
+      "generation_time": 9.456549167633057,
       "num_tokens_generated": 270
     },
     {
@@ -5814,16 +5825,16 @@
         "The Los Angeles Dodgers won baseball's first World Series of the 1980s, defeating the Philadelphia Phillies in four games.",
         "The New York Yankees won baseball's first World Series of the 1980s in 1981."
       ],
-      "se_entropy": 1.4184836619456562,
-      "se_normalized_entropy": 0.8813534532688829,
-      "se_uncertainty_score": 0.7065898497391075,
-      "se_n_clusters": 5,
+      "se_entropy": 0.5004024235381879,
+      "se_normalized_entropy": 0.7219280948873623,
+      "se_uncertainty_score": 0.47760130137686185,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2608695652173913,
       "num_samples": 10,
-      "generation_time": 10.547871112823486,
+      "generation_time": 10.756309270858765,
       "num_tokens_generated": 310
     },
     {
@@ -5841,16 +5852,16 @@
         "As of my last update in September 2021, Kamala Harris was the Vice President of the USA. However, information can change, so it's always good to verify such details from a recent source.",
         "As of recent updates, the Vice President of the United States (VP) is Kamala Harris."
       ],
-      "se_entropy": 0.8979457248567797,
-      "se_normalized_entropy": 0.8173454221465102,
-      "se_uncertainty_score": 0.5792961421767949,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.28571428571428575,
       "num_samples": 10,
-      "generation_time": 9.343072175979614,
+      "generation_time": 9.7180814743042,
       "num_tokens_generated": 276
     },
     {
@@ -5868,16 +5879,16 @@
         "Yes, the Penrose Stairs and the Devil's Pitchfork are indeed famous for their impossible geometry. They are examples of shapes that appear to be continuous loops but cannot exist in three-dimensional space without intersecting themselves or having parts that are outside their",
         "Yes, the Penrose Stairs and the Devil's Pitchfork are indeed famous for being impossible objects, which defy basic laws of geometry and perspective. They are often used in art and design to illustrate concepts related to non-Euclidean geometry and visual"
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.08695652173913042,
       "num_samples": 10,
-      "generation_time": 16.648250102996826,
+      "generation_time": 16.847496032714844,
       "num_tokens_generated": 490
     },
     {
@@ -5895,16 +5906,16 @@
         "The surname of the father and son who rode Grand National winners in the given years is McCrory. L'Escargot was ridden by Charlie McCrory in 1975, and Bobbyjo was ridden by his son, Martin",
         "The surname of the father and son who rode Grand National winners L'Escargot in 1975 and Bobbyjo in 1999 is Turner. The father is Lester Turner and the son is Paul Turner."
       ],
-      "se_entropy": 0.9404479886553263,
-      "se_normalized_entropy": 0.6783898247235197,
-      "se_uncertainty_score": 0.5403672281674452,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 16.59547448158264,
+      "generation_time": 16.711785316467285,
       "num_tokens_generated": 489
     },
     {
@@ -5922,16 +5933,16 @@
         "The car company that produces a model called Eos is BMW.",
         "The car company that produces a model called Eos is BMW."
       ],
-      "se_entropy": 1.1935496040981333,
-      "se_normalized_entropy": 0.8609640474436813,
-      "se_uncertainty_score": 0.649911761799542,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 5.030822038650513,
+      "generation_time": 5.328176021575928,
       "num_tokens_generated": 148
     },
     {
@@ -5949,16 +5960,16 @@
         "The original French title of \"The Hunchback of Notre-Dame\" is \"Notre-Dame de Paris\".",
         "The original French title of \"The Hunchback of Notre-Dame\" by Victor Hugo is \"Notre-Dame de Paris\"."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.4210526315789474,
       "num_samples": 10,
-      "generation_time": 9.379743814468384,
+      "generation_time": 9.57181191444397,
       "num_tokens_generated": 277
     },
     {
@@ -5976,16 +5987,16 @@
         "I'm sorry, but there seems to be an error in your question. There is no public information indicating that Baroness Royall of Blaisdon has led any political opposition since May 2010. Baroness Royall of Blais",
         "I'm sorry, but there seems to be an error in your question. There is no publicly known political figure named Baroness Royall of Blaisdon who has been leading an opposition since May 2010. Could it possibly be"
       ],
-      "se_entropy": 2.163955656882057,
-      "se_normalized_entropy": 0.9848586617875468,
-      "se_uncertainty_score": 0.9464707526280836,
-      "se_n_clusters": 9,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.16666666666666669,
       "num_samples": 10,
-      "generation_time": 17.26587224006653,
+      "generation_time": 17.185282707214355,
       "num_tokens_generated": 500
     },
     {
@@ -6012,7 +6023,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.3636363636363636,
       "num_samples": 10,
-      "generation_time": 3.765749454498291,
+      "generation_time": 3.817241668701172,
       "num_tokens_generated": 110
     },
     {
@@ -6030,16 +6041,16 @@
         "The approximate length of the Earth's Equator is about 400 million meters or 400,000 kilometers.",
         "The Earth's equator is approximately 40075000 meters long. When converted into millions of meters, this would be about 40.08 million meters."
       ],
-      "se_entropy": 1.2798542258336674,
-      "se_normalized_entropy": 0.9232196723355077,
-      "se_uncertainty_score": 0.687265136734638,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.125,
       "num_samples": 10,
-      "generation_time": 11.993466138839722,
+      "generation_time": 12.105184555053711,
       "num_tokens_generated": 352
     },
     {
@@ -6057,16 +6068,16 @@
         "The only fictional character to have featured in Time Magazine's list of the 100 most important people of the 20th century was Hamlet. While Hamlet himself is a fictional character from William Shakespeare's play \"Hamlet,\" the",
         "The only fictional character to have featured in Time Magazine's list of the 100 most important people of the 20th century is Sherlock Holmes, featured on the magazine's cover dated January 31, 1939."
       ],
-      "se_entropy": 1.3592367006650063,
-      "se_normalized_entropy": 0.8445412464587144,
-      "se_uncertainty_score": 0.6845025256530064,
-      "se_n_clusters": 5,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.09756097560975609,
       "num_samples": 10,
-      "generation_time": 15.365461587905884,
+      "generation_time": 15.474992752075195,
       "num_tokens_generated": 451
     },
     {
@@ -6093,7 +6104,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.3076923076923077,
       "num_samples": 10,
-      "generation_time": 12.26842999458313,
+      "generation_time": 12.451668739318848,
       "num_tokens_generated": 361
     },
     {
@@ -6111,16 +6122,16 @@
         "The cartoon title character with a friend called Captain Haddock is Tintin. Tintin is the main character in the Tintin comics series created by Belgian artist Herg\u00e9. Captain Haddock is one of Tintin's friends and",
         "The cartoon title character with a friend called Captain Haddock is Tintin. Tintin is the main character in the popular comic strip series created by Herg\u00e9."
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 14.152909994125366,
+      "generation_time": 14.243840456008911,
       "num_tokens_generated": 417
     },
     {
@@ -6138,16 +6149,16 @@
         "George W Bush was often given the diminutive nickname \"Dubya.\"",
         "George W Bush was often given the diminutive nickname \"Dubya\" by friends and family."
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.18181818181818182,
       "num_samples": 10,
-      "generation_time": 7.901648283004761,
+      "generation_time": 8.313996315002441,
       "num_tokens_generated": 232
     },
     {
@@ -6165,16 +6176,16 @@
         "Clement (Clym) Yeobright is a leading character in the novel \"Border Lines\" by Thomas Hardy.",
         "Clement (Clym) Yeobright is a leading character in Thomas Hardy's novel \"Desperate Remedies\" (also known as \"The Dynasts\"). However, he is more prominently featured in the novel \"Return of the Native,\""
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": 0.3250829733914482,
+      "se_normalized_entropy": 0.46899559358928117,
+      "se_uncertainty_score": 0.32584180059801315,
+      "se_n_clusters": 2,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.4,
       "num_samples": 10,
-      "generation_time": 11.423105478286743,
+      "generation_time": 11.77016544342041,
       "num_tokens_generated": 335
     },
     {
@@ -6192,16 +6203,16 @@
         "The flag of the Isle of Man is on a red background and features three interlocked legs (triskelion) in white.",
         "The flag of the Isle of Man features a triskelion (a shape resembling three legs or snake segments) on a red background."
       ],
-      "se_entropy": 1.7480673485460894,
-      "se_normalized_entropy": 0.9756149631508355,
-      "se_uncertainty_score": 0.8075912001127235,
-      "se_n_clusters": 6,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.13333333333333333,
       "num_samples": 10,
-      "generation_time": 9.640294313430786,
+      "generation_time": 9.825134515762329,
       "num_tokens_generated": 283
     },
     {
@@ -6219,16 +6230,16 @@
         "Andrew Carnegie's success was primarily built around the manufacture of steel in the steel industry.",
         "Andrew Carnegie's success in manufacturing was primarily built around the steel industry."
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.3076923076923077,
       "num_samples": 10,
-      "generation_time": 5.866695165634155,
+      "generation_time": 5.950741767883301,
       "num_tokens_generated": 167
     },
     {
@@ -6246,16 +6257,16 @@
         "The Cybermen were introduced in the BBC science fiction series \"Doctor Who\" in the serial \"The Tenth Planet\" (1963), which was part of the fifth season. This episode aired on 26 October 196",
         "The Cybermen were introduced in the BBC science fiction television series \"Doctor Who\" in the serial \"The Tenth Planet,\" which aired in 1963. This episode was part of the fourth season and was the second part of the two"
       ],
-      "se_entropy": 0.3250829733914482,
-      "se_normalized_entropy": 0.46899559358928117,
-      "se_uncertainty_score": 0.32584180059801315,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2857142857142857,
       "num_samples": 10,
-      "generation_time": 14.740061521530151,
+      "generation_time": 15.004483222961426,
       "num_tokens_generated": 431
     },
     {
@@ -6282,7 +6293,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.11764705882352941,
       "num_samples": 10,
-      "generation_time": 9.258066415786743,
+      "generation_time": 9.434480428695679,
       "num_tokens_generated": 270
     },
     {
@@ -6300,16 +6311,16 @@
         "The millionaire who introduced the free school milk programme in Chicago to combat rickets was Solomon Juneau.",
         "Andrew Carnegy introduced the free school milk programme in Chicago to combat rickets."
       ],
-      "se_entropy": 2.163955656882057,
-      "se_normalized_entropy": 0.9848586617875468,
-      "se_uncertainty_score": 0.9464707526280836,
-      "se_n_clusters": 9,
+      "se_entropy": 0.9404479886553263,
+      "se_normalized_entropy": 0.6783898247235197,
+      "se_uncertainty_score": 0.5403672281674452,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 10.125223398208618,
+      "generation_time": 10.457855224609375,
       "num_tokens_generated": 295
     },
     {
@@ -6327,16 +6338,16 @@
         "The English rugby union team that plays their home games at Adams Park is Harlequins.",
         "The English Rugby Union team that plays their home games at Adams Park is Harlequins."
       ],
-      "se_entropy": 0.8979457248567797,
-      "se_normalized_entropy": 0.8173454221465102,
-      "se_uncertainty_score": 0.5792961421767949,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.11764705882352941,
       "num_samples": 10,
-      "generation_time": 6.5868823528289795,
+      "generation_time": 6.708530426025391,
       "num_tokens_generated": 192
     },
     {
@@ -6354,16 +6365,16 @@
         "The Wardenclyffe Tower was designed by Nikola Tesla. Tesla intended to use it for demonstrations of wireless power transmission, though the project was eventually abandoned.",
         "The Wardenclyffe Tower in Shoreham, New York, was designed by the genius Nikola Tesla, who intended to use it for demonstrations of wireless power transmission."
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.31578947368421056,
       "num_samples": 10,
-      "generation_time": 10.630708694458008,
+      "generation_time": 10.750886917114258,
       "num_tokens_generated": 311
     },
     {
@@ -6381,16 +6392,16 @@
         "The British journalist and broadcaster you are referring to is John Sergeant. He was indeed best known for his role as the chief presenter of ITV's \"News at Ten\" from 1976 to 1991. John Sergeant passed away",
         "The British journalist and broadcaster you're referring to is Sir Michael Parkinson. He was indeed the chief presenter of ITV's \"News at Ten\" from 1976 to 1991, and he passed away on July 20"
       ],
-      "se_entropy": 0.639031859650177,
-      "se_normalized_entropy": 0.5816718657178869,
-      "se_uncertainty_score": 0.437892008319621,
-      "se_n_clusters": 3,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 16.731930017471313,
+      "generation_time": 16.72388982772827,
       "num_tokens_generated": 488
     },
     {
@@ -6417,7 +6428,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 4.823262691497803,
+      "generation_time": 5.052961587905884,
       "num_tokens_generated": 140
     },
     {
@@ -6435,16 +6446,16 @@
         "I'm sorry, but there seems to be an error in your question as \"Heartbeat\" doesn't refer to a specific location or pub. Could you please provide more context or clarify which book, movie, or show you're referring to?",
         "I'm sorry, but there seems to be an issue with your question as it doesn't provide enough context. \"Heartbeat\" could refer to various things such as a heart rate monitor, a heartbeat in a story, or a specific location like a"
       ],
-      "se_entropy": 1.7480673485460891,
-      "se_normalized_entropy": 0.8983289127685204,
-      "se_uncertainty_score": 0.8056640143277789,
-      "se_n_clusters": 7,
+      "se_entropy": 0.9433483923290392,
+      "se_normalized_entropy": 0.8586727110732552,
+      "se_uncertainty_score": 0.6040925155328419,
+      "se_n_clusters": 3,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.044444444444444446,
       "num_samples": 10,
-      "generation_time": 17.179414749145508,
+      "generation_time": 17.55057168006897,
       "num_tokens_generated": 500
     },
     {
@@ -6462,16 +6473,16 @@
         "The fictional girls' boarding school created by cartoonist Ronald Searle is called \"St Trinian's\".",
         "The fictional girls' boarding school that cartoonist Ronald Searle created is called \"St Trinian's.\""
       ],
-      "se_entropy": 1.2275294114572126,
-      "se_normalized_entropy": 0.7627069065377661,
-      "se_uncertainty_score": 0.6354019217004374,
-      "se_n_clusters": 5,
+      "se_entropy": 0.639031859650177,
+      "se_normalized_entropy": 0.5816718657178869,
+      "se_uncertainty_score": 0.437892008319621,
+      "se_n_clusters": 3,
       "any_correct": true,
       "majority_correct": true,
       "best_sample_correct": true,
       "best_rouge_l": 0.33333333333333337,
       "num_samples": 10,
-      "generation_time": 8.444502592086792,
+      "generation_time": 8.841410875320435,
       "num_tokens_generated": 246
     },
     {
@@ -6498,7 +6509,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.14285714285714285,
       "num_samples": 10,
-      "generation_time": 5.9562578201293945,
+      "generation_time": 5.992967367172241,
       "num_tokens_generated": 173
     },
     {
@@ -6516,16 +6527,16 @@
         "The 1960 recording \"The Twist\" that spawned a craze for the dance of that name was by Chubby Checker.",
         "The 1960 recording \"The Twist\" that spawned a craze for the dance of that name was by Chubby Checker."
       ],
-      "se_entropy": 0.6108643020548934,
-      "se_normalized_entropy": 0.8812908992306926,
-      "se_uncertainty_score": 0.57321898398286,
-      "se_n_clusters": 2,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.25,
       "num_samples": 10,
-      "generation_time": 9.32588791847229,
+      "generation_time": 9.514054298400879,
       "num_tokens_generated": 275
     },
     {
@@ -6543,16 +6554,16 @@
         "Raymond Vaughan (often referred to as \"Bryan\") won the World Professional Snooker Championship six times in the 1970s.",
         "The player who won the World Professional Snooker Championship six times in the 1970s is Dennis Taylor."
       ],
-      "se_entropy": 1.4978661367769952,
-      "se_normalized_entropy": 0.835975008086505,
-      "se_uncertainty_score": 0.7238072270741253,
-      "se_n_clusters": 6,
+      "se_entropy": 1.1682824501765625,
+      "se_normalized_entropy": 0.8427376486136672,
+      "se_uncertainty_score": 0.6389759225015336,
+      "se_n_clusters": 4,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.2666666666666667,
       "num_samples": 10,
-      "generation_time": 10.087255716323853,
+      "generation_time": 10.31972336769104,
       "num_tokens_generated": 297
     },
     {
@@ -6579,7 +6590,7 @@
       "best_sample_correct": false,
       "best_rouge_l": 0.13333333333333333,
       "num_samples": 10,
-      "generation_time": 12.862001657485962,
+      "generation_time": 13.11372184753418,
       "num_tokens_generated": 380
     },
     {
@@ -6597,16 +6608,16 @@
         "A Bond Bug refers to a significant spike in bond yields that occurred during the period from 1969 to 1974, particularly between 1972 and 1973. This period saw rapid increases in interest",
         "A Bond Bug refers to the phenomenon where bond prices rise significantly while interest rates fall during a short period, typically between 1970 and 1974. This unusual market behavior was caused by speculative trading and arbitrage opportunities in the"
       ],
-      "se_entropy": 2.0253262207700677,
-      "se_normalized_entropy": 0.9739760316291209,
-      "se_uncertainty_score": 0.8954967300885837,
-      "se_n_clusters": 8,
+      "se_entropy": 0.8979457248567797,
+      "se_normalized_entropy": 0.8173454221465102,
+      "se_uncertainty_score": 0.5792961421767949,
+      "se_n_clusters": 3,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.06451612903225806,
       "num_samples": 10,
-      "generation_time": 16.921851634979248,
+      "generation_time": 17.213367700576782,
       "num_tokens_generated": 500
     },
     {
@@ -6624,16 +6635,16 @@
         "Dunvegan Castle is located in the Scottish Highlands, in the parish of Lochaber, in the county of Inverness-shire, Scotland.",
         "Dunvegan Castle is located in the Isle of Skye, Scotland."
       ],
-      "se_entropy": 1.6094379124341,
-      "se_normalized_entropy": 0.898244401703927,
-      "se_uncertainty_score": 0.7611688632445784,
-      "se_n_clusters": 6,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": true,
       "majority_correct": false,
       "best_sample_correct": true,
       "best_rouge_l": 0.4615384615384615,
       "num_samples": 10,
-      "generation_time": 8.624848365783691,
+      "generation_time": 8.720776796340942,
       "num_tokens_generated": 253
     },
     {
@@ -6651,16 +6662,16 @@
         "When Sheffield Wednesday won the League Cup in 1991 and beat Manchester United in the final, their manager at that time was Peter Reid.",
         "When Sheffield Wednesday won the League Cup in 1991, their manager was Kevin Keen."
       ],
-      "se_entropy": 1.8343719702816235,
-      "se_normalized_entropy": 0.9426807148172599,
-      "se_uncertainty_score": 0.8322750955570226,
-      "se_n_clusters": 7,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 9.130454063415527,
+      "generation_time": 9.349158763885498,
       "num_tokens_generated": 269
     },
     {
@@ -6678,16 +6689,16 @@
         "The term \"shop\" in the context of betraying someone or informing on them likely derives from the older meaning of \"shop\" referring to a shop or store, implying that the person is selling or revealing secrets as if they were merchandise being sold.",
         "The old British slang term \"to shop\" someone does not directly derive from the common English word \"shop\" meaning to go shopping. Instead, it is believed to originate from the older sense of \"shop\" meaning a place where goods are sold,"
       ],
-      "se_entropy": 2.163955656882057,
-      "se_normalized_entropy": 0.9848586617875468,
-      "se_uncertainty_score": 0.9464707526280836,
-      "se_n_clusters": 9,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.09999999999999999,
       "num_samples": 10,
-      "generation_time": 16.991228818893433,
+      "generation_time": 17.278581380844116,
       "num_tokens_generated": 500
     },
     {
@@ -6705,16 +6716,16 @@
         "The flavor in Disaronno comes from the bitter almond kernel.",
         "The flavor in Disaronno comes from the bitter almond kernel."
       ],
-      "se_entropy": 1.193549604098133,
-      "se_normalized_entropy": 0.860964047443681,
-      "se_uncertainty_score": 0.6499117617995419,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.14285714285714288,
       "num_samples": 10,
-      "generation_time": 6.049110174179077,
+      "generation_time": 6.182182550430298,
       "num_tokens_generated": 178
     },
     {
@@ -6732,16 +6743,16 @@
         "Geoff Capes did not win Olympic gold medals; he was recognized as the world's strongest man multiple times. Geoff Capes is known for his achievements in strongman competitions, not the Olympics.",
         "Geoff Capes, who is not known for winning Olympic gold medals but rather being considered the world's strongest man, did not win any Olympic gold medals. His achievements were primarily in lifting weights and strength competitions."
       ],
-      "se_entropy": 1.2206072645530173,
-      "se_normalized_entropy": 0.8804820237218406,
-      "se_uncertainty_score": 0.6616225475664377,
-      "se_n_clusters": 4,
+      "se_entropy": -0.0,
+      "se_normalized_entropy": 0.0,
+      "se_uncertainty_score": 0.0,
+      "se_n_clusters": 1,
       "any_correct": false,
       "majority_correct": false,
       "best_sample_correct": false,
       "best_rouge_l": 0.0,
       "num_samples": 10,
-      "generation_time": 11.494730949401855,
+      "generation_time": 11.687601327896118,
       "num_tokens_generated": 339
     },
     {
@@ -6768,7 +6779,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.3157894736842105,
       "num_samples": 10,
-      "generation_time": 8.578606367111206,
+      "generation_time": 8.753462314605713,
       "num_tokens_generated": 254
     },
     {
@@ -6795,7 +6806,7 @@
       "best_sample_correct": true,
       "best_rouge_l": 0.5833333333333334,
       "num_samples": 10,
-      "generation_time": 6.84259819984436,
+      "generation_time": 6.974681615829468,
       "num_tokens_generated": 202
     }
   ]

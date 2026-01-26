@@ -1,0 +1,27 @@
+experiment:
+  name: "EAB Human Ambiguity Correlation"
+  description: "Test if EAB branching correlates with human-perceived ambiguity"
+  version: "1.0"
+
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cpu"
+  torch_dtype: "float32"  # CPU doesn't support float16
+
+generation:
+  num_samples: 10  # Target number of final paths
+  max_new_tokens: 50  # Reduced for CPU speed
+  temperature: 0.8  # Higher temp = more entropy = more branching
+  top_p: 0.9
+  do_sample: true
+
+eab:
+  enabled: true
+  entropy_threshold: 0.055  # Threshold for branching decision (normalized entropy 0-1)
+  min_new_tokens: 5  # Don't branch in first N tokens
+
+output:
+  results_dir: "results"
+  save_intermediate: true
+
+seed: 42

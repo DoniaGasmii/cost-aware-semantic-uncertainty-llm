@@ -45,12 +45,18 @@ def compute_entropy(logits: torch.Tensor, temperature: float = 1.0) -> float:
     
     # Convert to probabilities
     probs = F.softmax(logits, dim=-1)
-    
+
     # Compute entropy: H = -∑ p(x) log p(x)
     # Use log_softmax for numerical stability
     log_probs = F.log_softmax(logits, dim=-1)
-    entropy = -(probs * log_probs).sum()
-    
+
+    # Handle 0 * -inf case (occurs with heavy filtering like top-k/top-p)
+    # When probs[i]=0, we have log_probs[i]=-inf, and 0*-inf=NaN
+    # Mathematically, lim_{p→0} p*log(p) = 0, so we replace NaN with 0
+    entropy_terms = probs * log_probs
+    entropy_terms = torch.where(torch.isnan(entropy_terms), torch.zeros_like(entropy_terms), entropy_terms)
+    entropy = -entropy_terms.sum()
+
     return entropy.item()
 
 

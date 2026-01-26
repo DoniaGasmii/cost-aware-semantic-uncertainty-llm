@@ -1,0 +1,24 @@
+{
+  "auroc_metrics": {
+    "se_uncertainty_score": {
+      "best_incorrect": {
+        "auroc": 0.5606938844086021,
+        "aupr": 0.770451584023231,
+        "spearman_r": 0.1153585997052925
+      }
+    }
+  },
+  "correctness_analysis": {
+    "se_uncertainty_score": {
+      "correct": {
+        "mean": 0.10774574934022466
+      },
+      "incorrect": {
+        "mean": 0.17902207758939073
+      },
+      "higher_for_incorrect": 1
+    }
+  },
+  "accuracy": 0.256,
+  "avg_se": 0.16077533755760426
+}

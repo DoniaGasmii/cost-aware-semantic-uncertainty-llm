@@ -1,0 +1,18 @@
+\begin{table}[h]
+\centering
+\caption{AUROC sensitivity to clustering distance threshold $\delta$.}
+\label{tab:threshold-sensitivity}
+\begin{tabular}{ccc}
+\toprule
+\textbf{Threshold $\delta$} & \textbf{Avg Clusters} & \textbf{AUROC} \\
+\midrule
+0.05 (strict)   & 4.0 & \textbf{0.666} \\
+0.10            & 2.8 & 0.622 \\
+0.15            & 2.1 & 0.604 \\
+0.20            & 1.7 & 0.561 \\
+0.25 (loose)    & 1.3 & 0.528 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Observation.} AUROC varies from 0.528 to 0.666 across thresholds. The $\delta=0.05$ achieves near-optimal performance.

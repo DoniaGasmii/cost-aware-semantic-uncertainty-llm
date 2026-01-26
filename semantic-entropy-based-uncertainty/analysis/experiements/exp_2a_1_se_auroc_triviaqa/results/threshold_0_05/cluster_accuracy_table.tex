@@ -1,0 +1,20 @@
+\begin{table}[h]
+\centering
+\caption{Accuracy by number of semantic clusters.}
+\label{tab:cluster-accuracy}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Clusters} & \textbf{n} & \textbf{Accuracy} & \textbf{Interpretation} \\
+\midrule
+1 (full agreement) &  60 & 45.0\% & High confidence \\
+2-3                &  67 & 25.4\% & Moderate uncertainty \\
+4+                 & 123 & 16.3\% & High uncertainty \\
+\midrule
+Overall            & 250 & 25.6\% & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Observation.} Questions with 1 cluster achieve 45.0\% accuracy vs 16.3\% for 4+ clusters—a 28.7 percentage point gap.
+
+\textbf{Interpretation.} Cluster count provides an intuitive uncertainty signal: unanimous agreement correlates with correctness, while disagreement signals potential errors.

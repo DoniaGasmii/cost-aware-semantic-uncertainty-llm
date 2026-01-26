@@ -45,7 +45,18 @@
         "linkage": "average"
       }
     },
-    "processed": 250
+    "timestamp": "2026-01-23T21:24:19.192341",
+    "num_questions": 250,
+    "generation_method": "naive_sampling"
+  },
+  "cost_stats": {
+    "total_time_seconds": 2665.1619021892548,
+    "total_generation_time": 2651.2939128875732,
+    "total_se_time": 4.050026893615723,
+    "total_tokens_generated": 73649,
+    "peak_memory_mb": 3178.69775390625,
+    "avg_time_per_question": 10.660366048812866,
+    "tokens_per_second": 27.778512084987028
   },
   "results": [
     {

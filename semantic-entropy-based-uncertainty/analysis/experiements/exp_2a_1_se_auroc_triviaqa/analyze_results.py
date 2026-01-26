@@ -82,8 +82,17 @@ def analyze_by_correctness(results: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 def save_json(data, path):
+    def json_serializer(obj):
+        if isinstance(obj, (np.floating, np.complexfloating)):
+            return float(obj)
+        elif isinstance(obj, (np.integer, np.bool_)):
+            return int(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return obj
+
     with open(path, 'w') as f:
-        json.dump(data, f, indent=2, default=lambda x: float(x) if isinstance(x, np.floating) else x)
+        json.dump(data, f, indent=2, default=json_serializer)
 
 
 def main():

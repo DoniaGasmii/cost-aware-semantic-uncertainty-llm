@@ -1,0 +1,16 @@
+prompt,human_ambiguity_score
+"What is the capital of France?",1.0
+"How many planets are in our solar system?",1.2125
+"What is the chemical symbol for gold?",1.1625
+"What does it mean to live a meaningful life?",2.725
+"How should society balance privacy and security?",2.425
+"What are common symptoms of anxiety?",1.6375
+"Who wrote the play Romeo and Juliet?",1.0875
+"What makes a piece of art "good"?",2.6125
+"What factors contribute to job satisfaction?",1.925
+"Can true objectivity exist in journalism?",1.9125
+"What are typical side effects of caffeine?",1.4625
+"Is artificial intelligence a threat to humanity?",2.3
+"How can someone improve their time management?",1.7625
+"What is the square root of 64?",1.0
+"What are the benefits of regular exercise?",1.5125
