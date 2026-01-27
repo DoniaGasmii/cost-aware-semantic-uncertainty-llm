@@ -1,0 +1,67 @@
+\subsubsection{RQ1: Does EAB reduce computational cost?}
+\label{sec:rq1-eab-efficiency}
+
+\textbf{Hypothesis.} Entropy-adaptive branching (EAB) reduces computational cost compared to naive sampling by adaptively limiting branching in low-uncertainty regions, leading to fewer token-steps and lower wall-clock time, even if it incurs higher peak GPU memory usage due to parallel path management.
+
+\textbf{Experimental Setup.} We compare EAB against naive sequential sampling (N independent generations at temperature $T=0.7$) on 750 synthetically generated prompts covering factual QA, creative writing, reasoning, opinion, and open-ended tasks. We use Qwen2.5-3B-Instruct as the primary model, with additional runs on 0.5B and 1.5B variants to assess scalability. For EAB, we fix the entropy threshold $\tau = 0.055$, branch factor $k = 3$, and maximum concurrent paths $m = 20$. Prompt lengths range from 43 to 293 tokens and output lengths from 10 to 100 tokens. We measure: (1)~\textit{token-step speedup} (ratio of total forward passes), (2)~\textit{wall-clock speedup} (real runtime ratio), and (3)~\textit{memory ratio} (peak GPU memory usage; values $<1$ indicate higher EAB consumption).
+
+% ============================================
+\paragraph{Impact of Prompt Length.}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/eab/speedup_vs_prompt_length.png}
+    \caption{EAB efficiency vs prompt length. Token-step speedup (blue) scales with prompt size, wall-clock speedup (red) follows with higher variance, and memory overhead (orange) remains stable at 5--7$\times$ higher usage.}
+    \label{fig:eab-prompt-length}
+\end{figure}
+
+\noindent\textbf{Observation.}
+Token-step speedup increases from 2.39$\times$ (43 tokens) to 11.93$\times$ (293 tokens). In absolute terms, naive sampling requires 890 token-steps for a 43-token prompt vs 7,160 for 293 tokens, while EAB requires only 374 and 600 respectively. Wall-clock speedup ranges from 1.73$\times$ to 6.91$\times$ with high variance.
+
+\textbf{Interpretation.}
+EAB's prompt encoding is shared once across all samples, yielding cost $L_{\text{prompt}} + L_{\text{gen}} \times N$ versus naive's $(L_{\text{prompt}} + L_{\text{gen}}) \times N$. As $L_{\text{prompt}}$ grows, relative savings increase. The token-step to wall-clock gap reflects real-world overhead: memory allocation, GPU kernel launches, and non-parallelizable operations. Higher memory usage is expected as EAB maintains concurrent generation paths while naive generates sequentially, trading memory for computational efficiency.
+
+% ============================================
+\paragraph{Impact of Model Size.}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/eab/speedup_vs_model_size.png}
+    \caption{EAB efficiency vs model size. Speedup remains consistent across scales, with slightly improved wall-clock performance and moderately worse memory overhead for larger models.}
+    \label{fig:eab-model-size}
+\end{figure}
+
+\noindent\textbf{Observation.}
+Token-step speedup is consistent: 4.40$\times$ (0.5B), 4.66$\times$ (1.5B), and 4.48$\times$ (3B), with overlapping confidence intervals ($\pm0.37$--0.63). Wall-clock speedup increases from 1.25$\times$ to 1.80$\times$ for larger models. Memory overhead is 4.5--10$\times$ higher, worsening for larger models due to increased KV cache size.
+
+\textbf{Interpretation.}
+Consistent token-step speedup confirms model-agnostic efficiency—EAB adapts to entropy signals, not architecture. Improved wall-clock speedup for larger models suggests better GPU utilization from increased compute-to-memory-bandwidth ratios. Memory scaling is expected: maintaining $m=20$ concurrent paths amplifies the base KV cache cost.
+
+% ============================================
+\paragraph{Impact of Generation Length.}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/eab/speedup_vs_gen_len.png}
+    \caption{EAB efficiency vs generation length. Speedup decreases as generation grows longer, revealing EAB is most effective for short outputs. Memory overhead remains stable.}
+    \label{fig:eab-generation-length}
+\end{figure}
+
+\noindent\textbf{Observation.}
+Token-step speedup decreases from 11.00$\times$ (10 tokens) to 4.47$\times$ (30 tokens), 3.17$\times$ (50 tokens), and 2.49$\times$ (100 tokens). Wall-clock speedup follows similarly: 2.62$\times$ (10 tokens) to 1.27$\times$ (50 tokens). Memory overhead remains constant (0.15--0.17$\times$).
+
+\textbf{Interpretation.}
+EAB's efficiency stems from sharing prompt encoding, which becomes proportionally less significant as generation grows. For a 100-token prompt generating 10-token outputs, prompt encoding accounts for $100/(100+10) = 91\%$ of naive cost, enabling 11$\times$ speedup. For 100-token outputs, this drops to 50\%, limiting speedup to 2.49$\times$. EAB cannot share divergent generation paths as effectively as the fixed prompt phase.
+
+% ============================================
+\paragraph{Synthesis: When to Use EAB.}
+
+EAB is most efficient when:
+\begin{itemize}[nosep, leftmargin=*]
+    \item Long prompts ($L_{\text{prompt}} > 50$ tokens): Speedup reaches 12$\times$ at 300 tokens.
+    \item Short generations ($L_{\text{gen}} < 30$ tokens): Speedup exceeds 5$\times$.
+    \item Multiple samples needed ($N \geq 5$): Benefit compounds as prompt cost is amortized.
+    \item Memory is available: Requires 5--10$\times$ more peak GPU memory.
+\end{itemize}
+
+\noindent EAB is least efficient for short prompts ($<50$ tokens), long generations ($>100$ tokens), or memory-constrained settings. Model size is largely irrelevant—consistent 4.5$\times$ speedup across 0.5B--3B parameters. The wall-clock gap (1.5--2$\times$ lower than token-step speedup) highlights the need for optimized KV cache management in production.

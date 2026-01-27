@@ -1,0 +1,65 @@
+# Experiment 2.A.1: Semantic Entropy AUROC on TriviaQA (with EAB)
+# ==========================================================
+# Purpose: Validate Layer 2 (SE) pipeline by measuring AUROC
+#          (how well SE predicts incorrect answers)
+#
+# This version uses EAB generation instead of naive sampling
+# to evaluate SE in the context of the full pipeline.
+
+experiment:
+  name: "SE AUROC on TriviaQA (EAB)"
+  description: "Evaluate semantic entropy's ability to predict answer correctness using EAB generation"
+  version: "1.0"
+
+# Dataset configuration
+dataset:
+  name: "trivia_qa"
+  subset: "rc.nocontext"  # Use no-context version (just Q&A)
+  split: "validation"
+  num_questions: 250  # Quick evaluation; increase for final results
+  seed: 42
+
+# Model configuration
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"  # Use CPU by default (change to "cuda" if GPU available)
+  torch_dtype: "float32"  # Use float32 for CPU (change to "float16" for GPU)
+
+# EAB configuration
+eab:
+  entropy_threshold: 0.05  # Threshold for branching decisions
+  branch_factor: 3  # Number of branches to create when entropy is high
+  max_paths: 10  # Maximum number of concurrent paths (this determines num_samples)
+  use_cow: true  # Use copy-on-write caching for memory efficiency
+
+# Generation configuration
+generation:
+  max_new_tokens: 50
+  temperature: 0.7  # Balanced diversity/quality
+  top_p: 0.9
+
+# Semantic entropy configuration
+semantic_entropy:
+  encoder_model: "mpnet"  # Fast and good quality (all-mpnet-base-v2)
+  default_threshold: 0.15  # Distance threshold for clustering
+  linkage: "average"
+
+# Correctness evaluation
+correctness:
+  metric: "rouge_l"
+  threshold: 0.3  # RougeL > 0.3 = correct (following literature)
+
+# Output configuration
+output:
+  results_dir: "results_eab"
+  save_intermediate: true
+  save_generated_texts: true
+
+# Reproducibility
+seed: 42
+
+# Debug mode (for quick testing)
+debug:
+  enabled: false
+  num_questions: 10
+  max_new_tokens: 30

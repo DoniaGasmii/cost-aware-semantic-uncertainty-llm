@@ -1,0 +1,45 @@
+experiment:
+  name: "RQ1: EAB+SE Quality Evaluation"
+  description: "Validate that EAB-generated samples maintain SE quality"
+  version: "1.0"
+
+dataset:
+  name: "trivia_qa"
+  subset: "rc.nocontext"
+  split: "validation"
+  num_questions: 250
+  seed: 42
+
+model:
+  name: "Qwen/Qwen2.5-3B-Instruct"
+  device: "cuda"
+  torch_dtype: "float16"
+
+# EAB generation parameters
+eab:
+  entropy_threshold: 0.01  # Strict threshold to encourage more branching
+  branch_factor: 3
+  max_concurrent_paths: 20
+  temperature: 0.7
+  top_p: 0.9
+  max_generation_length: 50
+
+# Semantic Entropy parameters
+semantic_entropy:
+  encoder_model: "mpnet"
+  default_threshold: 0.05  # Will be tuned
+  linkage: "average"
+
+correctness:
+  metric: "rouge_l"
+  threshold: 0.3
+
+output:
+  results_dir: "results"
+  save_intermediate: true
+
+seed: 42
+
+debug:
+  enabled: false
+  num_questions: 10

@@ -24,15 +24,15 @@ experiment_dir = Path(__file__).parent
 
 def load_config():
     """Load experiment configuration."""
-    config_path = experiment_dir / "config.yaml"
+    config_path = experiment_dir / "config_eab.yaml"
     with open(config_path, 'r') as f:
         return yaml.safe_load(f)
 
 
 def load_results():
     """Load raw results from experiment."""
-    results_dir = experiment_dir / "results"
-    results_file = results_dir / "raw_results.json"
+    results_dir = experiment_dir / "results_eab"
+    results_file = results_dir / "raw_results_eab.json"
     with open(results_file, 'r') as f:
         return json.load(f)
 
