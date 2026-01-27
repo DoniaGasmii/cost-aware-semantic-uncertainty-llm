@@ -17,7 +17,7 @@ model:
 
 # EAB generation parameters
 eab:
-  entropy_threshold: 0.01  # Strict threshold to encourage more branching
+  entropy_threshold: 0.08  # Strict threshold to encourage more branching
   branch_factor: 3
   max_concurrent_paths: 20
   temperature: 0.7
