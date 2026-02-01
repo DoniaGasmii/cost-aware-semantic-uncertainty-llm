@@ -69,7 +69,6 @@ print(f"Generated {len(samples)} diverse samples")
 cost-aware-semantic-uncertainty-llm/
 ├── entropy-adaptive-branching/     # Layer 1: Efficient generation
 ├── semantic-entropy/               # Layer 2: Uncertainty measurement
-├── integration/                    # Full pipeline & experiments
 └── semester_project_report_dcl.pdf # Complete report
 ```
 
