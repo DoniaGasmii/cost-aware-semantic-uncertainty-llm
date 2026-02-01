@@ -77,7 +77,7 @@ cost-aware-semantic-uncertainty-llm/
 ## Citation
 
 ```bibtex
-@mastersthesis{gasmi2025eab,
+@semesterproject{gasmi2025eab,
   title={Entropy-Adaptive Branching for Efficient Semantic Uncertainty Estimation},
   author={Gasmi, Donia},
   year={2025},
@@ -85,9 +85,3 @@ cost-aware-semantic-uncertainty-llm/
   type={Master's Semester Project}
 }
 ```
-
----
-
-## License
-
-MIT License
