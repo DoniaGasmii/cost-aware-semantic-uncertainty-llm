@@ -3,7 +3,9 @@
 **Master's Semester Project** (12 ECTS) | EPFL | Fall 2024-Spring 2025
 
 **Author**: Donia Gasmi
+
 **Supervisors**: Dr. Geovani Rizk & Dr. Gauthier Voron (DCL Lab, EPFL)
+
 **Professor**: Prof. Rachid Guerraoui
 
 ---
