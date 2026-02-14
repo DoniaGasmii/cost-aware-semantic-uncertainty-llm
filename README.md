@@ -1,6 +1,6 @@
 # Entropy-Adaptive Branching for Efficient Semantic Uncertainty Estimation
 
-**Master's Semester Project** (12 ECTS) | EPFL | Fall 2024-Spring 2025
+**Master's Semester Project** (12 ECTS) | EPFL | Fall 2024-Spring 2025 | Grade: 5.75/6
 
 **Author**: Donia Gasmi
 
